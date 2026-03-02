@@ -8,6 +8,7 @@ public class BuildingGenerator : MonoBehaviour
     [Header("Config")]
     [SerializeField] private IntRange _floorCountRange = new IntRange(1, 3);
     [SerializeField] private IntRange _sizeRange = new IntRange(3, 5);
+    [SerializeField] private bool _willGenerateOnStart = true;
     
     [Header("Template")]
     [SerializeField, Required] private Transform _floorPrefab;
@@ -20,13 +21,26 @@ public class BuildingGenerator : MonoBehaviour
     [Header("Current Building")]
     [SerializeField, ReadOnly] private int _floors;
     [SerializeField, ReadOnly] private int _size;
-    private List<Dictionary<Vector2Int, GameObject>> _spawnedFloors = new();
+    public List<Dictionary<Vector2Int, GameObject>> SpawnedFloors { get; private set; } = new();
+    public event Action OnBuildingGenerated = delegate { }; 
 
     private void Awake()
     {
         _floorWidth = _floorPrefab.localScale.x;
         _wallHeight = _rightEdgeWallPrefab.GetChild(0).localScale.y;
         _floorYOffset = _wallHeight + _floorPrefab.localScale.y;
+    }
+
+    private void Start()
+    {
+        if(_willGenerateOnStart)
+            GenerateNewBuilding();
+    }
+
+    private void Update()
+    {
+        if(Input.GetKeyDown(KeyCode.G))
+            GenerateNewBuilding();
     }
 
     [Button("Generate Building", ButtonSizes.Large)]
@@ -37,32 +51,34 @@ public class BuildingGenerator : MonoBehaviour
         _floors = _floorCountRange.RandomValue();
         _size = _sizeRange.RandomValue();
         SpawnFloors();
+        
+        OnBuildingGenerated?.Invoke();
     }
 
     private void ClearCurrentBuilding()
     {
-        foreach (var spawnedFloor in _spawnedFloors)
+        foreach (var spawnedFloor in SpawnedFloors)
         {
             foreach (GameObject floorObject in spawnedFloor.Values)
             {
                 Destroy(floorObject);
             }
         }
-        _spawnedFloors.Clear();
+        SpawnedFloors.Clear();
     }
 
     private void SpawnFloors()
     {
         for (int floor = 0; floor < _floors + 1; floor++)
         {
-            _spawnedFloors.Add(new Dictionary<Vector2Int, GameObject>());
+            SpawnedFloors.Add(new Dictionary<Vector2Int, GameObject>());
 
             for (int r = 0; r < _size; r++)
             {
                 for (int c = 0; c < _size; c++)
                 {
                     Vector2Int targetGridPos = new Vector2Int(r, c);
-                    _spawnedFloors[floor].Add(targetGridPos, SpawnFloorObject(targetGridPos, floor, floor != _floors));
+                    SpawnedFloors[floor].Add(targetGridPos, SpawnFloorObject(targetGridPos, floor, floor != _floors));
                 }
             }
         }
@@ -123,5 +139,10 @@ public class BuildingGenerator : MonoBehaviour
     public Vector3 GetWorldPosition(Vector2Int gridPosition)
     {
         return new Vector3(_floorWidth * gridPosition.x, 0, _floorWidth * gridPosition.y);
+    }
+
+    public Vector3 GetBuildingCenterWorldPosition()
+    {
+        return GetWorldPosition(_size * Vector2Int.one).WithY(_floors * _floorYOffset) / 2f - (_floorWidth/2  * new Vector3(1,0,1));
     }
 }
