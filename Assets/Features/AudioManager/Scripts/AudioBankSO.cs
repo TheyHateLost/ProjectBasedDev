@@ -2,7 +2,7 @@
 using AYellowpaper.SerializedCollections;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "AudioBank", menuName = "CharonsCorner/AudioBank")]
+[CreateAssetMenu(fileName = "AudioBank", menuName = "AudioBank")]
 public class AudioBankSO : ScriptableObject
 {
     [SerializeField, SerializedDictionary("Audio ID", "Audio Clip")]

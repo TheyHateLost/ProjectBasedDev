@@ -7,7 +7,6 @@ public class BuildingGenerator : MonoBehaviour
 {
     [Header("Config")]
     [SerializeField] private IntRange _floorCountRange = new IntRange(1, 3);
-    [SerializeField] private IntRange _sizeRange = new IntRange(3, 5);
     [SerializeField] private bool _willGenerateOnStart = true;
     
     [Header("Template")]
@@ -17,6 +16,7 @@ public class BuildingGenerator : MonoBehaviour
     [SerializeField, ReadOnly] private float _floorWidth;
     [SerializeField, ReadOnly] private float _wallHeight;
     [SerializeField, ReadOnly] private float _floorYOffset;
+    [SerializeField] private FloorPlanSO _floorPlan;
     
     [Header("Current Building")]
     [SerializeField, ReadOnly] private int _floors;
@@ -49,7 +49,7 @@ public class BuildingGenerator : MonoBehaviour
         ClearCurrentBuilding();
         
         _floors = _floorCountRange.RandomValue();
-        _size = _sizeRange.RandomValue();
+        _size = _floorPlan.GetSizeFromTotalTileAreaRange().RandomValue();
         SpawnFloors();
         
         OnBuildingGenerated?.Invoke();
@@ -144,5 +144,10 @@ public class BuildingGenerator : MonoBehaviour
     public Vector3 GetBuildingCenterWorldPosition()
     {
         return GetWorldPosition(_size * Vector2Int.one).WithY(_floors * _floorYOffset) / 2f - (_floorWidth/2  * new Vector3(1,0,1));
+    }
+
+    private void BuildRooms()
+    {
+        
     }
 }

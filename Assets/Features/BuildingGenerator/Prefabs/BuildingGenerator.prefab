@@ -48,8 +48,9 @@ MonoBehaviour:
     Min: 1
     Max: 5
   _sizeRange:
-    Min: 2
-    Max: 6
+    Min: 5
+    Max: 8
+  _willGenerateOnStart: 1
   _floorPrefab: {fileID: 6488375641201453677, guid: 493d84cf065ba77498feb4ce049d26a0, type: 3}
   _rightEdgeWallPrefab: {fileID: 2922640827095893507, guid: b01cc07524a89e24da96a14b12cc3346, type: 3}
   _topRightCornerWallPrefab: {fileID: 882249835429994413, guid: 63b1347f63e8bb24f8357b4c6e7429c8, type: 3}
