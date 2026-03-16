@@ -9,16 +9,16 @@ EditorBuildSettings:
     path: Assets/Scenes/Investigation.unity
     guid: 99c9720ab356a0642a771bea13969a05
   - enabled: 1
-    path: Assets/Features/Jason UI Stuff/StartScreen.unity
+    path: Assets/Features/UI/Scenes/StartScreen.unity
     guid: efa21834539f81d48afcbdfa421b9260
   - enabled: 1
-    path: Assets/Features/Jason UI Stuff/PlaySelection.unity
+    path: Assets/Features/UI/Scenes/PlaySelection.unity
     guid: 56a2439dac7b8574da8ca04b334f289e
   - enabled: 1
-    path: Assets/Features/Jason UI Stuff/IndustrialPlay.unity
+    path: Assets/Features/UI/Scenes/IndustrialPlay.unity
     guid: 2a0fb69141e5f25499a6030fc5988f2a
   - enabled: 1
-    path: Assets/Features/Jason UI Stuff/CommericalPlay.unity
+    path: Assets/Features/UI/Scenes/CommericalPlay.unity
     guid: a3cafa2b154cff9438d90618fb8c2c4a
   m_configObjects:
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
