@@ -12,4 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0b74a3781fc42b791dfc711c92286c6, type: 3}
   m_Name: FloorPlan1
   m_EditorClassIdentifier: Assembly-CSharp::FloorPlanSO
-  <RoomDataList>k__BackingField: []
+  <RoomDataList>k__BackingField:
+  - <Type>k__BackingField: 0
+    <TileAreaRange>k__BackingField:
+      Min: 10
+      Max: 20
+    <PossibleAdjacentRoomTypes>k__BackingField: 
+  - <Type>k__BackingField: 0
+    <TileAreaRange>k__BackingField:
+      Min: 10
+      Max: 20
+    <PossibleAdjacentRoomTypes>k__BackingField: 
+  - <Type>k__BackingField: 0
+    <TileAreaRange>k__BackingField:
+      Min: 10
+      Max: 20
+    <PossibleAdjacentRoomTypes>k__BackingField: 
+  - <Type>k__BackingField: 0
+    <TileAreaRange>k__BackingField:
+      Min: 1
+      Max: 2
+    <PossibleAdjacentRoomTypes>k__BackingField: 
