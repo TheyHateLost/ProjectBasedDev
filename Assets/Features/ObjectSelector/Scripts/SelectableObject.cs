@@ -2,10 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class SelectableObject : MonoBehaviour
 {
     private Dictionary<Renderer, Material[]> _originalMaterials = new Dictionary<Renderer, Material[]>();
+    [field: SerializeField] public UnityEvent OnClicked { get; private set; } = new();
     
     private void Awake()
     {
@@ -34,5 +36,10 @@ public class SelectableObject : MonoBehaviour
         {
             kvp.Key.SetMaterials(new List<Material>(){newMaterial});
         }
+    }
+
+    public void ClickObject()
+    {
+        OnClicked?.Invoke();
     }
 }

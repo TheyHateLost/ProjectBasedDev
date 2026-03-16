@@ -18,6 +18,12 @@ public class ObjectSelector : MonoBehaviour
 
     private void Update()
     {
+        ScanForSelections();
+        HandleMouseClick();
+    }
+
+    private void ScanForSelections()
+    {
         Ray mouseRay = _camera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(mouseRay, out RaycastHit hit, _raycastMaxDistance, _selectableLayerMask);
         
@@ -32,5 +38,17 @@ public class ObjectSelector : MonoBehaviour
             if(CurrentlySelectedObject != null)
                 CurrentlySelectedObject.ChangeMaterials(_selectedMaterial);
         }
+    }
+
+    private void HandleMouseClick()
+    {
+        if (!Input.GetKeyDown(KeyCode.Mouse0))
+            return;
+        
+        if(CurrentlySelectedObject == null)
+            return;
+        
+        Debug.Log($"Clicked selected object: {CurrentlySelectedObject.gameObject.name}");
+        CurrentlySelectedObject.ClickObject();
     }
 }
