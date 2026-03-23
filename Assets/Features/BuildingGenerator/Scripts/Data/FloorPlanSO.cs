@@ -5,17 +5,17 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FloorPlan", menuName = "FloorPlan")]
 public class FloorPlanSO : ScriptableObject
 {
-    [field: SerializeField] public List<RoomData> RoomDataList { get; private set; } = new();
+    [field: SerializeField] public List<RoomGenerationData> RoomDataList { get; private set; } = new();
 
     [ShowInInspector] public IntRange TotalTileAreaRange => GetTotalTileAreaRange();
 
     private IntRange GetTotalTileAreaRange()
     {
         IntRange totalRange = new IntRange(0, 0);
-        foreach (RoomData roomData in RoomDataList)
+        foreach (RoomGenerationData roomData in RoomDataList)
         {
-            totalRange.Min += roomData.TileAreaRange.Min;
-            totalRange.Max += roomData.TileAreaRange.Max;
+            totalRange.Min += roomData.SizeRange.Min;
+            totalRange.Max += roomData.SizeRange.Max;
         }
 
         return totalRange;

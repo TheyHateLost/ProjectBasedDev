@@ -48,7 +48,7 @@ public class ObjectSelector : MonoBehaviour
         if(CurrentlySelectedObject == null)
             return;
         
-        Debug.Log($"Clicked selected object: {CurrentlySelectedObject.gameObject.name}");
+        // Debug.Log($"Clicked selected object: {CurrentlySelectedObject.gameObject.name}");
         CurrentlySelectedObject.ClickObject();
     }
 }

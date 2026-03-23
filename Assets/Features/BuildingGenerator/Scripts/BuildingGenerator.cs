@@ -23,6 +23,9 @@ public class BuildingGenerator : MonoBehaviour
     [SerializeField, ReadOnly] private int _size;
     public List<Dictionary<Vector2Int, GameObject>> SpawnedFloors { get; private set; } = new();
     public event Action OnBuildingGenerated = delegate { }; 
+    
+    [Header("Current Rooms")]
+    [SerializeField, ReadOnly] private List<RoomGenerationData> _currentRooms;
 
     private void Awake()
     {
