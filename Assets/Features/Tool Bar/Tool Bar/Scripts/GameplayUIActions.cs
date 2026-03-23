@@ -9,23 +9,28 @@ public class GameplayUIActions : MonoBehaviour
     [Header("Tools Section")]
     [SerializeField] GameObject _toolBarObj;
 
-    [Header("Leftmost Settings")]
-    [SerializeField] GameObject _leftMost;
-    [SerializeField] float _leftMostRadius;
-
     bool _isToolbarActive = false;
+    bool _isNotesActive = false;
+
+    private void OnEnable()
+    {
+        InputManager.Instance.Toolbar += TurningOnAndOffToolbar;
+        //InputManager.Instance.LeftClick += TurningOnAndOffNotes;
+        InputManager.Instance.MousePos += TestingPoint;
+    }
+
+    private void OnDisable()
+    {
+        InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+        //InputManager.Instance.LeftClick -= TurningOnAndOffNotes;
+        InputManager.Instance.MousePos -= TestingPoint;
+    }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _notesPanel.SetActive(false);
+        _notesPanel.SetActive(_isNotesActive);
         _toolBarObj.SetActive(_isToolbarActive);
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        TurningOnAndOffToolbar();
     }
 
     public void ChangeCursorIcon(ToolSO icon)
@@ -34,22 +39,23 @@ public class GameplayUIActions : MonoBehaviour
         Cursor.SetCursor(icon.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
     }
 
-    public void TestBtn() => Debug.Log("God bless this works");
-
     public void TurnOnNotes() => _notesPanel.SetActive(true);
     public void TurnOffNotes() => _notesPanel.SetActive(false);
-    public void TurningOnAndOffToolbar()
+
+    void TurningOnAndOffToolbar()
     {
-        if (Input.GetKeyDown(KeyCode.Tab))
-        {
-            _isToolbarActive = !_isToolbarActive;
-            _toolBarObj.SetActive(_isToolbarActive);
-        }
+        _isToolbarActive = !_isToolbarActive;
+        _toolBarObj.SetActive(_isToolbarActive);
     }
 
-    private void OnDrawGizmos()
+    void TurningOnAndOffNotes()
     {
-        Gizmos.color = Color.red;
-        Gizmos.DrawSphere(_leftMost.transform.position, _leftMostRadius);
+        _isNotesActive = !_isNotesActive;
+        _notesPanel.SetActive(_isNotesActive);
+    }
+
+    void TestingPoint(Vector2 point)
+    {
+        Debug.Log(point);
     }
 }
