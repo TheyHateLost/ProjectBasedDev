@@ -5,36 +5,23 @@ using UnityEngine;
 public class RoomGenerationData
 {
     [field: SerializeField] public RoomType Type { get; private set; }
-    [field: SerializeField] public IntRange SizeRange { get; private set; } = new IntRange(1, 2);
+    [field: SerializeField] public IntRange AdditionalSizeRange { get; private set; } = new IntRange(0, 1);
     [field: SerializeField] public List<Appliance> RequiredAppliances { get; private set; } = new();
-    [field: SerializeField] public List<Appliance> OptionalAppliances { get; private set; } = new();
+    // [field: SerializeField] public List<Appliance> OptionalAppliances { get; private set; } = new();
 
-    public RoomData GenerateRoom()
+    public RuntimeRoomData GenerateRoom()
     {
-        RoomData roomData = new RoomData();
+        RuntimeRoomData roomData = new RuntimeRoomData();
         roomData.Type = Type;
-        roomData.Size = SizeRange.RandomValue();
+        roomData.Size = GetBaseRoomSize() + AdditionalSizeRange.RandomValue();
 
-        foreach (var requiredAppliance in RequiredAppliances)
-        {
-            
-        }
+        roomData.AppliancePrefabsToSpawn.AddRange(RequiredAppliances);
         
         return roomData;
     }
-}
 
-[System.Serializable]
-public class RoomData
-{
-    public RoomType Type;
-    public int Size;
-    public List<Appliance> SpawnedAppliances = new();
-
-    public void Clear()
+    public int GetBaseRoomSize()
     {
-        foreach(var appliance in SpawnedAppliances)
-            GameObject.Destroy(appliance.gameObject);
-        SpawnedAppliances.Clear();
+        return Mathf.CeilToInt(Mathf.Sqrt(RequiredAppliances.Count));
     }
 }

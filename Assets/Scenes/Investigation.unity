@@ -181,60 +181,8 @@ Transform:
   m_Children:
   - {fileID: 868325153}
   - {fileID: 2098181343}
-  - {fileID: 236097077}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &236097076
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 236097077}
-  - component: {fileID: 236097078}
-  m_Layer: 0
-  m_Name: RoomGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &236097077
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236097076}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 30704285}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &236097078
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 236097076}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9763aa27de364ea483288f51fda2cae1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::RoomGenerator
-  _roomGenerationData:
-    <Type>k__BackingField: 0
-    <SizeRange>k__BackingField:
-      Min: 1
-      Max: 2
-    <RequiredAppliances>k__BackingField: []
-    <OptionalAppliances>k__BackingField: []
 --- !u!1 &289587395
 GameObject:
   m_ObjectHideFlags: 0
@@ -951,7 +899,7 @@ MonoBehaviour:
   _orbitalFollow: {fileID: 1154552212}
   _rotationComposer: {fileID: 1154552211}
   _cameraInput: {fileID: 1154552216}
-  _buildingGenerator: {fileID: 0}
+  _buildingGenerator: {fileID: 2098181344}
   _cameraTarget: {fileID: 23287868}
   _recenterSpeed: 15
   _moveTargetSpeed: 5
@@ -1409,6 +1357,17 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 7537401227033602793, guid: a6de29d9e00df884d9dcdffe2b3f679e, type: 3}
   m_PrefabInstance: {fileID: 2098181342}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &2098181344 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6625423199480646137, guid: a6de29d9e00df884d9dcdffe2b3f679e, type: 3}
+  m_PrefabInstance: {fileID: 2098181342}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 96904526c4f14fb8bf9c9768ff14b969, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BuildingGenerator
 --- !u!1001 &6109497430388262275
 PrefabInstance:
   m_ObjectHideFlags: 0

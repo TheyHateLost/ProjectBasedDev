@@ -14,6 +14,7 @@ public class BuildingGenerator : MonoBehaviour
     [SerializeField, Required] private Transform _rightEdgeWallPrefab;
     [SerializeField, Required] private Transform _topRightCornerWallPrefab;
     [SerializeField, ReadOnly] private float _floorWidth;
+    [SerializeField, ReadOnly] private float _floorHeight;
     [SerializeField, ReadOnly] private float _wallHeight;
     [SerializeField, ReadOnly] private float _floorYOffset;
     [SerializeField] private FloorPlanSO _floorPlan;
@@ -25,11 +26,12 @@ public class BuildingGenerator : MonoBehaviour
     public event Action OnBuildingGenerated = delegate { }; 
     
     [Header("Current Rooms")]
-    [SerializeField, ReadOnly] private List<RoomGenerationData> _currentRooms;
+    [SerializeField, ReadOnly] private List<RuntimeRoomData> _currentRooms;
 
     private void Awake()
     {
         _floorWidth = _floorPrefab.localScale.x;
+        _floorHeight = _floorPrefab.localScale.y;
         _wallHeight = _rightEdgeWallPrefab.GetChild(0).localScale.y;
         _floorYOffset = _wallHeight + _floorPrefab.localScale.y;
     }
@@ -49,10 +51,17 @@ public class BuildingGenerator : MonoBehaviour
     [Button("Generate Building", ButtonSizes.Large)]
     public void GenerateNewBuilding()
     {
+        DestroyRooms();
         ClearCurrentBuilding();
         
-        _floors = _floorCountRange.RandomValue();
-        _size = _floorPlan.GetSizeFromTotalTileAreaRange().RandomValue();
+        GenerateRooms();
+
+        _floors = 1;
+        int totalArea = 0;
+        foreach (RuntimeRoomData room in _currentRooms)
+            totalArea += room.Area;
+        _size = Mathf.CeilToInt( Mathf.Sqrt(totalArea));
+        
         SpawnFloors();
         
         OnBuildingGenerated?.Invoke();
@@ -130,7 +139,13 @@ public class BuildingGenerator : MonoBehaviour
                 Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0)).SetParent(spawnedFloor, true);
             }
         }
-
+        
+        // This is an edge tile (corners included)
+        if (r == 0 || r == _size - 1 || c == 0 || c == _size - 1)
+        {
+            _currentRooms[0].TrySpawnNextAppliance(targetWorldPos.WithY(targetWorldPos.y + _floorHeight/2f), spawnedFloor);
+        }
+        
         return spawnedFloor.gameObject;
     }
     
@@ -149,8 +164,15 @@ public class BuildingGenerator : MonoBehaviour
         return GetWorldPosition(_size * Vector2Int.one).WithY(_floors * _floorYOffset) / 2f - (_floorWidth/2  * new Vector3(1,0,1));
     }
 
-    private void BuildRooms()
+    private void DestroyRooms()
     {
-        
+        foreach (var rooms in _currentRooms)
+            rooms.Clear();
+        _currentRooms.Clear();
+    }
+    
+    private void GenerateRooms()
+    {
+        _currentRooms = _floorPlan.GenerateRoomDataList();
     }
 }
