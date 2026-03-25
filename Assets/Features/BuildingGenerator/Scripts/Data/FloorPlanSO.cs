@@ -22,8 +22,8 @@ public class FloorPlanSO : ScriptableObject
         IntRange totalRange = new IntRange(0, 0);
         foreach (RoomGenerationData roomData in RoomDataList)
         {
-            totalRange.Min += roomData.GetBaseRoomSize() + roomData.AdditionalSizeRange.Min;
-            totalRange.Max += roomData.GetBaseRoomSize() + roomData.AdditionalSizeRange.Max;
+            totalRange.Min += roomData.RoomSizeRange.Min;
+            totalRange.Max += roomData.RoomSizeRange.Max;
         }
 
         return totalRange;

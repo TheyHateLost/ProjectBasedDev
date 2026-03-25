@@ -14,9 +14,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FloorPlanSO
   <RoomDataList>k__BackingField:
   - <Type>k__BackingField: 1
-    <AdditionalSizeRange>k__BackingField:
+    <AdditionalAreaRange>k__BackingField:
       Min: 0
-      Max: 1
+      Max: 4
     <RequiredAppliances>k__BackingField:
     - {fileID: 6238330328630704509, guid: b38aa5beb992e5443a59ff9589e63dd8, type: 3}
     - {fileID: 6387991586606443661, guid: 00ebcedb94b259b40be3c4ca937ddf96, type: 3}

@@ -15,12 +15,13 @@ public class RuntimeRoomData
         if(AppliancePrefabsToSpawn.Count <= 0)
             return false;
         
-        Appliance appliance = GameObject.Instantiate(AppliancePrefabsToSpawn[0], pos, Quaternion.identity);
+        int randomIndex = Random.Range(0, AppliancePrefabsToSpawn.Count);
+        Appliance appliance = GameObject.Instantiate(AppliancePrefabsToSpawn[randomIndex], pos, Quaternion.identity);
         SpawnedAppliances.Add(appliance);
         
         appliance.transform.SetParent(parent, true);
         
-        AppliancePrefabsToSpawn.RemoveAt(0);
+        AppliancePrefabsToSpawn.RemoveAt(randomIndex);
         
         return true;
     }

@@ -87,4 +87,9 @@ public static class CustomUtils
             action.Invoke(arr[i]);
         }
     }
+    
+    public static int GetSizeFromArea(int area)
+    {
+        return Mathf.CeilToInt(Mathf.Sqrt(area));
+    }
 }
