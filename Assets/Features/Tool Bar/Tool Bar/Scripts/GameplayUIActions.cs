@@ -21,9 +21,12 @@ public class GameplayUIActions : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
-        //InputManager.Instance.LeftClick -= TurningOnAndOffNotes;
-        InputManager.Instance.MousePos -= TestingPoint;
+        if(InputManager.Instance != null)
+        {
+            InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+            //InputManager.Instance.LeftClick -= TurningOnAndOffNotes;
+            InputManager.Instance.MousePos -= TestingPoint;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -56,6 +59,6 @@ public class GameplayUIActions : MonoBehaviour
 
     void TestingPoint(Vector2 point)
     {
-        Debug.Log(point);
+        // Debug.Log(point);
     }
 }
