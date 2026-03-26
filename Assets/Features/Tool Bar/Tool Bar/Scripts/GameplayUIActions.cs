@@ -9,21 +9,19 @@ public class GameplayUIActions : MonoBehaviour
     [Header("Tools Section")]
     [SerializeField] GameObject _toolBarObj;
 
+    [SerializeField] LayerMask _layerMask;
+
     bool _isToolbarActive = false;
     bool _isNotesActive = false;
 
     private void OnEnable()
     {
         InputManager.Instance.Toolbar += TurningOnAndOffToolbar;
-        //InputManager.Instance.LeftClick += TurningOnAndOffNotes;
-        InputManager.Instance.MousePos += TestingPoint;
     }
 
     private void OnDisable()
     {
         InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
-        //InputManager.Instance.LeftClick -= TurningOnAndOffNotes;
-        InputManager.Instance.MousePos -= TestingPoint;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -48,14 +46,4 @@ public class GameplayUIActions : MonoBehaviour
         _toolBarObj.SetActive(_isToolbarActive);
     }
 
-    void TurningOnAndOffNotes()
-    {
-        _isNotesActive = !_isNotesActive;
-        _notesPanel.SetActive(_isNotesActive);
-    }
-
-    void TestingPoint(Vector2 point)
-    {
-        Debug.Log(point);
-    }
 }
