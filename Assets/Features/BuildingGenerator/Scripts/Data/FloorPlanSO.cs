@@ -5,25 +5,34 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "FloorPlan", menuName = "FloorPlan")]
 public class FloorPlanSO : ScriptableObject
 {
-    [field: SerializeField] public List<RoomData> RoomDataList { get; private set; } = new();
+    [field: SerializeField] public List<RoomGenerationData> RoomDataList { get; private set; } = new();
 
-    [ShowInInspector] public IntRange TotalTileAreaRange => GetTotalTileAreaRange();
+    [ShowInInspector] private IntRange _sizeRange => GetSizeFromTotalTileAreaRange();
 
+    public List<RuntimeRoomData> GenerateRoomDataList()
+    {
+        List<RuntimeRoomData> result = new List<RuntimeRoomData>();
+        foreach (RoomGenerationData data in RoomDataList)
+            result.Add(data.GenerateRoom());
+        return result;
+    }
+    
     private IntRange GetTotalTileAreaRange()
     {
         IntRange totalRange = new IntRange(0, 0);
-        foreach (RoomData roomData in RoomDataList)
+        foreach (RoomGenerationData roomData in RoomDataList)
         {
-            totalRange.Min += roomData.TileAreaRange.Min;
-            totalRange.Max += roomData.TileAreaRange.Max;
+            totalRange.Min += roomData.RoomSizeRange.Min;
+            totalRange.Max += roomData.RoomSizeRange.Max;
         }
 
         return totalRange;
     }
     
-    public IntRange GetSizeFromTotalTileAreaRange()
+    private IntRange GetSizeFromTotalTileAreaRange()
     {
-        return new IntRange(Mathf.CeilToInt(Mathf.Sqrt(TotalTileAreaRange.Min)),
-            Mathf.CeilToInt(Mathf.Sqrt(TotalTileAreaRange.Max)));
+        IntRange totalAreaRange = GetTotalTileAreaRange();
+        return new IntRange(Mathf.CeilToInt(Mathf.Sqrt(totalAreaRange.Min)),
+            Mathf.CeilToInt(Mathf.Sqrt(totalAreaRange.Max)));
     }
 }

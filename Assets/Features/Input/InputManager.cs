@@ -42,7 +42,7 @@ public class InputManager : Singleton<InputManager>, IUIActions
 
     public void OnCancel(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnClick(InputAction.CallbackContext context)
@@ -55,12 +55,12 @@ public class InputManager : Singleton<InputManager>, IUIActions
 
     public void OnMiddleClick(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnNavigate(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnPoint(InputAction.CallbackContext context)
@@ -70,7 +70,7 @@ public class InputManager : Singleton<InputManager>, IUIActions
 
     public void OnRightClick(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnScrollWheel(InputAction.CallbackContext context)
@@ -83,12 +83,12 @@ public class InputManager : Singleton<InputManager>, IUIActions
 
     public void OnSubmit(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnMouseNavigate(InputAction.CallbackContext context)
     {
-        throw new NotImplementedException();
+        
     }
 
     public void OnToolbar(InputAction.CallbackContext context)
