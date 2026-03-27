@@ -12,8 +12,8 @@ public class InputManager : Singleton<InputManager>, IUIActions
     #region Events
     public event Action Toolbar = delegate { };
     public event Action LeftClick = delegate { };
+    public event Action ScrollWheel = delegate { };
     public event Action<Vector2> MousePos = delegate { };
-    //public event Action<GameObject> UI_LeftClick = delegate { };
     #endregion
 
     public Vector2 MouseDirection => inputActions.UI.Point.ReadValue<Vector2>();
@@ -75,7 +75,10 @@ public class InputManager : Singleton<InputManager>, IUIActions
 
     public void OnScrollWheel(InputAction.CallbackContext context)
     {
-        
+        if (context.performed)
+        {
+            ScrollWheel.Invoke();
+        }
     }
 
     public void OnSubmit(InputAction.CallbackContext context)
