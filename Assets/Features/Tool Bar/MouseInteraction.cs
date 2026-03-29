@@ -12,8 +12,11 @@ public class MouseInteraction : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.LeftClick -= TestingLeftClick;
-        InputManager.Instance.ScrollWheel -= TestingScrollWheel;
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.LeftClick -= TestingLeftClick;
+            InputManager.Instance.ScrollWheel -= TestingScrollWheel;
+        }
     }
 
 
