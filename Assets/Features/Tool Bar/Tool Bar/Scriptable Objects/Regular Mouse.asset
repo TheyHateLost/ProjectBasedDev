@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: Regular Mouse
   m_EditorClassIdentifier: Assembly-CSharp::ToolSO
   cursorTexture: {fileID: 0}
+  tool: 1

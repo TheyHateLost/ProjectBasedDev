@@ -1,4 +1,6 @@
 public enum Tools
 {
-    Screwdriver
+    Screwdriver,
+    RandomTool,
+    Wrench
 }
