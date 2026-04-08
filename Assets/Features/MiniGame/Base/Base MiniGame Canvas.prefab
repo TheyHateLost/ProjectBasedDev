@@ -121,7 +121,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 499463775824259227}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MinigameController, Assembly-CSharp
         m_MethodName: TurnOffMinigame
         m_Mode: 1
@@ -145,7 +145,6 @@ GameObject:
   - component: {fileID: 1327977579782925905}
   - component: {fileID: 2482961030930644363}
   - component: {fileID: 159411171012634604}
-  - component: {fileID: 499463775824259227}
   m_Layer: 5
   m_Name: Base MiniGame Canvas
   m_TagString: Untagged
@@ -237,20 +236,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 63
---- !u!114 &499463775824259227
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2109453832137771885}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 92844af71f360b94ca411a2bf3395110, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::MinigameController
-  exitBtn: {fileID: 2315457433765117268}
-  actualGame: {fileID: 6346716175228394709}
 --- !u!1 &2315457433765117268
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,7 +357,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 499463775824259227}
+      - m_Target: {fileID: 0}
         m_TargetAssemblyTypeName: MinigameController, Assembly-CSharp
         m_MethodName: TurnOnMinigame
         m_Mode: 1

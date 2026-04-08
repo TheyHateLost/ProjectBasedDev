@@ -15,12 +15,12 @@ public class WrenchPartTwoManager : MonoBehaviour
 
     private void OnEnable()
     {
-        ScrewController.OnScrewComplete += IncrementCompletedScrews;
+        ScrewController.OnScrewComplete += UpdateCompletedScrews;
     }
 
     private void OnDisable()
     {
-        ScrewController.OnScrewComplete -= IncrementCompletedScrews;
+        ScrewController.OnScrewComplete -= UpdateCompletedScrews;
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -47,9 +47,8 @@ public class WrenchPartTwoManager : MonoBehaviour
         }
     }
 
-    void IncrementCompletedScrews()
+    void UpdateCompletedScrews()
     {
-        Debug.Log("Added another screw");
         _screwsLeftQueue.Dequeue();
     }
 }

@@ -119,78 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &200667153 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2251612153391182788, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-  m_PrefabInstance: {fileID: 6699554872027182894}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &200667157
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 200667153}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c9529babb0821d479cac3fcb7735abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrewController
-  _numOfClicks: 4
---- !u!1 &350397318 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1323679408354683351, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-  m_PrefabInstance: {fileID: 6699554872027182894}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &350397322
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 350397318}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c9529babb0821d479cac3fcb7735abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrewController
-  _numOfClicks: 4
---- !u!1 &566821895 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1709403394287021633, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-  m_PrefabInstance: {fileID: 6699554872027182894}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &566821899
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 566821895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c9529babb0821d479cac3fcb7735abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrewController
-  _numOfClicks: 4
---- !u!1 &892932179 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7433597812982841186, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-  m_PrefabInstance: {fileID: 6699554872027182894}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &892932183
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 892932179}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c9529babb0821d479cac3fcb7735abd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::ScrewController
-  _numOfClicks: 4
 --- !u!1 &1088560540
 GameObject:
   m_ObjectHideFlags: 0
@@ -933,47 +861,112 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wrench MiniGame Canvas
       objectReference: {fileID: 0}
-    - target: {fileID: 6325029119302677840, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      propertyPath: _closeMinigameTimer
-      value: 5
+    - target: {fileID: 6290352245838795385, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8438607955850083591, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 6699554872027182898}
-    - targetCorrespondingSourceObject: {fileID: 1709403394287021633, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 566821899}
-    - targetCorrespondingSourceObject: {fileID: 2251612153391182788, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 200667157}
-    - targetCorrespondingSourceObject: {fileID: 1323679408354683351, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 350397322}
-    - targetCorrespondingSourceObject: {fileID: 7433597812982841186, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 892932183}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
---- !u!1 &6699554872027182895 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8438607955850083591, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
-  m_PrefabInstance: {fileID: 6699554872027182894}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6699554872027182898
-MonoBehaviour:
+--- !u!1001 &7659709118107161759
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6699554872027182895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7fabad11de8bc014cbcf51486facfff7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::WrenchPartTwoManager
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_Pivot.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_Pivot.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchorMin.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 866237610616143479, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5451652246377006192, guid: 38c71196623f0854583a4b279d956655, type: 3}
+      propertyPath: m_Name
+      value: Insulation Can MiniGame Canvas
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 38c71196623f0854583a4b279d956655, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -985,3 +978,4 @@ SceneRoots:
   - {fileID: 2769215746653642064}
   - {fileID: 6699554872027182894}
   - {fileID: 1504873031051902734}
+  - {fileID: 7659709118107161759}

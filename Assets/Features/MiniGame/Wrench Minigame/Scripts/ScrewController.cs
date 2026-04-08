@@ -23,7 +23,6 @@ public class ScrewController : MonoBehaviour, IPointerClickHandler
     public void OnPointerClick(PointerEventData eventData)
     {
         _currNumOfClicks++;
-        Debug.Log(_currNumOfClicks);
 
         if (_currNumOfClicks % _numOfClicks == 0)
         {
