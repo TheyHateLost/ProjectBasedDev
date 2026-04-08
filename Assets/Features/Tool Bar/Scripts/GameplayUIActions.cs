@@ -9,8 +9,6 @@ public class GameplayUIActions : MonoBehaviour
     [Header("Tools Section")]
     [SerializeField] GameObject _toolBarObj;
 
-    [SerializeField] LayerMask _layerMask;
-
     bool _isToolbarActive = false;
     bool _isNotesActive = false;
 
@@ -35,6 +33,7 @@ public class GameplayUIActions : MonoBehaviour
     {
         Vector2 cursorHotspot = icon.cursorTexture != null ? new Vector2(icon.cursorTexture.width /2, icon.cursorTexture.height / 2) : Vector2.zero;
         Cursor.SetCursor(icon.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
+        ToolManager.Instance.SetTool(icon.GetTool());
     }
 
     public void TurnOnNotes() => _notesPanel.SetActive(true);

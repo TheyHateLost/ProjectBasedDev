@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
+public class PipeDragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, IEndDragHandler, IDragHandler
 {
     [SerializeField] Canvas _canvas;
-    [SerializeField] ToolSO _selectedTool;
+    [SerializeField, Range(0.1f, 1f)] float _transparencyLevel = 0.6f;
 
     RectTransform _rectTransform;
     CanvasGroup _canvasGroup;
@@ -17,21 +17,23 @@ public class DragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandler, I
 
     public void OnBeginDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnBeginDrag");
-        _canvasGroup.blocksRaycasts = false;
-        _canvasGroup.alpha = 0.6f;
+        if (ToolManager.Instance.GetTool() == Tools.Wrench)
+        {
+            _canvasGroup.blocksRaycasts = false;
+            _canvasGroup.alpha = _transparencyLevel;
+        }
     }
 
     public void OnDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnDrag");
         _rectTransform.anchoredPosition += (eventData.delta / _canvas.scaleFactor);
     }
 
     public void OnEndDrag(PointerEventData eventData)
     {
-        //Debug.Log("OnEndDrag");
-        _canvasGroup.alpha = 1f;
+        const float FULLY_VISIBLE = 1f;
+
+        _canvasGroup.alpha = FULLY_VISIBLE;
         _canvasGroup.blocksRaycasts = true;
     }
 
