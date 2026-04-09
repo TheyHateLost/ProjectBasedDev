@@ -26,7 +26,10 @@ public class PipeDragDrop : MonoBehaviour, IPointerDownHandler, IBeginDragHandle
 
     public void OnDrag(PointerEventData eventData)
     {
-        _rectTransform.anchoredPosition += (eventData.delta / _canvas.scaleFactor);
+        if (ToolManager.Instance.GetTool() == Tools.Wrench)
+        {
+            _rectTransform.anchoredPosition += (eventData.delta / _canvas.scaleFactor);
+        }
     }
 
     public void OnEndDrag(PointerEventData eventData)

@@ -1,5 +1,40 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &260113553551610890
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8550788957337093132}
+  m_Layer: 5
+  m_Name: Good Pipe Location
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &8550788957337093132
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 260113553551610890}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1821995388279695218}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: -264, y: 78}
+  m_SizeDelta: {x: 100, y: 100}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &1050939395199898256
 GameObject:
   m_ObjectHideFlags: 0
@@ -341,7 +376,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 70, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1361659382294014623
 CanvasRenderer:
@@ -1096,6 +1131,10 @@ MonoBehaviour:
   _gamePartTwo: {fileID: 8438607955850083591}
   _winText: {fileID: 9153467954332503632}
   _closeMinigameTimer: 3
+  _goodPipeLoc: {fileID: 260113553551610890}
+  _goodPipe: {fileID: 7562128817652855872}
+  _badPipe: {fileID: 4852152182540942413}
+  _pipeSlot: {fileID: 3844823132943713824}
 --- !u!1 &7011808209455816507
 GameObject:
   m_ObjectHideFlags: 0
@@ -1265,6 +1304,7 @@ RectTransform:
   - {fileID: 7183332205577654918}
   - {fileID: 2645884568111192106}
   - {fileID: 8974633562010057149}
+  - {fileID: 8550788957337093132}
   m_Father: {fileID: 4382468935501818296}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1516,6 +1556,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7fabad11de8bc014cbcf51486facfff7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::WrenchPartTwoManager
+  _screws:
+  - {fileID: 1709403394287021633}
+  - {fileID: 2251612153391182788}
+  - {fileID: 1323679408354683351}
+  - {fileID: 7433597812982841186}
 --- !u!1 &9153467954332503632
 GameObject:
   m_ObjectHideFlags: 0
