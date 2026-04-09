@@ -7,12 +7,10 @@ public class HoleController : MonoBehaviour, IPointerClickHandler
 {
     public static event Action OnHoleComplete = delegate { };
 
-    static int _currentNumberOfClicks;
-
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _currentNumberOfClicks = 0;
+
     }
 
     // Update is called once per frame
@@ -22,8 +20,10 @@ public class HoleController : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        Debug.Log("Hole is being clicked on");
-        eventData.pointerClick.GetComponent<Image>().color = Color.black;
-        OnHoleComplete.Invoke();
+        if (ToolManager.Instance.GetTool() == Tools.InsulationCan)
+        {
+            eventData.pointerClick.GetComponent<Image>().color = Color.black;
+            OnHoleComplete.Invoke();
+        }
     }
 }

@@ -37,7 +37,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 160, y: 30}
+  m_SizeDelta: {x: 70, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5280333757720149875
 CanvasRenderer:
@@ -867,6 +867,11 @@ MonoBehaviour:
   _actualGame: {fileID: 7027467826629639490}
   _winText: {fileID: 1772165195659531859}
   _closeMinigameTimer: 3
+  _holes:
+  - {fileID: 7620492346979511196}
+  - {fileID: 717635854788694195}
+  - {fileID: 4710884920451139022}
+  - {fileID: 2680019538534210482}
 --- !u!1 &7027467826629639490
 GameObject:
   m_ObjectHideFlags: 0

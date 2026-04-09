@@ -30,7 +30,6 @@ public class PipeSlot : MonoBehaviour, IDropHandler
     void CheckPipe(PointerEventData eventData)
     {
         GameObject pipeData = eventData.pointerDrag.gameObject;
-
         if (pipeData.CompareTag("GoodPipe")) OnPartOneComplete.Invoke();
     }
 }

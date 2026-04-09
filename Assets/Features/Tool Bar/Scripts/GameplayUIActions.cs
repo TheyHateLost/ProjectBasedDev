@@ -27,6 +27,10 @@ public class GameplayUIActions : MonoBehaviour
     {
         _notesPanel.SetActive(_isNotesActive);
         _toolBarObj.SetActive(_isToolbarActive);
+
+        // Raising the z-index
+        Vector3 canvasPos = (Vector3)GetComponent<RectTransform>().localPosition;
+        canvasPos.z = 20f;
     }
 
     public void ChangeCursorIcon(ToolSO icon)

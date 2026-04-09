@@ -22,12 +22,15 @@ public class ScrewController : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        _currNumOfClicks++;
-
-        if (_currNumOfClicks % _numOfClicks == 0)
+        if (ToolManager.Instance.GetTool() == Tools.Screwdriver)
         {
-            eventData.pointerClick.GetComponent<Image>().color = Color.darkGreen;
-            OnScrewComplete.Invoke();
+            _currNumOfClicks++;
+
+            if (_currNumOfClicks % _numOfClicks == 0)
+            {
+                eventData.pointerClick.GetComponent<Image>().color = Color.darkGreen;
+                OnScrewComplete.Invoke();
+            }
         }
     }
 }

@@ -1,21 +1,23 @@
 using UnityEngine;
 using System;
 using System.Collections.Generic;
+using UnityEngine.UI;
 
 public class WrenchPartTwoManager : MonoBehaviour
 {
     public static event Action OnPartTwoComplete = delegate { };
 
-    private bool _isComplete;
-    private int _numOfCompletedScrews;
     private Queue<int> _screwsLeftQueue;
     private bool _didEventStart;
 
-    const int TOTAL_NUMBER_OF_SCREWS = 4;
+    [Header("Debug Section")]
+    [SerializeField] GameObject[] _screws;
 
     private void OnEnable()
     {
         ScrewController.OnScrewComplete += UpdateCompletedScrews;
+
+        ResetGame();
     }
 
     private void OnDisable()
@@ -26,9 +28,7 @@ public class WrenchPartTwoManager : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _isComplete = false;
         _didEventStart = false;
-        _numOfCompletedScrews = 0;
 
         _screwsLeftQueue = new Queue<int>();
         _screwsLeftQueue.Enqueue(1);
@@ -50,5 +50,21 @@ public class WrenchPartTwoManager : MonoBehaviour
     void UpdateCompletedScrews()
     {
         _screwsLeftQueue.Dequeue();
+    }
+
+    void ResetGame()
+    {
+        _didEventStart = false;
+
+        _screwsLeftQueue = new Queue<int>();
+        _screwsLeftQueue.Enqueue(1);
+        _screwsLeftQueue.Enqueue(1);
+        _screwsLeftQueue.Enqueue(1);
+        _screwsLeftQueue.Enqueue(1);
+
+        foreach (var screw in _screws)
+        {
+            screw.GetComponent<Image>().color = Color.white;
+        }
     }
 }
