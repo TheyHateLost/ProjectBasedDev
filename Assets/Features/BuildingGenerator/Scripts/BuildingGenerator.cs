@@ -15,21 +15,30 @@ public class BuildingGenerator : MonoBehaviour
     [SerializeField, ReadOnly] private float _floorWidth;
     [SerializeField, ReadOnly] private float _floorHeight;
     [SerializeField, ReadOnly] private float _wallHeight;
+    [field: SerializeField, ReadOnly] public float RealWallHeight { get; private set; }
 
+    [Header("Floor Plan")]
     [SerializeField] private FloorPlanSO _floorPlan;
+
+    [Header("Building Size")]
+    [SerializeField] private IntRange _buildingSizeRange = new IntRange(10, 20);
+    [SerializeField, ReadOnly] private int _currentBuildingSize;
 
     [Header("Current Buildings")]
     public List<GameObject> SpawnedBuildings { get; private set; } = new();
     public event Action OnBuildingGenerated = delegate { };
 
-    [Header("Current Rooms")]
-    [SerializeField, ReadOnly] private List<RuntimeRoomData> _currentRooms;
+    [field: Header("Current Rooms")]
+    [field: SerializeField, ReadOnly] public List<RuntimeRoomData> CurrentRooms { get; private set; }
+
+    private HashSet<Vector2Int> _occupiedTiles = new();
 
     private void Awake()
     {
         _floorWidth = _floorPrefab.localScale.x;
         _floorHeight = _floorPrefab.localScale.y;
         _wallHeight = _rightEdgeWallPrefab.GetChild(0).localScale.y;
+        RealWallHeight = _wallHeight / 2f;
     }
 
     private void Start()
@@ -49,9 +58,13 @@ public class BuildingGenerator : MonoBehaviour
     {
         DestroyRooms();
         ClearCurrentBuildings();
+        _occupiedTiles.Clear();
+
+        _currentBuildingSize = _buildingSizeRange.RandomValue();
 
         GenerateRooms();
         SpawnBuildings();
+        SpawnGhostTiles();
 
         OnBuildingGenerated?.Invoke();
     }
@@ -68,14 +81,13 @@ public class BuildingGenerator : MonoBehaviour
     {
         Vector2Int nextOrigin = Vector2Int.zero;
 
-        foreach (var room in _currentRooms)
+        foreach (var room in CurrentRooms)
         {
-            int roomSize = Mathf.CeilToInt(Mathf.Sqrt(room.Area));
+            int roomSize = room.Size;
 
             GameObject buildingParent = new GameObject($"Room_{room.Type}");
             buildingParent.transform.parent = transform;
 
-            // Spawn all tiles first
             Transform[,] tiles = new Transform[roomSize, roomSize];
             for (int r = 0; r < roomSize; r++)
             {
@@ -85,10 +97,10 @@ public class BuildingGenerator : MonoBehaviour
                     Transform tile = SpawnFloorObject(tilePos, roomSize, r, c);
                     tile.SetParent(buildingParent.transform, true);
                     tiles[r, c] = tile;
+                    _occupiedTiles.Add(tilePos);
                 }
             }
 
-            // Collect wall tiles and shuffle them
             List<(Vector2Int local, Transform tile)> wallTiles = new();
             for (int r = 0; r < roomSize; r++)
             {
@@ -99,14 +111,12 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Fisher-Yates shuffle
             for (int i = wallTiles.Count - 1; i > 0; i--)
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
                 (wallTiles[i], wallTiles[j]) = (wallTiles[j], wallTiles[i]);
             }
-            
-            // Spawn appliances on shuffled wall tiles
+
             foreach (var (local, tile) in wallTiles)
                 room.TrySpawnNextAppliance(local, roomSize, tile, _floorWidth, _floorHeight);
 
@@ -115,28 +125,77 @@ public class BuildingGenerator : MonoBehaviour
         }
     }
 
-    private Transform SpawnFloorObject(Vector2Int targetGridPos, int roomSize, int localR, int localC)
+    private void SpawnGhostTiles()
+    {
+        int buildingSize = _currentBuildingSize;
+
+        GameObject ghostParent = new GameObject("Room_Ghost");
+        ghostParent.transform.parent = transform;
+
+        for (int r = 0; r < buildingSize; r++)
+        {
+            for (int c = 0; c < buildingSize; c++)
+            {
+                Vector2Int tilePos = new Vector2Int(r, c);
+                if (_occupiedTiles.Contains(tilePos))
+                    continue;
+
+                bool isEdgeR0 = r == 0;
+                bool isEdgeR1 = r == buildingSize - 1;
+                bool isEdgeC0 = c == 0;
+                bool isEdgeC1 = c == buildingSize - 1;
+                bool isWall = isEdgeR0 || isEdgeR1 || isEdgeC0 || isEdgeC1;
+
+                int localRoomSize = buildingSize;
+                int localR = isWall ? r : -1;
+                int localC = isWall ? c : -1;
+
+                Transform tile = SpawnFloorObject(tilePos, localRoomSize, r, c, isGhost: true);
+                tile.SetParent(ghostParent.transform, true);
+            }
+        }
+
+        SpawnedBuildings.Add(ghostParent);
+    }
+
+    private Transform SpawnFloorObject(Vector2Int targetGridPos, int roomSize, int localR, int localC, bool isGhost = false)
     {
         Vector3 targetWorldPos = GetWorldPosition(targetGridPos);
         Transform spawnedFloor = Instantiate(_floorPrefab, targetWorldPos, Quaternion.identity);
 
-        // Use localR/localC to decide wall type
-        if (localR == 0 && localC == 0)
-            Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0)).SetParent(spawnedFloor, true);
-        else if (localR == roomSize - 1 && localC == 0)
-            Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0)).SetParent(spawnedFloor, true);
-        else if (localR == roomSize - 1 && localC == roomSize - 1)
-            Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.identity).SetParent(spawnedFloor, true);
-        else if (localR == 0 && localC == roomSize - 1)
-            Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0)).SetParent(spawnedFloor, true);
+        /*if (isGhost)
+            spawnedFloor.gameObject.tag = "GhostTile";*/
+
+        bool isCornerTL = localR == 0 && localC == 0;
+        bool isCornerBL = localR == roomSize - 1 && localC == 0;
+        bool isCornerBR = localR == roomSize - 1 && localC == roomSize - 1;
+        bool isCornerTR = localR == 0 && localC == roomSize - 1;
+
+        Transform wall = null;
+
+        if (isCornerTL)
+            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0));
+        else if (isCornerBL)
+            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0));
+        else if (isCornerBR)
+            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.identity);
+        else if (isCornerTR)
+            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
         else if (localR == 0)
-            Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0)).SetParent(spawnedFloor, true);
+            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0));
         else if (localR == roomSize - 1)
-            Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity).SetParent(spawnedFloor, true);
+            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity);
         else if (localC == 0)
-            Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0)).SetParent(spawnedFloor, true);
+            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0));
         else if (localC == roomSize - 1)
-            Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0)).SetParent(spawnedFloor, true);
+            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
+
+        if (wall != null)
+        {
+            /*if (isGhost)
+                wall.gameObject.tag = "GhostTile";*/
+            wall.SetParent(spawnedFloor, true);
+        }
 
         return spawnedFloor;
     }
@@ -169,13 +228,13 @@ public class BuildingGenerator : MonoBehaviour
 
     private void DestroyRooms()
     {
-        foreach (var rooms in _currentRooms)
+        foreach (var rooms in CurrentRooms)
             rooms.Clear();
-        _currentRooms.Clear();
+        CurrentRooms.Clear();
     }
 
     private void GenerateRooms()
     {
-        _currentRooms = _floorPlan.GenerateRoomDataList();
+        CurrentRooms = _floorPlan.GenerateRoomDataList();
     }
 }

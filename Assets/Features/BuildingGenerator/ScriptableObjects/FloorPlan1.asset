@@ -14,23 +14,25 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FloorPlanSO
   <RoomDataList>k__BackingField:
   - <Type>k__BackingField: 1
-    <AdditionalAreaRange>k__BackingField:
-      Min: 0
-      Max: 4
     <RequiredAppliances>k__BackingField:
     - {fileID: 6387991586606443661, guid: 00ebcedb94b259b40be3c4ca937ddf96, type: 3}
     - {fileID: 6387991586606443661, guid: 52764ae348a46b54e8a0b68883dd016b, type: 3}
-  - <Type>k__BackingField: 0
-    <AdditionalAreaRange>k__BackingField:
-      Min: 5
-      Max: 10
-    <RequiredAppliances>k__BackingField:
-    - {fileID: 6387991586606443661, guid: 00ebcedb94b259b40be3c4ca937ddf96, type: 3}
-    - {fileID: 6387991586606443661, guid: 52764ae348a46b54e8a0b68883dd016b, type: 3}
-  - <Type>k__BackingField: 1
-    <AdditionalAreaRange>k__BackingField:
+    _roomSizeRange:
       Min: 2
-      Max: 4
-    <RequiredAppliances>k__BackingField:
-    - {fileID: 6387991586606443661, guid: 00ebcedb94b259b40be3c4ca937ddf96, type: 3}
-    - {fileID: 6387991586606443661, guid: 52764ae348a46b54e8a0b68883dd016b, type: 3}
+      Max: 3
+  <RoomGlazeValues>k__BackingField:
+    _serializedList:
+    - Key: 0
+      Value: 132
+    - Key: 1
+      Value: 148.5
+    - Key: 2
+      Value: 0
+    - Key: 3
+      Value: 0
+    - Key: 4
+      Value: 0
+    - Key: 5
+      Value: 0
+    - Key: 6
+      Value: 0

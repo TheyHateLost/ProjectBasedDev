@@ -39,4 +39,8 @@ public struct IntRange
     /// Gets a random value within the range defined by Min and Max.
     /// </summary>
     public int RandomValue() => UnityEngine.Random.Range(Min, Max);
+    /// <summary>
+    /// Gets a random value within the range defined by Min and Max.
+    /// </summary>
+    public int RandomValueWithBounds() => UnityEngine.Random.Range(Min, Max + 1);
 }

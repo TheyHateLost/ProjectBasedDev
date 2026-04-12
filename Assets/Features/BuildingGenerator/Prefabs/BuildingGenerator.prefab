@@ -44,16 +44,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96904526c4f14fb8bf9c9768ff14b969, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BuildingGenerator
-  _floorCountRange:
-    Min: 1
-    Max: 5
   _willGenerateOnStart: 1
   _floorPrefab: {fileID: 6488375641201453677, guid: 493d84cf065ba77498feb4ce049d26a0, type: 3}
   _rightEdgeWallPrefab: {fileID: 2922640827095893507, guid: b01cc07524a89e24da96a14b12cc3346, type: 3}
   _topRightCornerWallPrefab: {fileID: 882249835429994413, guid: 63b1347f63e8bb24f8357b4c6e7429c8, type: 3}
   _floorWidth: 0
+  _floorHeight: 0
   _wallHeight: 0
-  _floorYOffset: 0
+  <RealWallHeight>k__BackingField: 0
   _floorPlan: {fileID: 11400000, guid: cefc1d12af98b0246bb6c1a636b3db58, type: 2}
-  _floors: 0
-  _size: 0
+  _buildingSizeRange:
+    Min: 10
+    Max: 12
+  _currentBuildingSize: 0
+  <CurrentRooms>k__BackingField: []
