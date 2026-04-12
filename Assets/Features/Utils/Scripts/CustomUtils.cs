@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 using UnityEngine;
+using Random = UnityEngine.Random;
 using Vector2 = UnityEngine.Vector2;
 using Vector3 = UnityEngine.Vector3;
 
@@ -91,5 +93,15 @@ public static class CustomUtils
     public static int GetSizeFromArea(int area)
     {
         return Mathf.CeilToInt(Mathf.Sqrt(area));
+    }
+    
+    public static void SetMaterialRecursive(GameObject root, Material material)
+    {
+        foreach (Renderer renderer in root.GetComponentsInChildren<Renderer>(includeInactive: true))
+        {
+            Material[] mats = new Material[renderer.sharedMaterials.Length];
+            Array.Fill(mats, material);
+            renderer.sharedMaterials = mats;
+        }
     }
 }

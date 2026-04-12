@@ -34,7 +34,8 @@ public class SelectableObject : MonoBehaviour
     {
         foreach (var kvp in _originalMaterials)
         {
-            kvp.Key.SetMaterials(new List<Material>(){newMaterial});
+            var newMaterials = Enumerable.Repeat(newMaterial, kvp.Value.Length).ToList();
+            kvp.Key.SetMaterials(newMaterials);
         }
     }
 
