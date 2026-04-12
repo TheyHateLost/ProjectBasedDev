@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0983e4a4abc48240997f3331f38eee2, type: 3}
   m_Name: Magnifying Glass
   m_EditorClassIdentifier: Assembly-CSharp::ToolSO
-  cursorTexture: {fileID: 2800000, guid: 9170af1745084d24cb009fd3f24054ac, type: 3}
+  cursorTexture: {fileID: 2800000, guid: 4dbaf085535d8de42a61649fb61abf8a, type: 3}
   tool: 2
