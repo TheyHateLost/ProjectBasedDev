@@ -67,7 +67,7 @@ public class CameraController : MonoBehaviour
 
     private void OnBuildingGenerated()
     {
-        _buildingCenter = _buildingGenerator.GetBuildingCenterWorldPosition();
+        _buildingCenter = _buildingGenerator.GetFirstRoomCenterPosition();
     }
 
     private static void LockCursor(bool isLocked)

@@ -22,6 +22,7 @@ public class BuildingGenerator : MonoBehaviour
 
     [Header("Building Size")]
     [SerializeField] private IntRange _buildingSizeRange = new IntRange(10, 20);
+    [SerializeField, Required] private Material _ghostMaterial;
     [SerializeField, ReadOnly] private int _currentBuildingSize;
 
     [Header("Current Buildings")]
@@ -163,9 +164,6 @@ public class BuildingGenerator : MonoBehaviour
         Vector3 targetWorldPos = GetWorldPosition(targetGridPos);
         Transform spawnedFloor = Instantiate(_floorPrefab, targetWorldPos, Quaternion.identity);
 
-        /*if (isGhost)
-            spawnedFloor.gameObject.tag = "GhostTile";*/
-
         bool isCornerTL = localR == 0 && localC == 0;
         bool isCornerBL = localR == roomSize - 1 && localC == 0;
         bool isCornerBR = localR == roomSize - 1 && localC == roomSize - 1;
@@ -191,18 +189,42 @@ public class BuildingGenerator : MonoBehaviour
             wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
 
         if (wall != null)
-        {
-            /*if (isGhost)
-                wall.gameObject.tag = "GhostTile";*/
             wall.SetParent(spawnedFloor, true);
-        }
 
+        if (isGhost)
+            CustomUtils.SetMaterialRecursive(spawnedFloor.gameObject, _ghostMaterial);
+        
         return spawnedFloor;
     }
 
     public Vector3 GetWorldPosition(Vector2Int gridPosition)
     {
         return new Vector3(_floorWidth * gridPosition.x, 0, _floorWidth * gridPosition.y);
+    }
+    
+    public Vector3 GetFirstRoomCenterPosition()
+    {
+        if (SpawnedBuildings.Count == 0)
+            return Vector3.zero;
+
+        GameObject firstRoom = SpawnedBuildings[0];
+        Bounds bounds = new Bounds();
+        bool initialized = false;
+
+        foreach (Transform tile in firstRoom.transform)
+        {
+            if (!initialized)
+            {
+                bounds = new Bounds(tile.position, Vector3.zero);
+                initialized = true;
+            }
+            else
+            {
+                bounds.Encapsulate(tile.position);
+            }
+        }
+
+        return bounds.center;
     }
 
     public Vector3 GetBuildingCenterWorldPosition()
