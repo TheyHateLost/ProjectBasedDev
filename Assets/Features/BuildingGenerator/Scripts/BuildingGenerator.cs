@@ -75,25 +75,42 @@ public class BuildingGenerator : MonoBehaviour
             GameObject buildingParent = new GameObject($"Room_{room.Type}");
             buildingParent.transform.parent = transform;
 
+            // Spawn all tiles first
+            Transform[,] tiles = new Transform[roomSize, roomSize];
             for (int r = 0; r < roomSize; r++)
             {
                 for (int c = 0; c < roomSize; c++)
                 {
                     Vector2Int tilePos = nextOrigin + new Vector2Int(r, c);
-
-                    // Pass local r/c for wall type calculation
                     Transform tile = SpawnFloorObject(tilePos, roomSize, r, c);
-
                     tile.SetParent(buildingParent.transform, true);
-
-                    if (r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1)
-                        room.TrySpawnNextAppliance(tile.position + Vector3.up * (_floorHeight / 2f), tile);
+                    tiles[r, c] = tile;
                 }
             }
 
-            SpawnedBuildings.Add(buildingParent);
+            // Collect wall tiles and shuffle them
+            List<(Vector2Int local, Transform tile)> wallTiles = new();
+            for (int r = 0; r < roomSize; r++)
+            {
+                for (int c = 0; c < roomSize; c++)
+                {
+                    if (r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1)
+                        wallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
+                }
+            }
 
-            // Update origin for next room to be adjacent on the X axis
+            // Fisher-Yates shuffle
+            for (int i = wallTiles.Count - 1; i > 0; i--)
+            {
+                int j = UnityEngine.Random.Range(0, i + 1);
+                (wallTiles[i], wallTiles[j]) = (wallTiles[j], wallTiles[i]);
+            }
+            
+            // Spawn appliances on shuffled wall tiles
+            foreach (var (local, tile) in wallTiles)
+                room.TrySpawnNextAppliance(local, roomSize, tile, _floorWidth, _floorHeight);
+
+            SpawnedBuildings.Add(buildingParent);
             nextOrigin += new Vector2Int(roomSize, 0);
         }
     }

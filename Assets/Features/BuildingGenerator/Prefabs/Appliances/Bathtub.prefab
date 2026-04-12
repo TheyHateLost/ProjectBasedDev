@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3379270146824302372
+--- !u!1 &308201338352260958
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,48 +8,46 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 8388474864807337073}
-  - component: {fileID: 1038034024390683349}
-  - component: {fileID: 3606117747212456728}
-  - component: {fileID: 2031128614080479271}
-  - component: {fileID: 8451517100200137648}
+  - component: {fileID: 4581683031561451775}
+  - component: {fileID: 8271219823301332027}
+  - component: {fileID: 6289754942422223005}
   m_Layer: 3
   m_Name: Mesh
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &8388474864807337073
+  m_IsActive: 0
+--- !u!4 &4581683031561451775
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3379270146824302372}
+  m_GameObject: {fileID: 308201338352260958}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0.5, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_ConstrainProportionsScale: 1
   m_Children: []
   m_Father: {fileID: 546516885865337383}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &1038034024390683349
+--- !u!33 &8271219823301332027
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3379270146824302372}
+  m_GameObject: {fileID: 308201338352260958}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &3606117747212456728
+--- !u!23 &6289754942422223005
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3379270146824302372}
+  m_GameObject: {fileID: 308201338352260958}
   m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
@@ -68,7 +66,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 31321ba15b8f8eb4c954353edc038b1d, type: 2}
+  - {fileID: 2100000, guid: dce7c0bdfd0bba2429af87a5da0ed396, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -92,54 +90,6 @@ MeshRenderer:
   m_SortingOrder: 0
   m_MaskInteraction: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!65 &2031128614080479271
-BoxCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3379270146824302372}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
-  m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &8451517100200137648
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3379270146824302372}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fe09447efd54c24b141729d92651df4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::SelectableObject
-  <OnClicked>k__BackingField:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 6238330328630704509}
-        m_TargetAssemblyTypeName: BathtubAppliance, Assembly-CSharp
-        m_MethodName: StartMinigame
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &5412552541610745948
 GameObject:
   m_ObjectHideFlags: 0
@@ -170,7 +120,8 @@ Transform:
   m_LocalScale: {x: 1.8, y: 1.8, z: 1.8}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 8388474864807337073}
+  - {fileID: 4581683031561451775}
+  - {fileID: 3892500778686894707}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &6238330328630704509
@@ -182,6 +133,146 @@ MonoBehaviour:
   m_GameObject: {fileID: 5412552541610745948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0777a71fc1e94f52b363aa1adee33ef0, type: 3}
+  m_Script: {fileID: 11500000, guid: 84d871b727324717b0c5d04368e69857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BathtubAppliance
+  <AllowedOrientations>k__BackingField: 15
+  <Size>k__BackingField: {x: 1, y: 2}
+--- !u!1001 &3570872543796344216
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 546516885865337383}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 37.72378
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 37.72377
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 37.72377
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.49400008
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.5555556
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071067
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_Name
+      value: Bathtub
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      propertyPath: m_Layer
+      value: 3
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6652994409650663329}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2360524082996561816}
+  m_SourcePrefab: {fileID: 100100000, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+--- !u!4 &3892500778686894707 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+  m_PrefabInstance: {fileID: 3570872543796344216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4417785464126179529 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+  m_PrefabInstance: {fileID: 3570872543796344216}
+  m_PrefabAsset: {fileID: 0}
+--- !u!64 &6652994409650663329
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417785464126179529}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -8936622394817868014, guid: a00c76f319450ad43926fb894d3c85e0, type: 3}
+--- !u!114 &2360524082996561816
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4417785464126179529}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fe09447efd54c24b141729d92651df4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::SelectableObject
+  <OnClicked>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 6238330328630704509}
+        m_TargetAssemblyTypeName: Appliance, Assembly-CSharp
+        m_MethodName: StartMinigame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
