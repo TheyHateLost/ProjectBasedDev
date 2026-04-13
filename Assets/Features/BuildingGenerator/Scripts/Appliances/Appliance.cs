@@ -1,8 +1,9 @@
-﻿using UnityEngine;
+﻿using Sirenix.OdinInspector;
+using UnityEngine;
 
 public class Appliance : MonoBehaviour
 {
-    [SerializeField] GameObject _miniGame;
+    [SerializeField, Required] private GameObject _miniGame;
 
     [System.Flags]
     public enum Orientation
@@ -20,6 +21,11 @@ public class Appliance : MonoBehaviour
     
     public void StartMinigame()
     {
+        if (_miniGame == null)
+        {
+            Debug.LogWarning($"Failed to start minigame for Appliance {gameObject.name}. Missing minigame prefab");
+            return;
+        }
         Instantiate(_miniGame);
     }
 }

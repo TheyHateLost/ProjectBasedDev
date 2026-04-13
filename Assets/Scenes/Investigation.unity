@@ -1443,10 +1443,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: BuildingGenerator
       objectReference: {fileID: 0}
-    - target: {fileID: 6625423199480646137, guid: a6de29d9e00df884d9dcdffe2b3f679e, type: 3}
-      propertyPath: _ghostMaterial
-      value: 
-      objectReference: {fileID: 2100000, guid: ddd01a894eb28ec42838ce1a1e876a0b, type: 2}
     - target: {fileID: 7537401227033602793, guid: a6de29d9e00df884d9dcdffe2b3f679e, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0

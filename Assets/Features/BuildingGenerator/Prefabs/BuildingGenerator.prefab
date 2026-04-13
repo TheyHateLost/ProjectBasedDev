@@ -56,5 +56,6 @@ MonoBehaviour:
   _buildingSizeRange:
     Min: 10
     Max: 12
+  _ghostMaterial: {fileID: 2100000, guid: ddd01a894eb28ec42838ce1a1e876a0b, type: 2}
   _currentBuildingSize: 0
   <CurrentRooms>k__BackingField: []

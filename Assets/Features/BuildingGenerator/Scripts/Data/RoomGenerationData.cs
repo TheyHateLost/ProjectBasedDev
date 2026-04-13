@@ -7,6 +7,10 @@ public class RoomGenerationData
 {
     [field: SerializeField] public RoomType Type { get; private set; }
     [field: SerializeField] public List<Appliance> RequiredAppliances { get; private set; } = new();
+    
+    [field: Header("Window")]
+    [field: SerializeField] public List<Transform> WindowPrefabs { get; private set; } = new();
+    [field: SerializeField] public IntRange WindowCountRange { get; private set; } = new IntRange(1, 3);
 
     [SerializeField] private IntRange _roomSizeRange;
     public IntRange RoomSizeRange => _roomSizeRange;
@@ -26,6 +30,9 @@ public class RoomGenerationData
         roomData.Type = Type;
         roomData.Size = _roomSizeRange.RandomValueWithBounds();
         roomData.AppliancePrefabsToSpawn.AddRange(RequiredAppliances);
+        
+        roomData.WindowCount = _roomSizeRange.RandomValueWithBounds();
+        roomData.WindowPrefabs.AddRange(WindowPrefabs);
         return roomData;
     }
 }

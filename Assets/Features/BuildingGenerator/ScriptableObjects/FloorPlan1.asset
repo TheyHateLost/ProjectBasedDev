@@ -17,8 +17,13 @@ MonoBehaviour:
     <RequiredAppliances>k__BackingField:
     - {fileID: 6387991586606443661, guid: 00ebcedb94b259b40be3c4ca937ddf96, type: 3}
     - {fileID: 6387991586606443661, guid: 52764ae348a46b54e8a0b68883dd016b, type: 3}
+    <WindowPrefabs>k__BackingField:
+    - {fileID: 3266235026126560760, guid: 9b1eeacd3c19f084fa53b59693fbaf8e, type: 3}
+    <WindowCountRange>k__BackingField:
+      Min: 1
+      Max: 3
     _roomSizeRange:
-      Min: 2
+      Min: 3
       Max: 3
   <RoomGlazeValues>k__BackingField:
     _serializedList:
