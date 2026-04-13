@@ -1516,6 +1516,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1954678160263884689, guid: aac08cd6d4635ec44a10f2b1603559bf, type: 3}
+      propertyPath: m_fontSize
+      value: 40
+      objectReference: {fileID: 0}
+    - target: {fileID: 1954678160263884689, guid: aac08cd6d4635ec44a10f2b1603559bf, type: 3}
+      propertyPath: m_fontSizeBase
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 5280486624959306704, guid: aac08cd6d4635ec44a10f2b1603559bf, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
