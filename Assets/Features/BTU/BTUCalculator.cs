@@ -1,37 +1,22 @@
-using UnityEngine;  
+using UnityEngine;
 
 public class BTUCalculator : MonoBehaviour
 {
-   public enum RoomType {Bathroom}
-   
-   [Header("Room Type")]
-   public RoomType roomType;
-   public float width; 
-   public float length;
-   public float height;
-
-   [Header("BTU Result")]
-   public float btuResult;
-private void Start()
-{
-    btuResult = CalculateBTU();
-}
-private float GetMultiplier(RoomType type)
-{
-    switch (type)
+    public enum RoomType { Bathroom} 
+    
+    public float CalculateBTU(RoomType type, float w, float l, float h)
     {
-        case RoomType.Bathroom: return 148.5f;
-        default: return 0;
+        float volume = w * l * h;
+        float multiplier = GetMultiplier(type);
+        return volume * multiplier;
     }
 
-}
-
-    public float CalculateBTU()
+    private float GetMultiplier(RoomType type)
     {
-        float volume = width * length * height;
-        float multiplier = GetMultiplier(roomType);
-        float btu = volume * multiplier;
-        return btu;
+        switch (type)
+        {
+            case RoomType.Bathroom: return 148.5f;
+            default: return 0f;
+        }
     }
-
 }

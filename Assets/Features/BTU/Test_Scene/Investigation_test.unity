@@ -213,6 +213,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1491993098}
+  - {fileID: 1741474601}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &289587395
@@ -1176,7 +1177,7 @@ GameObject:
   - component: {fileID: 1491993098}
   - component: {fileID: 1491993099}
   m_Layer: 0
-  m_Name: BTUCalculator
+  m_Name: SystemManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1206,13 +1207,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1491993097}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3b88072c4ee2ea4459f75327586c0f84, type: 3}
+  m_Script: {fileID: 11500000, guid: 19858d407c4a5b34dbb9ca97b93622a7, type: 3}
   m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::BTUCalculator
-  roomType: 0
-  width: 0
-  length: 0
-  height: 0
+  m_EditorClassIdentifier: Assembly-CSharp::ThermalBuildingManager
+  generator: {fileID: 2098181344}
+  calculator: {fileID: 1741474602}
+  totalBuildingBTU: 0
 --- !u!1 &1624763112
 GameObject:
   m_ObjectHideFlags: 0
@@ -1375,6 +1375,50 @@ Transform:
   m_Children: []
   m_Father: {fileID: 289587396}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1741474600
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741474601}
+  - component: {fileID: 1741474602}
+  m_Layer: 0
+  m_Name: BTUCalculator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1741474601
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741474600}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 211.33995, y: 0.00001, z: -695.0218}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 53136667}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1741474602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741474600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3b88072c4ee2ea4459f75327586c0f84, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::BTUCalculator
 --- !u!1 &2019345948
 GameObject:
   m_ObjectHideFlags: 0
