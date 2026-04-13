@@ -110,4 +110,11 @@ public static class CustomUtils
         float volume = w * l * h;
         return volume * glaze;
     }
+    
+    public static string FormatTimeMMSS(float seconds)
+    {
+        int mm = Mathf.FloorToInt(seconds / 60f);
+        int ss = Mathf.FloorToInt(seconds % 60f);
+        return $"{mm:00}:{ss:00}";
+    }
 }

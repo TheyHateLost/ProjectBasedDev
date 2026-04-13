@@ -8,18 +8,41 @@ public class BTUCalculator : MonoBehaviour
     public BuildingGenerator generator;
 
     [Header("Results")]
+    [ReadOnly] public float roomLength;
+    [ReadOnly] public float roomWidth;
+    [ReadOnly] public float roomHeight;
+    [ReadOnly] public float roomGlaze;
+    [ReadOnly] public float firstRoomBTU;
     [ReadOnly] public float totalBuildingBTU;
 
     private void OnEnable()
     {
-        generator.OnBuildingGenerated += ProcessBuildingThermalData;
+        generator.OnBuildingGenerated += OnBuildingGenerated;
     }
 
     private void OnDisable()
     {
-        generator.OnBuildingGenerated -= ProcessBuildingThermalData;
+        generator.OnBuildingGenerated -= OnBuildingGenerated;
     }
 
+    private void OnBuildingGenerated()
+    {
+        CalculateFirstRoomThermalData();
+        ProcessBuildingThermalData();
+    }
+    
+    private void CalculateFirstRoomThermalData()
+    {
+        if (generator.CurrentRooms.Count == 0)
+            return;
+
+        roomLength = generator.CurrentRooms[0].Size;
+        roomWidth = generator.CurrentRooms[0].Size;
+        roomHeight = generator.RealWallHeight;
+        roomGlaze = generator.FloorPlan.GetGlaze(generator.CurrentRooms[0].Type);
+        firstRoomBTU = CustomUtils.CalculateBTU(roomWidth,  roomLength, roomHeight, roomGlaze);
+    }
+    
     private void ProcessBuildingThermalData()
     {
         totalBuildingBTU = 0;
