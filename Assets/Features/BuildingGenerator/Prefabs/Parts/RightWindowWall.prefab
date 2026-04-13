@@ -174,7 +174,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Appliance
   _selectableObject: {fileID: 0}
-  _miniGame: {fileID: 6290352245838795385, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
+  _miniGame: {fileID: 5451652246377006192, guid: 38c71196623f0854583a4b279d956655, type: 3}
   <IsMinigameFinished>k__BackingField: 0
   <AllowedOrientations>k__BackingField: 15
   <Size>k__BackingField: {x: 1, y: 1}
