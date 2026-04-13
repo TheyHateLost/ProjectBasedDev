@@ -2,6 +2,8 @@
 
 public class Appliance : MonoBehaviour
 {
+    [SerializeField] GameObject _miniGame;
+
     [System.Flags]
     public enum Orientation
     {
@@ -18,6 +20,6 @@ public class Appliance : MonoBehaviour
     
     public void StartMinigame()
     {
-        
+        Instantiate(_miniGame);
     }
 }

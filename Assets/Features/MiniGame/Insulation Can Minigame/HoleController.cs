@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class HoleController : MonoBehaviour, IPointerClickHandler
 {
     public static event Action OnHoleComplete = delegate { };
+    bool _isClicked = false;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -20,10 +21,11 @@ public class HoleController : MonoBehaviour, IPointerClickHandler
     }
     public void OnPointerClick(PointerEventData eventData)
     {
-        if (ToolManager.Instance.GetTool() == Tools.InsulationCan)
+        if (ToolManager.Instance.GetTool() == Tools.InsulationCan && !_isClicked)
         {
             eventData.pointerClick.GetComponent<Image>().color = Color.black;
             OnHoleComplete.Invoke();
+            _isClicked = true;
         }
     }
 }
