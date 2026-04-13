@@ -45,6 +45,13 @@ public class Appliance : MonoBehaviour
         MinigameManager.Instance.StartMinigame(this, _miniGame);
     }
 
+    [Button("Cheat: Finish Minigame", ButtonSizes.Large)]
+    public void CheatFinishMinigame()
+    {
+        MinigameManager.Instance.StartMinigame(this, _miniGame);
+        MinigameManager.Instance.FinishCurrentMinigame();
+    }
+    
     public void FinishMinigame()
     {
         IsMinigameFinished = true;

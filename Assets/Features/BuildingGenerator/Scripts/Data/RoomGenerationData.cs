@@ -31,7 +31,7 @@ public class RoomGenerationData
         roomData.Size = _roomSizeRange.RandomValueWithBounds();
         roomData.AppliancePrefabsToSpawn.AddRange(RequiredAppliances);
         
-        roomData.WindowCount = _roomSizeRange.RandomValueWithBounds();
+        roomData.WindowCount = WindowCountRange.RandomValueWithBounds();
         roomData.WindowPrefabs.AddRange(WindowPrefabs);
         return roomData;
     }

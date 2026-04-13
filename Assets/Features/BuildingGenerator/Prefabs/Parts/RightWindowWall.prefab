@@ -173,7 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d871b727324717b0c5d04368e69857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Appliance
-  _miniGame: {fileID: 0}
+  _selectableObject: {fileID: 0}
+  _miniGame: {fileID: 6290352245838795385, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
+  <IsMinigameFinished>k__BackingField: 0
   <AllowedOrientations>k__BackingField: 15
   <Size>k__BackingField: {x: 1, y: 1}
 --- !u!114 &2741491539476349169

@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using Sirenix.OdinInspector;
 
-public class ThermalBuildingManager : MonoBehaviour
+public class BTUCalculator : MonoBehaviour
 {
     [Header("References")]
     public BuildingGenerator generator;

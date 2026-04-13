@@ -12,6 +12,7 @@ public class MinigameManager : Singleton<MinigameManager>
 
     [field: SerializeField] public UnityEvent OnMinigameStarted { get; private set; } = new();
     [field: SerializeField] public UnityEvent OnMinigameFinished { get; private set; } = new();
+    [field: SerializeField] public UnityEvent OnBuildingRepairFinished { get; private set; } = new();
     
     [field: SerializeField, ReadOnly] public int MinigamesRemaining { get; private set; }
 
@@ -36,11 +37,16 @@ public class MinigameManager : Singleton<MinigameManager>
         
         ActiveMinigameAppliance.FinishMinigame();
         ActiveMinigameAppliance = null;
+        Destroy(ActiveMinigameObject.gameObject);
         ActiveMinigameObject = null;
 
         MinigamesRemaining--;
-        
         OnMinigameFinished?.Invoke();
+
+        if (MinigamesRemaining <= 0)
+        {
+            OnBuildingRepairFinished?.Invoke();
+        }
     }
 
     public void RegisterAppliance()
