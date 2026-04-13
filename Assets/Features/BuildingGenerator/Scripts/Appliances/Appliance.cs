@@ -27,6 +27,11 @@ public class Appliance : MonoBehaviour
         _selectableObject = GetComponentInChildren<SelectableObject>();
     }
 
+    private void Start()
+    {
+        MinigameManager.Instance.RegisterAppliance();
+    }
+
     public void StartMinigame()
     {
         if (IsMinigameFinished)

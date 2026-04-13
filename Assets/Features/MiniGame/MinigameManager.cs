@@ -12,6 +12,8 @@ public class MinigameManager : Singleton<MinigameManager>
 
     [field: SerializeField] public UnityEvent OnMinigameStarted { get; private set; } = new();
     [field: SerializeField] public UnityEvent OnMinigameFinished { get; private set; } = new();
+    
+    [field: SerializeField, ReadOnly] public int MinigamesRemaining { get; private set; }
 
     public void StartMinigame(Appliance appliance, GameObject minigameObject)
     {
@@ -35,7 +37,14 @@ public class MinigameManager : Singleton<MinigameManager>
         ActiveMinigameAppliance.FinishMinigame();
         ActiveMinigameAppliance = null;
         ActiveMinigameObject = null;
+
+        MinigamesRemaining--;
         
         OnMinigameFinished?.Invoke();
+    }
+
+    public void RegisterAppliance()
+    {
+        MinigamesRemaining++;
     }
 }
