@@ -5,8 +5,6 @@ using UnityEngine;
 public class Appliance : MonoBehaviour
 {
     [SerializeField, ReadOnly] private SelectableObject _selectableObject;
-    [SerializeField, Required] private GameObject _miniGame;
-    [field: SerializeField, Required] public bool IsMinigameFinished { get; private set; }
 
     [System.Flags]
     public enum Orientation
@@ -21,6 +19,11 @@ public class Appliance : MonoBehaviour
     
     [field: SerializeField] public Orientation AllowedOrientations { get; private set; } = Orientation.Any;
     [field: SerializeField] public Vector2Int Size { get; private set; } = Vector2Int.one;
+    
+    [field: Header("Minigame")]
+    [field: SerializeField] public bool IsUsingMinigame { get; private set; } = true;
+    [SerializeField, Required, ShowIf("IsUsingMinigame")] private GameObject _miniGame;
+    [field: SerializeField, Required, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
 
     private void Awake()
     {
@@ -29,11 +32,15 @@ public class Appliance : MonoBehaviour
 
     private void Start()
     {
-        MinigameManager.Instance.RegisterAppliance();
+        if(IsUsingMinigame)
+            MinigameManager.Instance.RegisterAppliance();
     }
 
     public void StartMinigame()
     {
+        if (!IsUsingMinigame)
+            return;
+        
         if (IsMinigameFinished)
             return;
         
@@ -45,9 +52,12 @@ public class Appliance : MonoBehaviour
         MinigameManager.Instance.StartMinigame(this, _miniGame);
     }
 
-    [Button("Cheat: Finish Minigame", ButtonSizes.Large)]
+    [Button("Cheat: Finish Minigame", ButtonSizes.Large), ShowIf("IsUsingMinigame")]
     public void CheatFinishMinigame()
     {
+        if (!IsUsingMinigame)
+            return;
+        
         MinigameManager.Instance.StartMinigame(this, _miniGame);
         MinigameManager.Instance.FinishCurrentMinigame();
     }
