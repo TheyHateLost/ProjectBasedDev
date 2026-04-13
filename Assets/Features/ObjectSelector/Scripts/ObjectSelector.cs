@@ -1,11 +1,11 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class ObjectSelector : MonoBehaviour
 {
     private Camera _camera;
-    
+
     [SerializeField] private LayerMask _selectableLayerMask;
     [SerializeField] private float _raycastMaxDistance = 100f;
     [field: SerializeField, ReadOnly] public SelectableObject CurrentlySelectedObject { get; private set; }
@@ -24,18 +24,21 @@ public class ObjectSelector : MonoBehaviour
 
     private void ScanForSelections()
     {
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
+        {
+            DeselectCurrent();
+            return;
+        }
+
         Ray mouseRay = _camera.ScreenPointToRay(Input.mousePosition);
         Physics.Raycast(mouseRay, out RaycastHit hit, _raycastMaxDistance, _selectableLayerMask);
-        
+
         SelectableObject hitSelectableObject = hit.collider == null ? null : hit.collider.GetComponent<SelectableObject>();
         if (hitSelectableObject != CurrentlySelectedObject)
         {
-            // deselect prev
-            if(CurrentlySelectedObject != null)
-                CurrentlySelectedObject.ResetMaterials();
-            
+            DeselectCurrent();
             CurrentlySelectedObject = hitSelectableObject;
-            if(CurrentlySelectedObject != null)
+            if (CurrentlySelectedObject != null)
                 CurrentlySelectedObject.ChangeMaterials(_selectedMaterial);
         }
     }
@@ -44,11 +47,22 @@ public class ObjectSelector : MonoBehaviour
     {
         if (!Input.GetKeyDown(KeyCode.Mouse0))
             return;
-        
-        if(CurrentlySelectedObject == null)
+
+        if (EventSystem.current != null && EventSystem.current.IsPointerOverGameObject())
             return;
-        
-        // Debug.Log($"Clicked selected object: {CurrentlySelectedObject.gameObject.name}");
+
+        if (CurrentlySelectedObject == null)
+            return;
+
         CurrentlySelectedObject.ClickObject();
+    }
+
+    private void DeselectCurrent()
+    {
+        if (CurrentlySelectedObject == null)
+            return;
+
+        CurrentlySelectedObject.ResetMaterials();
+        CurrentlySelectedObject = null;
     }
 }

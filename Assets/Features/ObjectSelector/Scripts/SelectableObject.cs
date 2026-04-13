@@ -18,8 +18,14 @@ public class SelectableObject : MonoBehaviour
     {
         foreach (var r in GetComponentsInChildren<Renderer>())
         {
-            _originalMaterials.Add(GetComponent<Renderer>(), GetComponent<Renderer>().sharedMaterials);
+            _originalMaterials.Add(r, r.sharedMaterials);
         }
+    }
+
+    public void RebindOriginalMaterials()
+    {
+        _originalMaterials.Clear();
+        GetOriginalMaterials();
     }
 
     public void ResetMaterials()

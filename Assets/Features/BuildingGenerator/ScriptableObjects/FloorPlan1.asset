@@ -21,7 +21,7 @@ MonoBehaviour:
     - {fileID: 3266235026126560760, guid: 9b1eeacd3c19f084fa53b59693fbaf8e, type: 3}
     <WindowCountRange>k__BackingField:
       Min: 1
-      Max: 3
+      Max: 1
     _roomSizeRange:
       Min: 3
       Max: 3

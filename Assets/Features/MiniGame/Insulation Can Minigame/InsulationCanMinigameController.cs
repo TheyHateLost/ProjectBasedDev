@@ -90,6 +90,8 @@ public class InsulationCanMinigameController : MonoBehaviour
         _winText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(false);
+        
+        MinigameManager.Instance.FinishCurrentMinigame();
     }
 
     void ResetGame()
