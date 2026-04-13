@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a0983e4a4abc48240997f3331f38eee2, type: 3}
   m_Name: Insulation Can
   m_EditorClassIdentifier: Assembly-CSharp::ToolSO
-  cursorTexture: {fileID: 2800000, guid: 063f4061c4fe8314db488cdb7ad0b7cd, type: 3}
+  cursorTexture: {fileID: 2800000, guid: 4f41307017b59d149ac11532c9b0b352, type: 3}
   tool: 4

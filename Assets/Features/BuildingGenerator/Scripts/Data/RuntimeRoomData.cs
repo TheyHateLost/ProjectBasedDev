@@ -12,6 +12,9 @@ public class RuntimeRoomData
     public List<Appliance> SpawnedAppliances = new();
     private HashSet<Vector2Int> _occupiedTiles = new();
 
+    public List<Transform> WindowPrefabs = new();
+    public int WindowCount;
+
     public bool TrySpawnNextAppliance(Vector2Int localPos, int roomSize, Transform tile, float floorWidth, float floorHeight)
     {
         if (AppliancePrefabsToSpawn.Count <= 0)

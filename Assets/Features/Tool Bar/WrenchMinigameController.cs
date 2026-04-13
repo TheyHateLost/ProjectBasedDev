@@ -65,10 +65,7 @@ public class WrenchMinigameController : MonoBehaviour
         {
             _gamePartOne.SetActive(true);
             _startBtn.SetActive(false);
-        } else
-        {
-            Debug.LogError("Wrong Tool. The correct tool is Wrench");
-        }
+        } 
     }
 
     void Win()
@@ -88,6 +85,8 @@ public class WrenchMinigameController : MonoBehaviour
         _winText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(false);
+        
+        MinigameManager.Instance.FinishCurrentMinigame();
     }
 
     void ResetGame()

@@ -11,15 +11,20 @@ public class GameplayUIActions : MonoBehaviour
 
     bool _isToolbarActive = false;
     bool _isNotesActive = false;
-
+    
     private void OnEnable()
     {
-        InputManager.Instance.Toolbar += TurningOnAndOffToolbar;
+        /*Disable toolbar button for now
+        InputManager.Instance.Toolbar += TurningOnAndOffToolbar;*/
     }
 
     private void OnDisable()
     {
-        InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+        /*Disable toolbar button for now
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+        }*/
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -31,6 +36,9 @@ public class GameplayUIActions : MonoBehaviour
         // Raising the z-index
         Vector3 canvasPos = (Vector3)GetComponent<RectTransform>().localPosition;
         canvasPos.z = 20f;
+        
+        // Enable toolbar + notes by default
+        TurningOnAndOffToolbar();
     }
 
     public void ChangeCursorIcon(ToolSO icon)
@@ -47,6 +55,10 @@ public class GameplayUIActions : MonoBehaviour
     {
         _isToolbarActive = !_isToolbarActive;
         _toolBarObj.SetActive(_isToolbarActive);
-    }
 
+        if(_isToolbarActive)
+            TurnOnNotes();
+        else
+            TurnOffNotes();
+    }
 }

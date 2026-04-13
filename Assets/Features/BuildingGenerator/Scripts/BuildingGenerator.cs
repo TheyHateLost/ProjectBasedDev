@@ -51,8 +51,8 @@ public class BuildingGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-            GenerateNewBuilding();
+        /*if (Input.GetKeyDown(KeyCode.G))
+            GenerateNewBuilding();*/
     }
 
     [Button("Generate Building", ButtonSizes.Large)]
@@ -103,28 +103,86 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            List<(Vector2Int local, Transform tile)> wallTiles = new();
+            // Collect edge (wall) tiles — skip corners so windows only appear on flat wall runs
+            List<(Vector2Int local, Transform tile)> edgeWallTiles = new();
+            for (int r = 0; r < roomSize; r++)
+            {
+                for (int c = 0; c < roomSize; c++)
+                {
+                    bool isEdge = r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1;
+                    bool isCorner = (r == 0 || r == roomSize - 1) && (c == 0 || c == roomSize - 1);
+
+                    if (isEdge && !isCorner)
+                        edgeWallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
+                }
+            }
+
+            // Shuffle and replace the first WindowCount edge walls with a random window prefab
+            if (room.WindowPrefabs != null && room.WindowPrefabs.Count > 0 && room.WindowCount > 0)
+            {
+                for (int i = edgeWallTiles.Count - 1; i > 0; i--)
+                {
+                    int j = UnityEngine.Random.Range(0, i + 1);
+                    (edgeWallTiles[i], edgeWallTiles[j]) = (edgeWallTiles[j], edgeWallTiles[i]);
+                }
+
+                int windowsToPlace = Mathf.Min(room.WindowCount, edgeWallTiles.Count);
+                for (int i = 0; i < windowsToPlace; i++)
+                {
+                    (Vector2Int local, Transform tile) = edgeWallTiles[i];
+                    ReplaceWallWithWindow(tile, local, roomSize, room.WindowPrefabs);
+                }
+            }
+
+            // Shuffle remaining wall tiles for appliance placement
+            List<(Vector2Int local, Transform tile)> allWallTiles = new();
             for (int r = 0; r < roomSize; r++)
             {
                 for (int c = 0; c < roomSize; c++)
                 {
                     if (r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1)
-                        wallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
+                        allWallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
                 }
             }
 
-            for (int i = wallTiles.Count - 1; i > 0; i--)
+            for (int i = allWallTiles.Count - 1; i > 0; i--)
             {
                 int j = UnityEngine.Random.Range(0, i + 1);
-                (wallTiles[i], wallTiles[j]) = (wallTiles[j], wallTiles[i]);
+                (allWallTiles[i], allWallTiles[j]) = (allWallTiles[j], allWallTiles[i]);
             }
 
-            foreach (var (local, tile) in wallTiles)
+            foreach (var (local, tile) in allWallTiles)
                 room.TrySpawnNextAppliance(local, roomSize, tile, _floorWidth, _floorHeight);
 
             SpawnedBuildings.Add(buildingParent);
             nextOrigin += new Vector2Int(roomSize, 0);
         }
+    }
+
+    /// <summary>
+    /// Destroys the wall child on a tile and replaces it with a random window prefab,
+    /// rotated to match the wall face direction.
+    /// </summary>
+    private void ReplaceWallWithWindow(Transform tile, Vector2Int local, int roomSize, List<Transform> windowPrefabs)
+    {
+        // Destroy the existing wall child (index 0 - set by SpawnFloorObject)
+        if (tile.childCount > 0)
+            Destroy(tile.GetChild(0).gameObject);
+
+        // Determine the rotation that was used for the wall on this edge
+        Quaternion rotation = Quaternion.identity;
+        if (local.x == 0)
+            rotation = Quaternion.Euler(0, 180, 0);
+        else if (local.x == roomSize - 1)
+            rotation = Quaternion.identity;
+        else if (local.y == 0)
+            rotation = Quaternion.Euler(0, 90, 0);
+        else if (local.y == roomSize - 1)
+            rotation = Quaternion.Euler(0, 270, 0);
+
+        Transform windowPrefab = windowPrefabs[UnityEngine.Random.Range(0, windowPrefabs.Count)];
+        Transform window = Instantiate(windowPrefab, tile.position, rotation);
+        window.SetParent(tile, true);
     }
 
     private void SpawnGhostTiles()
@@ -194,7 +252,7 @@ public class BuildingGenerator : MonoBehaviour
 
         if (isGhost)
             CustomUtils.SetMaterialRecursive(spawnedFloor.gameObject, _ghostMaterial);
-        
+
         return spawnedFloor;
     }
 
@@ -202,7 +260,7 @@ public class BuildingGenerator : MonoBehaviour
     {
         return new Vector3(_floorWidth * gridPosition.x, 0, _floorWidth * gridPosition.y);
     }
-    
+
     public Vector3 GetFirstRoomCenterPosition()
     {
         if (SpawnedBuildings.Count == 0)

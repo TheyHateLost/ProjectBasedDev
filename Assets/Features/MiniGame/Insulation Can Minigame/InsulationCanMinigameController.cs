@@ -72,10 +72,6 @@ public class InsulationCanMinigameController : MonoBehaviour
             _actualGame.SetActive(true);
             _startBtn.SetActive(false);
         }
-        else
-        {
-            Debug.LogError("Wrong Tool. The correct tool is Insulation Tool");
-        }
     }
 
     void UpdateCompletedHoles()
@@ -94,6 +90,8 @@ public class InsulationCanMinigameController : MonoBehaviour
         _winText.SetActive(false);
         Cursor.lockState = CursorLockMode.None;
         gameObject.SetActive(false);
+        
+        MinigameManager.Instance.FinishCurrentMinigame();
     }
 
     void ResetGame()
