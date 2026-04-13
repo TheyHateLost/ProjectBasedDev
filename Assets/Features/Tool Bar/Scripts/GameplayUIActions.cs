@@ -19,7 +19,10 @@ public class GameplayUIActions : MonoBehaviour
 
     private void OnDisable()
     {
-        InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+        if (InputManager.Instance != null)
+        {
+            InputManager.Instance.Toolbar -= TurningOnAndOffToolbar;
+        }
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
