@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84d871b727324717b0c5d04368e69857, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SinkAppliance
+  _miniGame: {fileID: 5451652246377006192, guid: 38c71196623f0854583a4b279d956655, type: 3}
   <AllowedOrientations>k__BackingField: 8
   <Size>k__BackingField: {x: 1, y: 1}
 --- !u!1001 &3892851840163332786
