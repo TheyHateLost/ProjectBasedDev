@@ -44,4 +44,9 @@ public class FloorPlanSO : ScriptableObject
         return new IntRange(Mathf.CeilToInt(Mathf.Sqrt(totalAreaRange.Min)),
             Mathf.CeilToInt(Mathf.Sqrt(totalAreaRange.Max)));
     }
+
+    public float GetGlaze(RoomType roomType)
+    {
+        return RoomGlazeValues.TryGetValue(roomType, out float value) ? value : 1;
+    }
 }

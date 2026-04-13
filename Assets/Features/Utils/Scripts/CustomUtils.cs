@@ -104,4 +104,10 @@ public static class CustomUtils
             renderer.sharedMaterials = mats;
         }
     }
+    
+    public static float CalculateBTU(float w, float l, float h, float glaze)
+    {
+        float volume = w * l * h;
+        return volume * glaze;
+    }
 }

@@ -19,6 +19,7 @@ public class BuildingGenerator : MonoBehaviour
 
     [Header("Floor Plan")]
     [SerializeField] private FloorPlanSO _floorPlan;
+    public FloorPlanSO FloorPlan => _floorPlan;
 
     [Header("Building Size")]
     [SerializeField] private IntRange _buildingSizeRange = new IntRange(10, 20);

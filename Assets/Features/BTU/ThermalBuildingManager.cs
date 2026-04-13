@@ -1,14 +1,14 @@
 using UnityEngine;
 using System.Collections.Generic;
+using Sirenix.OdinInspector;
 
 public class ThermalBuildingManager : MonoBehaviour
 {
     [Header("References")]
     public BuildingGenerator generator;
-    public BTUCalculator calculator;
 
     [Header("Results")]
-    public float totalBuildingBTU;
+    [ReadOnly] public float totalBuildingBTU;
 
     private void OnEnable()
     {
@@ -29,22 +29,13 @@ public class ThermalBuildingManager : MonoBehaviour
             float roomW = room.Size * generator.transform.localScale.x; 
             float roomL = room.Size * generator.transform.localScale.z;
             float roomH = generator.RealWallHeight;
-
-            BTUCalculator.RoomType type = MapStringToEnum(room.Type.ToString());
-
-
-            float roomBTU = calculator.CalculateBTU(type, roomW, roomL, roomH);
+            
+            float roomBTU = CustomUtils.CalculateBTU(roomW, roomL, roomH, generator.FloorPlan.GetGlaze(room.Type));
             totalBuildingBTU += roomBTU;
 
             Debug.Log($"Calculated {room.Type}: {roomBTU} BTUs");
         }
 
         Debug.Log($"<b>Total Building BTU:</b> {totalBuildingBTU}");
-    }
-
-    private BTUCalculator.RoomType MapStringToEnum(string typeName)
-    {
-        if (typeName.Contains("Bathroom")) return BTUCalculator.RoomType.Bathroom;
-        return BTUCalculator.RoomType.Bathroom; // Default
     }
 }
