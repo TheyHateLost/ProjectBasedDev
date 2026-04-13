@@ -1830,6 +1830,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BTUResultsUI
   _calculator: {fileID: 1903512826}
+  _titleText: {fileID: 276012948}
   _userInputPanel: {fileID: 131310704}
   _userInputField: {fileID: 1440694933}
   _errorText: {fileID: 1612380377}

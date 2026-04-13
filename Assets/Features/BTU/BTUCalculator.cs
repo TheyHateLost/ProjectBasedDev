@@ -8,6 +8,7 @@ public class BTUCalculator : MonoBehaviour
     public BuildingGenerator generator;
 
     [Header("Results")]
+    [ReadOnly] public RoomType roomType;
     [ReadOnly] public float roomLength;
     [ReadOnly] public float roomWidth;
     [ReadOnly] public float roomHeight;
@@ -36,6 +37,7 @@ public class BTUCalculator : MonoBehaviour
         if (generator.CurrentRooms.Count == 0)
             return;
 
+        roomType = generator.CurrentRooms[0].Type;
         roomLength = generator.CurrentRooms[0].Size;
         roomWidth = generator.CurrentRooms[0].Size;
         roomHeight = generator.RealWallHeight;

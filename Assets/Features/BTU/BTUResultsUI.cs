@@ -6,7 +6,8 @@ using UnityEngine;
 public class BTUResultsUI : MonoBehaviour
 {
     [SerializeField, Required] private BTUCalculator _calculator;
-
+    [SerializeField, Required] private TMP_Text _titleText;
+    
     [Header("User Input")]
     [SerializeField, Required] private GameObject _userInputPanel;
     [SerializeField, Required] private TMP_InputField _userInputField;
@@ -27,6 +28,8 @@ public class BTUResultsUI : MonoBehaviour
     
     public void Reveal()
     {
+        _titleText.text = $"{_calculator.roomType} BTU";
+        
         // show user input
         _userInputPanel.SetActive(true);
         _errorText.text = "";
