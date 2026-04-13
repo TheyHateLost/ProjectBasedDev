@@ -10,6 +10,12 @@ public class BTUCalculator : MonoBehaviour
    public float length;
    public float height;
 
+   [Header("BTU Result")]
+   public float btuResult;
+private void Start()
+{
+    btuResult = CalculateBTU();
+}
 private float GetMultiplier(RoomType type)
 {
     switch (type)
