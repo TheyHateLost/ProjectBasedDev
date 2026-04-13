@@ -50,8 +50,8 @@ public class BuildingGenerator : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.G))
-            GenerateNewBuilding();
+        /*if (Input.GetKeyDown(KeyCode.G))
+            GenerateNewBuilding();*/
     }
 
     [Button("Generate Building", ButtonSizes.Large)]
