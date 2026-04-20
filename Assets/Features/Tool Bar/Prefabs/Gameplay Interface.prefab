@@ -4617,6 +4617,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ToolBar
   _notesPanel: {fileID: 3990567501384538531}
+  _notesToggleButton: {fileID: 4715076069832882774}
   _toolBarObj: {fileID: 6081925633375403209}
 --- !u!1 &7566624778318925672
 GameObject:
@@ -6539,6 +6540,11 @@ PrefabInstance:
       addedObject: {fileID: 6247367859772609449}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
+--- !u!1 &4715076069832882774 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3316303782690077459, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
+  m_PrefabInstance: {fileID: 8028422853237129541}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &8834957427519841553 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1582631491963659348, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
