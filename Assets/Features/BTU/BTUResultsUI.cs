@@ -63,8 +63,13 @@ public class BTUResultsUI : MonoBehaviour
 
         _userBtuText.text = $"Your BTU: {_userInputBTU:F2}";
         _correctBtuText.text = $"Correct BTU: {_calculator.firstRoomBTU:F2}";
+        
         float percentError = ((_userInputBTU - _calculator.firstRoomBTU) / _calculator.firstRoomBTU) * 100f;
-        _percentErrorText.text = $"Percent Error: {percentError:+0.00;-0.00}%";
+        string percentErrorColorTag = "green";
+        if(percentError != 0)
+            percentErrorColorTag = "red";
+        _percentErrorText.text = $"Percent Error: <color={percentErrorColorTag}>{percentError:+0.00;-0.00}%</color>";
+        
         _minigameTimeText.text = $"Minigame Time: {CustomUtils.FormatTimeMMSS(MinigameManager.Instance.TotalMinigameTimer)}";
     }
 }
