@@ -65,6 +65,8 @@ public class Appliance : MonoBehaviour
     public void FinishMinigame()
     {
         IsMinigameFinished = true;
+        // disable select    
+        _selectableObject.enabled = false;
         CustomUtils.SetMaterialRecursive(gameObject, MinigameManager.Instance.ApplianceFinishedMaterial);
         _selectableObject.RebindOriginalMaterials();
     }
