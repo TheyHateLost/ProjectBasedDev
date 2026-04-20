@@ -4,5 +4,6 @@ public enum Tools
     Screwdriver,
     MagnifyingGlass,
     Wrench,
-    InsulationCan
+    InsulationCan,
+    Blowdoor
 }
