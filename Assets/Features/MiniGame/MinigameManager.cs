@@ -47,8 +47,14 @@ public class MinigameManager : Singleton<MinigameManager>
 
         if (MinigamesRemaining <= 0)
         {
-            OnBuildingRepairFinished?.Invoke();
+            FinishBuildingRepair();
         }
+    }
+    
+    [Button("Cheat Finish Building Repair", ButtonSizes.Large)]
+    private void FinishBuildingRepair()
+    {
+        OnBuildingRepairFinished?.Invoke();
     }
 
     public void RegisterAppliance()
