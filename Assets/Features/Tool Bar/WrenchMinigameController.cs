@@ -57,6 +57,7 @@ public class WrenchMinigameController : MonoBehaviour
     void MoveToPartTwo()
     {
         _gamePartTwo.SetActive(true);
+        _badPipe.SetActive(false);
     }
 
     public void TurnOnMinigame()

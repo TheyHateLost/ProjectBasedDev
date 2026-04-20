@@ -16,7 +16,6 @@ public class WrenchPartTwoManager : MonoBehaviour
     private void OnEnable()
     {
         ScrewController.OnScrewComplete += UpdateCompletedScrews;
-
         ResetGame();
     }
 
