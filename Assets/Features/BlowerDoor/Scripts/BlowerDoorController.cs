@@ -23,6 +23,7 @@ public class BlowerDoorController : MonoBehaviour
     Renderer _airPressureCheckerRenderer;
     Renderer _signalRenderer;
     #endregion
+    // Debug
     [SerializeField] bool _signalDebug = true;
 
     [Header("Timer Settings")]
