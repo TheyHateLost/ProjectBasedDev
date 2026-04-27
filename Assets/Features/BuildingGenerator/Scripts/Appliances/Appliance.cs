@@ -6,18 +6,7 @@ public class Appliance : MonoBehaviour
 {
     [SerializeField, ReadOnly] private SelectableObject _selectableObject;
 
-    [System.Flags]
-    public enum Orientation
-    {
-        None  = 0,
-        Right = 1 << 0,
-        Left  = 1 << 1,
-        Front   = 1 << 2,
-        Back  = 1 << 3,
-        Any   = Right | Left | Front | Back
-    }
-    
-    [field: SerializeField] public Orientation AllowedOrientations { get; private set; } = Orientation.Any;
+    [field: SerializeField] public ApplianceOrientation AllowedOrientations { get; private set; } = ApplianceOrientation.Any;
     [field: SerializeField] public Vector2Int Size { get; private set; } = Vector2Int.one;
     
     [field: Header("Minigame")]
@@ -32,6 +21,7 @@ public class Appliance : MonoBehaviour
 
     private void Start()
     {
+        // Register only when this appliance participates in the minigame loop.
         if(IsUsingMinigame)
             MinigameManager.Instance.RegisterAppliance();
     }
@@ -49,6 +39,8 @@ public class Appliance : MonoBehaviour
             Debug.LogWarning($"Failed to start minigame for Appliance {gameObject.name}. Missing minigame prefab");
             return;
         }
+
+        // Start the minigame only after the appliance has passed its basic checks.
         MinigameManager.Instance.StartMinigame(this, _miniGame);
     }
 
@@ -58,6 +50,7 @@ public class Appliance : MonoBehaviour
         if (!IsUsingMinigame)
             return;
         
+        // Keep the cheat path obvious so testing can skip the full loop.
         MinigameManager.Instance.StartMinigame(this, _miniGame);
         MinigameManager.Instance.FinishCurrentMinigame();
     }
@@ -65,7 +58,7 @@ public class Appliance : MonoBehaviour
     public void FinishMinigame()
     {
         IsMinigameFinished = true;
-        // Disable selection once complete.
+        // Disable interaction once the appliance is complete.
         _selectableObject.enabled = false;
         CustomUtils.SetMaterialRecursive(gameObject, MinigameManager.Instance.ApplianceFinishedMaterial);
         _selectableObject.RebindOriginalMaterials();

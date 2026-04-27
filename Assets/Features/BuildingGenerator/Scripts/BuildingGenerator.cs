@@ -31,7 +31,8 @@ public class BuildingGenerator : MonoBehaviour
     public event Action OnBuildingGenerated = delegate { };
 
     [field: Header("Current Rooms")]
-    [field: SerializeField, ReadOnly] public List<RuntimeRoomData> CurrentRooms { get; private set; }
+    [field: SerializeField, ReadOnly] public List<GeneratedRoomData> CurrentRooms { get; private set; } = new();
+    [field: SerializeField, ReadOnly] public GeneratedBuildingData CurrentBuildingData { get; private set; }
 
     private HashSet<Vector2Int> _occupiedTiles = new();
 
@@ -58,15 +59,23 @@ public class BuildingGenerator : MonoBehaviour
     [Button("Generate Building", ButtonSizes.Large)]
     public void GenerateNewBuilding()
     {
-        DestroyRooms();
+        // Clear the previous build before creating the next plan.
         ClearCurrentBuildings();
+        DestroyRooms();
         _occupiedTiles.Clear();
 
         _currentBuildingSize = _buildingSizeRange.RandomValue();
 
         GenerateRooms();
-        SpawnBuildings();
-        SpawnGhostTiles();
+        CurrentBuildingData = new GeneratedBuildingData
+        {
+            BuildingSize = _currentBuildingSize,
+            Rooms = new List<GeneratedRoomData>(CurrentRooms)
+        };
+
+        // Render the planned data after the build is fully decided in memory.
+        SpawnBuildings(CurrentBuildingData);
+        SpawnGhostTiles(CurrentBuildingData.BuildingSize);
 
         OnBuildingGenerated?.Invoke();
     }
@@ -79,14 +88,15 @@ public class BuildingGenerator : MonoBehaviour
         SpawnedBuildings.Clear();
     }
 
-    private void SpawnBuildings()
+    private void SpawnBuildings(GeneratedBuildingData buildingData)
     {
         Vector2Int nextOrigin = Vector2Int.zero;
 
-        foreach (var room in CurrentRooms)
+        foreach (var room in buildingData.Rooms)
         {
             int roomSize = room.Size;
 
+            // Create a parent so each room stays grouped in the hierarchy.
             GameObject buildingParent = new GameObject($"Room_{room.Type}");
             buildingParent.transform.parent = transform;
 
@@ -103,56 +113,19 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Collect edge wall tiles, excluding corners.
-            List<(Vector2Int local, Transform tile)> edgeWallTiles = new();
-            for (int r = 0; r < roomSize; r++)
+            // Apply the planned windows after the base room exists.
+            foreach (WindowPlacementData windowPlacement in room.WindowPlacements)
             {
-                for (int c = 0; c < roomSize; c++)
-                {
-                    bool isEdge = r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1;
-                    bool isCorner = (r == 0 || r == roomSize - 1) && (c == 0 || c == roomSize - 1);
-
-                    if (isEdge && !isCorner)
-                        edgeWallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
-                }
+                Transform tile = tiles[windowPlacement.LocalPosition.x, windowPlacement.LocalPosition.y];
+                ReplaceWallWithWindow(tile, windowPlacement);
             }
 
-            // Randomly replace some edge walls with windows.
-            if (room.WindowPrefabs != null && room.WindowPrefabs.Count > 0 && room.WindowCount > 0)
+            // Apply the planned appliances last so footprint rules stay stable.
+            foreach (AppliancePlacementData appliancePlacement in room.AppliancePlacements)
             {
-                for (int i = edgeWallTiles.Count - 1; i > 0; i--)
-                {
-                    int j = UnityEngine.Random.Range(0, i + 1);
-                    (edgeWallTiles[i], edgeWallTiles[j]) = (edgeWallTiles[j], edgeWallTiles[i]);
-                }
-
-                int windowsToPlace = Mathf.Min(room.WindowCount, edgeWallTiles.Count);
-                for (int i = 0; i < windowsToPlace; i++)
-                {
-                    (Vector2Int local, Transform tile) = edgeWallTiles[i];
-                    ReplaceWallWithWindow(tile, local, roomSize, room.WindowPrefabs);
-                }
+                Transform tile = tiles[appliancePlacement.LocalPosition.x, appliancePlacement.LocalPosition.y];
+                SpawnAppliance(appliancePlacement, tile);
             }
-
-            // Shuffle wall tiles before placing appliances.
-            List<(Vector2Int local, Transform tile)> allWallTiles = new();
-            for (int r = 0; r < roomSize; r++)
-            {
-                for (int c = 0; c < roomSize; c++)
-                {
-                    if (r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1)
-                        allWallTiles.Add((new Vector2Int(r, c), tiles[r, c]));
-                }
-            }
-
-            for (int i = allWallTiles.Count - 1; i > 0; i--)
-            {
-                int j = UnityEngine.Random.Range(0, i + 1);
-                (allWallTiles[i], allWallTiles[j]) = (allWallTiles[j], allWallTiles[i]);
-            }
-
-            foreach (var (local, tile) in allWallTiles)
-                room.TrySpawnNextAppliance(local, roomSize, tile, _floorWidth, _floorHeight);
 
             SpawnedBuildings.Add(buildingParent);
             nextOrigin += new Vector2Int(roomSize, 0);
@@ -162,32 +135,26 @@ public class BuildingGenerator : MonoBehaviour
     /// <summary>
     /// Replaces a tile wall with a random window and matching rotation.
     /// </summary>
-    private void ReplaceWallWithWindow(Transform tile, Vector2Int local, int roomSize, List<Transform> windowPrefabs)
+    private void ReplaceWallWithWindow(Transform tile, WindowPlacementData windowPlacement)
     {
         // Remove the existing wall child.
         if (tile.childCount > 0)
             Destroy(tile.GetChild(0).gameObject);
 
-        // Match the wall-facing rotation for this edge.
-        Quaternion rotation = Quaternion.identity;
-        if (local.x == 0)
-            rotation = Quaternion.Euler(0, 180, 0);
-        else if (local.x == roomSize - 1)
-            rotation = Quaternion.identity;
-        else if (local.y == 0)
-            rotation = Quaternion.Euler(0, 90, 0);
-        else if (local.y == roomSize - 1)
-            rotation = Quaternion.Euler(0, 270, 0);
-
-        Transform windowPrefab = windowPrefabs[UnityEngine.Random.Range(0, windowPrefabs.Count)];
-        Transform window = Instantiate(windowPrefab, tile.position, rotation);
+        Transform window = Instantiate(windowPlacement.WindowPrefab, tile.position, windowPlacement.Rotation);
         window.SetParent(tile, true);
     }
 
-    private void SpawnGhostTiles()
+    private void SpawnAppliance(AppliancePlacementData appliancePlacement, Transform tile)
     {
-        int buildingSize = _currentBuildingSize;
+        Vector3 spawnPos = tile.position + Vector3.up * (_floorHeight / 2f);
+        Appliance spawned = Instantiate(appliancePlacement.Prefab, spawnPos, appliancePlacement.Rotation);
+        spawned.transform.SetParent(tile, true);
+    }
 
+    private void SpawnGhostTiles(int buildingSize)
+    {
+        // Fill the remaining bounds so the building keeps the same outer silhouette.
         GameObject ghostParent = new GameObject("Room_Ghost");
         ghostParent.transform.parent = transform;
 
@@ -199,17 +166,7 @@ public class BuildingGenerator : MonoBehaviour
                 if (_occupiedTiles.Contains(tilePos))
                     continue;
 
-                bool isEdgeR0 = r == 0;
-                bool isEdgeR1 = r == buildingSize - 1;
-                bool isEdgeC0 = c == 0;
-                bool isEdgeC1 = c == buildingSize - 1;
-                bool isWall = isEdgeR0 || isEdgeR1 || isEdgeC0 || isEdgeC1;
-
-                int localRoomSize = buildingSize;
-                int localR = isWall ? r : -1;
-                int localC = isWall ? c : -1;
-
-                Transform tile = SpawnFloorObject(tilePos, localRoomSize, r, c, isGhost: true);
+                Transform tile = SpawnFloorObject(tilePos, buildingSize, r, c, isGhost: true);
                 tile.SetParent(ghostParent.transform, true);
             }
         }
@@ -308,9 +265,8 @@ public class BuildingGenerator : MonoBehaviour
 
     private void DestroyRooms()
     {
-        foreach (var rooms in CurrentRooms)
-            rooms.Clear();
         CurrentRooms.Clear();
+        CurrentBuildingData = null;
     }
 
     private void GenerateRooms()
