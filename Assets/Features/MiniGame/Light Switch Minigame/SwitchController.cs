@@ -2,6 +2,7 @@ using NUnit.Framework;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using UnityEditor.Search;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,14 +25,14 @@ public class SwitchController : MonoBehaviour
     Image _lightPanel_Image;
     #endregion
     #region State
-    LightSwithState _currentState = LightSwithState.Off;
+    [field: SerializeField] public LightSwithState CurrentState { get; private set; } = LightSwithState.Off;
     #endregion
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         _lightPanel_Image = _lightPanelObj.GetComponent<Image>();
-        _lightPanel_Image.color = ON_COLOR;
+        _lightPanel_Image.color = CurrentState == LightSwithState.On ? ON_COLOR : OFF_COLOR;
     }
 
     // Update is called once per frame
@@ -42,7 +43,7 @@ public class SwitchController : MonoBehaviour
 
     public void FlipSwitch()
     {
-        switch(_currentState)
+        switch (CurrentState)
         {
             case LightSwithState.On:
                 TurnOff();
@@ -52,7 +53,6 @@ public class SwitchController : MonoBehaviour
                 break;
         }
 
-        //Debug.Log(LightSwitchMinigameController.SwitchesDict[this.gameObject]);
         TurnOffNearbySwitch();
     }
 
@@ -62,37 +62,45 @@ public class SwitchController : MonoBehaviour
 
         if (selectedIndex == 0)
         {
-            LightSwitchMinigameController.ListOfSwitches[selectedIndex + 1].GetComponent<SwitchController>().TurnOff();
+            SwitchController belowMostTop = LightSwitchMinigameController.ListOfSwitches[1].GetComponent<SwitchController>();
+            OppositeFlip(belowMostTop);
             return;
         }
 
-        if (selectedIndex == LightSwitchMinigameController.ListOfSwitches.Count-1)
+        if (selectedIndex == LightSwitchMinigameController.ListOfSwitches.Count - 1)
         {
-            LightSwitchMinigameController.ListOfSwitches[selectedIndex - 1].GetComponent<SwitchController>().TurnOff();
+            SwitchController aboveMostBottom = LightSwitchMinigameController.ListOfSwitches[LightSwitchMinigameController.ListOfSwitches.Count - 2].GetComponent<SwitchController>();
+            OppositeFlip(aboveMostBottom);
             return;
         }
 
-        // Top Switch
-        LightSwitchMinigameController.ListOfSwitches[selectedIndex + 1].GetComponent<SwitchController>().TurnOff();
-        // Bottom Switch
-        LightSwitchMinigameController.ListOfSwitches[selectedIndex - 1].GetComponent<SwitchController>().TurnOff();
+        SwitchController topSwitch = LightSwitchMinigameController.ListOfSwitches[selectedIndex - 1].GetComponent<SwitchController>() ?? null;
+        SwitchController bottomSwitch = LightSwitchMinigameController.ListOfSwitches[selectedIndex + 1].GetComponent<SwitchController>() ?? null;
+
+        OppositeFlip(topSwitch);
+        OppositeFlip(bottomSwitch);
     }
 
     public void TurnOn()
     {
-        _currentState = LightSwithState.On;
+        CurrentState = LightSwithState.On;
         _lightPanel_Image.color = ON_COLOR;
     }
     public void TurnOff()
     {
-        _currentState = LightSwithState.Off;
+        CurrentState = LightSwithState.Off;
         _lightPanel_Image.color = OFF_COLOR;
     }
 
-
+    public void OppositeFlip(SwitchController obj)
+    {
+        if (CurrentState == LightSwithState.On)
+        {
+            obj.TurnOff();
+        }
+        else
+        {
+            obj.TurnOn();
+        }
+    }
 }
-/*
- * Notes: 
- * Works. The first button is bugged to not work. Fix that
- * 
-*/
