@@ -11,7 +11,6 @@ public class BuildingGenerator : MonoBehaviour
     [Header("Template")]
     [SerializeField, Required] private Transform _floorPrefab;
     [SerializeField, Required] private Transform _rightEdgeWallPrefab;
-    [SerializeField, Required] private Transform _topRightCornerWallPrefab;
     [SerializeField, ReadOnly] private float _floorWidth;
     [SerializeField, ReadOnly] private float _floorHeight;
     [SerializeField, ReadOnly] private float _wallHeight;
@@ -35,6 +34,8 @@ public class BuildingGenerator : MonoBehaviour
     [field: SerializeField, ReadOnly] public GeneratedBuildingData CurrentBuildingData { get; private set; }
 
     private HashSet<Vector2Int> _occupiedTiles = new();
+    // Stores all spawned wall instances for window replacement and shuffling
+    private List<WallInstanceData> _spawnedWalls = new();
 
     private void Awake()
     {
@@ -86,6 +87,7 @@ public class BuildingGenerator : MonoBehaviour
             Destroy(building);
 
         SpawnedBuildings.Clear();
+        _spawnedWalls.Clear();
     }
 
     private void SpawnBuildings(GeneratedBuildingData buildingData)
@@ -113,11 +115,18 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Apply the planned windows after the base room exists.
+            // Apply the planned windows after the base room exists, using _spawnedWalls
             foreach (WindowPlacementData windowPlacement in room.WindowPlacements)
             {
-                Transform tile = tiles[windowPlacement.LocalPosition.x, windowPlacement.LocalPosition.y];
-                ReplaceWallWithWindow(tile, windowPlacement);
+                // Find all wall instances at this grid position (including corners)
+                foreach (var wall in _spawnedWalls)
+                {
+                    if (wall.GridPosition == nextOrigin + windowPlacement.LocalPosition)
+                    {
+                        // For now, allow window replacement on all wall types (edges and corners)
+                        ReplaceWallWithWindow(wall.WallTransform, windowPlacement);
+                    }
+                }
             }
 
             // Apply the planned appliances last so footprint rules stay stable.
@@ -138,10 +147,16 @@ public class BuildingGenerator : MonoBehaviour
     private void ReplaceWallWithWindow(Transform tile, WindowPlacementData windowPlacement)
     {
         // Remove the existing wall child.
+        Quaternion wallRotation = tile.rotation;
         if (tile.childCount > 0)
+        {
+            // Use the wall's rotation for the window
+            wallRotation = tile.GetChild(0).rotation;
             Destroy(tile.GetChild(0).gameObject);
+        }
 
-        Transform window = Instantiate(windowPlacement.WindowPrefab, tile.position, windowPlacement.Rotation);
+        // Use the wall's rotation for the window so it matches the replaced wall
+        Transform window = Instantiate(windowPlacement.WindowPrefab, tile.position, wallRotation);
         window.SetParent(tile, true);
     }
 
@@ -184,27 +199,71 @@ public class BuildingGenerator : MonoBehaviour
         bool isCornerBR = localR == roomSize - 1 && localC == roomSize - 1;
         bool isCornerTR = localR == 0 && localC == roomSize - 1;
 
-        Transform wall = null;
-
+        // For corners, spawn two right edge wall prefabs with different rotations
         if (isCornerTL)
-            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0));
+        {
+            // Left edge (Y+), Top edge (X-)
+            Transform wall1 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0)); // Top
+            wall1.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall1, WallOrientation.Top, CornerType.TopLeft));
+            Transform wall2 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0)); // Left
+            wall2.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall2, WallOrientation.Left, CornerType.TopLeft));
+        }
         else if (isCornerBL)
-            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0));
+        {
+            // Bottom edge (X+), Left edge (Y+)
+            Transform wall1 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity); // Bottom
+            wall1.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall1, WallOrientation.Bottom, CornerType.BottomLeft));
+            Transform wall2 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0)); // Left
+            wall2.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall2, WallOrientation.Left, CornerType.BottomLeft));
+        }
         else if (isCornerBR)
-            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.identity);
+        {
+            // Bottom edge (X+), Right edge (Y-)
+            Transform wall1 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity); // Bottom
+            wall1.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall1, WallOrientation.Bottom, CornerType.BottomRight));
+            Transform wall2 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0)); // Right
+            wall2.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall2, WallOrientation.Right, CornerType.BottomRight));
+        }
         else if (isCornerTR)
-            wall = Instantiate(_topRightCornerWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
+        {
+            // Top edge (X-), Right edge (Y-)
+            Transform wall1 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0)); // Top
+            wall1.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall1, WallOrientation.Top, CornerType.TopRight));
+            Transform wall2 = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0)); // Right
+            wall2.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Corner, wall2, WallOrientation.Right, CornerType.TopRight));
+        }
         else if (localR == 0)
-            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0));
-        else if (localR == roomSize - 1)
-            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity);
-        else if (localC == 0)
-            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0));
-        else if (localC == roomSize - 1)
-            wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
-
-        if (wall != null)
+        {
+            Transform wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 180, 0));
             wall.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Edge, wall, WallOrientation.Top));
+        }
+        else if (localR == roomSize - 1)
+        {
+            Transform wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.identity);
+            wall.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Edge, wall, WallOrientation.Bottom));
+        }
+        else if (localC == 0)
+        {
+            Transform wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 90, 0));
+            wall.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Edge, wall, WallOrientation.Left));
+        }
+        else if (localC == roomSize - 1)
+        {
+            Transform wall = Instantiate(_rightEdgeWallPrefab, spawnedFloor.position, Quaternion.Euler(0, 270, 0));
+            wall.SetParent(spawnedFloor, true);
+            _spawnedWalls.Add(new WallInstanceData(targetGridPos, WallType.Edge, wall, WallOrientation.Right));
+        }
 
         if (isGhost)
             CustomUtils.SetMaterialRecursive(spawnedFloor.gameObject, _ghostMaterial);

@@ -68,6 +68,9 @@ public class Appliance : MonoBehaviour
     // Draw the appliance footprint in the editor as green boxes on the XZ plane.
     private void OnDrawGizmos()
     {
+        if (UnityEditor.EditorApplication.isPlaying)
+            return;
+        
         Vector3 basePos = transform.position;
         Vector3 scale = transform.localScale;
         for (int x = 0; x < Size.x; x++)

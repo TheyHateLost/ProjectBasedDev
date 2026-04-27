@@ -19,10 +19,13 @@ public static class RoomPlacementPlanner
         List<Vector2Int> edgeWallTiles = GetEdgeWallTiles(room.Size);
         Shuffle(edgeWallTiles);
 
-        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), edgeWallTiles.Count);
+        // Use all wall tiles (including corners) for window placement
+        List<Vector2Int> allWallTiles = GetAllWallTiles(room.Size);
+        Shuffle(allWallTiles);
+        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), allWallTiles.Count);
         for (int i = 0; i < windowsToPlace && availableWindowPrefabs.Count > 0; i++)
         {
-            Vector2Int localPos = edgeWallTiles[i];
+            Vector2Int localPos = allWallTiles[i];
             Transform windowPrefab = availableWindowPrefabs[Random.Range(0, availableWindowPrefabs.Count)];
 
             room.WindowPlacements.Add(new WindowPlacementData
