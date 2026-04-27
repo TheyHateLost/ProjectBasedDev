@@ -12,7 +12,7 @@ public class Appliance : MonoBehaviour
     [field: Header("Minigame")]
     [field: SerializeField] public bool IsUsingMinigame { get; private set; } = true;
     [SerializeField, Required, ShowIf("IsUsingMinigame")] private GameObject _miniGame;
-    [field: SerializeField, Required, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
+    [field: SerializeField, ReadOnly, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
 
     private void Awake()
     {
@@ -63,4 +63,29 @@ public class Appliance : MonoBehaviour
         CustomUtils.SetMaterialRecursive(gameObject, MinigameManager.Instance.ApplianceFinishedMaterial);
         _selectableObject.RebindOriginalMaterials();
     }
+    
+#if UNITY_EDITOR
+    // Draw the appliance footprint in the editor as green boxes on the XZ plane.
+    private void OnDrawGizmos()
+    {
+        Vector3 basePos = transform.position;
+        Vector3 scale = transform.localScale;
+        for (int x = 0; x < Size.x; x++)
+        {
+            for (int y = 0; y < Size.y; y++)
+            {
+                // Root tile is red
+                if (x == 0 && y == 0)
+                    Gizmos.color = Color.red;
+                else
+                    Gizmos.color = Color.green;
+                
+                Vector3 offset = new Vector3(x * scale.x, 0, y * scale.z);
+                Vector3 center = basePos + offset;
+                Vector3 boxSize = new Vector3(scale.x, scale.y, scale.z);
+                Gizmos.DrawWireCube(center + (Vector3.up * scale.y / 2f), boxSize);
+            }
+        }
+    }
+#endif
 }
