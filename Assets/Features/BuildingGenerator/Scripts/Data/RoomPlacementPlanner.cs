@@ -3,6 +3,18 @@ using UnityEngine;
 
 public static class RoomPlacementPlanner
 {
+    private struct WallSlot
+    {
+        public Vector2Int Position;
+        public WallOrientation Orientation;
+
+        public WallSlot(Vector2Int position, WallOrientation orientation)
+        {
+            Position = position;
+            Orientation = orientation;
+        }
+    }
+
     public static GeneratedRoomData GenerateRoomPlan(RoomGenerationData source)
     {
         // Build the room as pure data first so the renderer stays replaceable.
@@ -19,20 +31,21 @@ public static class RoomPlacementPlanner
         List<Vector2Int> edgeWallTiles = GetEdgeWallTiles(room.Size);
         Shuffle(edgeWallTiles);
 
-        // Use all wall tiles (including corners) for window placement
-        List<Vector2Int> allWallTiles = GetAllWallTiles(room.Size);
-        Shuffle(allWallTiles);
-        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), allWallTiles.Count);
+        // Use all wall slots for window placement. Corners contribute two slots (one per wall).
+        List<WallSlot> allWallSlots = GetAllWallSlots(room.Size);
+        Shuffle(allWallSlots);
+        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), allWallSlots.Count);
         for (int i = 0; i < windowsToPlace && availableWindowPrefabs.Count > 0; i++)
         {
-            Vector2Int localPos = allWallTiles[i];
+            WallSlot selectedSlot = allWallSlots[i];
             Transform windowPrefab = availableWindowPrefabs[Random.Range(0, availableWindowPrefabs.Count)];
 
             room.WindowPlacements.Add(new WindowPlacementData
             {
                 WindowPrefab = windowPrefab,
-                LocalPosition = localPos,
-                Rotation = GetWallRotation(localPos, room.Size)
+                LocalPosition = selectedSlot.Position,
+                Orientation = selectedSlot.Orientation,
+                Rotation = GetWallRotation(selectedSlot.Orientation)
             });
         }
 
@@ -170,6 +183,37 @@ public static class RoomPlacementPlanner
         return wallTiles;
     }
 
+    private static List<WallSlot> GetAllWallSlots(int roomSize)
+    {
+        List<WallSlot> wallSlots = new List<WallSlot>();
+        for (int r = 0; r < roomSize; r++)
+        {
+            for (int c = 0; c < roomSize; c++)
+            {
+                bool isTop = r == 0;
+                bool isBottom = r == roomSize - 1;
+                bool isLeft = c == 0;
+                bool isRight = c == roomSize - 1;
+
+                if (!(isTop || isBottom || isLeft || isRight))
+                    continue;
+
+                Vector2Int pos = new Vector2Int(r, c);
+
+                if (isTop)
+                    wallSlots.Add(new WallSlot(pos, WallOrientation.Top));
+                if (isBottom)
+                    wallSlots.Add(new WallSlot(pos, WallOrientation.Bottom));
+                if (isLeft)
+                    wallSlots.Add(new WallSlot(pos, WallOrientation.Left));
+                if (isRight)
+                    wallSlots.Add(new WallSlot(pos, WallOrientation.Right));
+            }
+        }
+
+        return wallSlots;
+    }
+
     private static bool IsInsideRoom(Vector2Int tile, int roomSize)
     {
         return tile.x >= 0 && tile.x < roomSize && tile.y >= 0 && tile.y < roomSize;
@@ -208,18 +252,16 @@ public static class RoomPlacementPlanner
         return ApplianceOrientation.None;
     }
 
-    private static Quaternion GetWallRotation(Vector2Int localPos, int roomSize)
+    private static Quaternion GetWallRotation(WallOrientation orientation)
     {
-        if (localPos.x == 0)
-            return Quaternion.Euler(0, 180, 0);
-        if (localPos.x == roomSize - 1)
-            return Quaternion.identity;
-        if (localPos.y == 0)
-            return Quaternion.Euler(0, 90, 0);
-        if (localPos.y == roomSize - 1)
-            return Quaternion.Euler(0, 270, 0);
-
-        return Quaternion.identity;
+        return orientation switch
+        {
+            WallOrientation.Top => Quaternion.Euler(0, 180, 0),
+            WallOrientation.Bottom => Quaternion.identity,
+            WallOrientation.Left => Quaternion.Euler(0, 90, 0),
+            WallOrientation.Right => Quaternion.Euler(0, 270, 0),
+            _ => Quaternion.identity
+        };
     }
 
     private static Quaternion GetRotationForOrientation(ApplianceOrientation wallOrientation, ApplianceOrientation allowedOrientations)

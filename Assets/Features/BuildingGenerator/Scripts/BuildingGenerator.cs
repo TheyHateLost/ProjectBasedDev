@@ -134,13 +134,13 @@ public class BuildingGenerator : MonoBehaviour
             // Apply the planned windows after the base room exists, using _spawnedWalls
             foreach (WindowPlacementData windowPlacement in room.WindowPlacements)
             {
-                // Find all wall instances at this grid position (including corners)
+                // Match the exact wall instance selected by the planner (position + orientation).
                 foreach (var wall in roomWalls)
                 {
-                    if (wall.GridPosition == windowPlacement.LocalPosition)
+                    if (wall.GridPosition == windowPlacement.LocalPosition && wall.Orientation == windowPlacement.Orientation)
                     {
-                        // For now, allow window replacement on all wall types (edges and corners)
                         ReplaceWallWithWindow(wall.WallTransform, windowPlacement);
+                        break;
                     }
                 }
             }
