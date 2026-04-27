@@ -23,46 +23,78 @@ public class RuntimeRoomData
         Appliance.Orientation wallOrientation = GetWallOrientation(localPos, roomSize);
         if (wallOrientation == Appliance.Orientation.None)
             return false;
-        
-        // Try each appliance (randomly ordered) until one fits
+
         List<int> indices = Enumerable.Range(0, AppliancePrefabsToSpawn.Count).OrderBy(_ => Random.value).ToList();
 
         foreach (int i in indices)
         {
             Appliance prefab = AppliancePrefabsToSpawn[i];
 
-            // Remove the AllowedOrientations position filter entirely
-            // if ((prefab.AllowedOrientations & wallOrientation) == 0)
-            //     continue;
-
-            Vector2Int axis = GetWallAxis(wallOrientation);
-            Vector2Int inward = GetInwardDirection(wallOrientation);
-            List<Vector2Int> footprint = GetFootprint(localPos, axis, inward, prefab.Size, roomSize);
-
-            if (footprint == null || footprint.Any(t => _occupiedTiles.Contains(t)))
+            if (_occupiedTiles.Contains(localPos))
                 continue;
+
+            // Rotate first, then derive footprint directions.
+            Quaternion rotation = GetRotationForOrientation(wallOrientation, prefab.AllowedOrientations);
+            Vector3 worldRight   = rotation * Vector3.right;
+            Vector3 worldForward = rotation * Vector3.forward;
+            Vector2Int extendRight   = new Vector2Int(Mathf.RoundToInt(worldRight.x),   Mathf.RoundToInt(worldRight.z));
+            Vector2Int extendForward = new Vector2Int(Mathf.RoundToInt(worldForward.x), Mathf.RoundToInt(worldForward.z));
+
+            bool fits = true;
+            List<Vector2Int> footprint = new List<Vector2Int> { localPos };
+
+            // Check width along local right.
+            for (int x = 1; x < prefab.Size.x; x++)
+            {
+                Vector2Int t = localPos + extendRight * x;
+                if (t.x < 0 || t.x >= roomSize || t.y < 0 || t.y >= roomSize || _occupiedTiles.Contains(t))
+                {
+                    fits = false;
+                    break;
+                }
+                footprint.Add(t);
+            }
+
+            if (!fits) continue;
+
+            // Check depth along local forward.
+            for (int y = 1; y < prefab.Size.y; y++)
+            {
+                Vector2Int t = localPos + extendForward * y;
+                if (t.x < 0 || t.x >= roomSize || t.y < 0 || t.y >= roomSize || _occupiedTiles.Contains(t))
+                {
+                    fits = false;
+                    break;
+                }
+                footprint.Add(t);
+
+                for (int x = 1; x < prefab.Size.x; x++)
+                {
+                    Vector2Int ti = t + extendRight * x;
+                    if (ti.x < 0 || ti.x >= roomSize || ti.y < 0 || ti.y >= roomSize || _occupiedTiles.Contains(ti))
+                    {
+                        fits = false;
+                        break;
+                    }
+                    footprint.Add(ti);
+                }
+
+                if (!fits) break;
+            }
+
+            if (!fits) continue;
 
             foreach (var t in footprint)
                 _occupiedTiles.Add(t);
 
             Vector3 spawnPos = tile.position + Vector3.up * (floorHeight / 2f);
-            if (footprint.Count > 1)
-            {
-                Vector3 axisOffset  = new Vector3(axis.x, 0, axis.y) * (floorWidth * (prefab.Size.x - 1));
-                Vector3 depthOffset = new Vector3(inward.x, 0, inward.y) * (floorWidth * (prefab.Size.y - 1));
-                Vector3 otherWorld  = tile.position + axisOffset + depthOffset;
-                spawnPos = (tile.position + otherWorld) / 2f + Vector3.up * (floorHeight / 2f);
-            }
-
-            // wallOrientation drives position, AllowedOrientations drives which face touches the wall
-            Quaternion rotation = GetRotationForOrientation(wallOrientation, prefab.AllowedOrientations);
             Appliance spawned = GameObject.Instantiate(prefab, spawnPos, rotation);
             spawned.transform.SetParent(tile, true);
             SpawnedAppliances.Add(spawned);
             AppliancePrefabsToSpawn.RemoveAt(i);
             return true;
         }
-        
+
         return false;
     }
 
@@ -100,11 +132,11 @@ public class RuntimeRoomData
     private List<Vector2Int> GetFootprint(Vector2Int origin, Vector2Int axis, Vector2Int inward, Vector2Int size, int roomSize)
     {
         var tiles = new List<Vector2Int>();
-        for (int x = 0; x < size.x; x++)       // X: along the wall
+        for (int x = 0; x < size.x; x++)
         {
-            for (int y = 0; y < size.y; y++)    // Y: into the room (Z axis)
+            for (int y = 0; y < size.y; y++)
             {
-                Vector2Int t = origin + axis * x + inward * y;
+                Vector2Int t = origin + inward * x + axis * y;
                 if (t.x < 0 || t.x >= roomSize || t.y < 0 || t.y >= roomSize)
                     return null;
                 tiles.Add(t);
@@ -115,7 +147,7 @@ public class RuntimeRoomData
 
     private Quaternion GetRotationForOrientation(Appliance.Orientation wallOrientation, Appliance.Orientation allowedOrientations)
     {
-        // Pick a random allowed appliance face
+        // Pick a random allowed face.
         var allowed = new List<Appliance.Orientation>();
         if ((allowedOrientations & Appliance.Orientation.Back)  != 0) allowed.Add(Appliance.Orientation.Back);
         if ((allowedOrientations & Appliance.Orientation.Front) != 0) allowed.Add(Appliance.Orientation.Front);
@@ -124,8 +156,7 @@ public class RuntimeRoomData
 
         Appliance.Orientation applianceFace = allowed[Random.Range(0, allowed.Count)];
 
-        // What direction does the wall face inward (the direction the appliance should face away from)?
-        // i.e. the wall normal pointing into the room
+        // Wall normal pointing into the room.
         float wallYaw = wallOrientation switch
         {
             Appliance.Orientation.Back  => 90f,
@@ -135,13 +166,13 @@ public class RuntimeRoomData
             _ => 0f
         };
 
-        // How much to rotate the prefab so the chosen face points toward the wall
+        // Rotate so the chosen face points toward the wall.
         float faceYaw = applianceFace switch
         {
-            Appliance.Orientation.Back  => 0f,    // -Z already faces wall direction by default
-            Appliance.Orientation.Front => 180f,  // rotate 180 so +Z faces wall
-            Appliance.Orientation.Left  => 90f,   // rotate 90 so -X faces wall
-            Appliance.Orientation.Right => 270f,  // rotate 270 so +X faces wall
+            Appliance.Orientation.Back  => 0f,
+            Appliance.Orientation.Front => 180f,
+            Appliance.Orientation.Left  => 90f,
+            Appliance.Orientation.Right => 270f,
             _ => 0f
         };
 

@@ -103,7 +103,7 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Collect edge (wall) tiles — skip corners so windows only appear on flat wall runs
+            // Collect edge wall tiles, excluding corners.
             List<(Vector2Int local, Transform tile)> edgeWallTiles = new();
             for (int r = 0; r < roomSize; r++)
             {
@@ -117,7 +117,7 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Shuffle and replace the first WindowCount edge walls with a random window prefab
+            // Randomly replace some edge walls with windows.
             if (room.WindowPrefabs != null && room.WindowPrefabs.Count > 0 && room.WindowCount > 0)
             {
                 for (int i = edgeWallTiles.Count - 1; i > 0; i--)
@@ -134,7 +134,7 @@ public class BuildingGenerator : MonoBehaviour
                 }
             }
 
-            // Shuffle remaining wall tiles for appliance placement
+            // Shuffle wall tiles before placing appliances.
             List<(Vector2Int local, Transform tile)> allWallTiles = new();
             for (int r = 0; r < roomSize; r++)
             {
@@ -160,16 +160,15 @@ public class BuildingGenerator : MonoBehaviour
     }
 
     /// <summary>
-    /// Destroys the wall child on a tile and replaces it with a random window prefab,
-    /// rotated to match the wall face direction.
+    /// Replaces a tile wall with a random window and matching rotation.
     /// </summary>
     private void ReplaceWallWithWindow(Transform tile, Vector2Int local, int roomSize, List<Transform> windowPrefabs)
     {
-        // Destroy the existing wall child (index 0 - set by SpawnFloorObject)
+        // Remove the existing wall child.
         if (tile.childCount > 0)
             Destroy(tile.GetChild(0).gameObject);
 
-        // Determine the rotation that was used for the wall on this edge
+        // Match the wall-facing rotation for this edge.
         Quaternion rotation = Quaternion.identity;
         if (local.x == 0)
             rotation = Quaternion.Euler(0, 180, 0);
