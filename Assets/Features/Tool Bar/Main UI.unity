@@ -1064,6 +1064,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 28.479
       objectReference: {fileID: 0}
+    - target: {fileID: 2524248015830932770, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
+      propertyPath: <CurrentState>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2787108270383347827, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 48
@@ -1140,6 +1144,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -234
       objectReference: {fileID: 0}
+    - target: {fileID: 5751537613863812375, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
+      propertyPath: <CurrentState>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5960174448909973912, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
       propertyPath: m_SizeDelta.x
       value: 27
@@ -1164,9 +1172,17 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 43
       objectReference: {fileID: 0}
+    - target: {fileID: 6372285329638195948, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
+      propertyPath: <CurrentState>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8448091315401656496, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
       propertyPath: m_Name
       value: LightSwitch MiniGame Canvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 8448091315401656496, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9036519116869605609, guid: 4f6d99251d88e1e4eb67b7a59fd3cef8, type: 3}
       propertyPath: m_Pivot.x
