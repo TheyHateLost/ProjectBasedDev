@@ -18,9 +18,9 @@ public class FloorPlanSO : ScriptableObject
             roomData.OnValidate();
     }
     
-    public List<RuntimeRoomData> GenerateRoomDataList()
+    public List<GeneratedRoomData> GenerateRoomDataList()
     {
-        List<RuntimeRoomData> result = new List<RuntimeRoomData>();
+        List<GeneratedRoomData> result = new List<GeneratedRoomData>();
         foreach (RoomGenerationData data in RoomDataList)
             result.Add(data.GenerateRoom());
         return result;

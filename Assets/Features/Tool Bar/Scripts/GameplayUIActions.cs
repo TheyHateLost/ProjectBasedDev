@@ -1,16 +1,18 @@
+using Sirenix.OdinInspector;
 using UnityEngine;
 //using UnityEngine.UIElements;
 
 public class GameplayUIActions : MonoBehaviour
 {
     [Header("Notes Section")]
-    [SerializeField] GameObject _notesPanel;
+    [SerializeField, Required] private GameObject _notesPanel;
+    [SerializeField, Required] private GameObject _notesToggleButton;
 
     [Header("Tools Section")]
-    [SerializeField] GameObject _toolBarObj;
+    [SerializeField, Required] private GameObject _toolBarObj;
 
-    bool _isToolbarActive = false;
-    bool _isNotesActive = false;
+    private bool _isToolbarActive = false;
+    private bool _isNotesActive = false;
     
     private void OnEnable()
     {
@@ -50,6 +52,23 @@ public class GameplayUIActions : MonoBehaviour
 
     public void TurnOnNotes() => _notesPanel.SetActive(true);
     public void TurnOffNotes() => _notesPanel.SetActive(false);
+
+    /// <summary>
+    /// Toggles the notes and notes button.
+    /// </summary>
+    public void EnableNotesFeature(bool isEnabled)
+    {
+        if (isEnabled)
+        {
+            _notesToggleButton.SetActive(true);
+            TurnOnNotes();
+        }
+        else
+        {
+            _notesToggleButton.SetActive(false);
+            TurnOffNotes();
+        }
+    }
 
     void TurningOnAndOffToolbar()
     {

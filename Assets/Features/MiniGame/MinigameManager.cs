@@ -1,3 +1,4 @@
+using System;
 using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.Events;
@@ -15,6 +16,7 @@ public class MinigameManager : Singleton<MinigameManager>
     [field: SerializeField] public UnityEvent OnBuildingRepairFinished { get; private set; } = new();
     
     [field: SerializeField, ReadOnly] public int MinigamesRemaining { get; private set; }
+    [field: SerializeField, ReadOnly] public float TotalMinigameTimer { get; private set; }
 
     public void StartMinigame(Appliance appliance, GameObject minigameObject)
     {
@@ -45,12 +47,31 @@ public class MinigameManager : Singleton<MinigameManager>
 
         if (MinigamesRemaining <= 0)
         {
-            OnBuildingRepairFinished?.Invoke();
+            FinishBuildingRepair();
         }
+    }
+    
+    [Button("Cheat Finish Building Repair", ButtonSizes.Large)]
+    private void FinishBuildingRepair()
+    {
+        OnBuildingRepairFinished?.Invoke();
     }
 
     public void RegisterAppliance()
     {
         MinigamesRemaining++;
+    }
+
+    private void Update()
+    {
+        HandleMinigameTimer();
+    }
+
+    private void HandleMinigameTimer()
+    {
+        if (!IsMinigameActive)
+            return;
+        
+        TotalMinigameTimer += Time.deltaTime;
     }
 }

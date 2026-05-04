@@ -24,15 +24,8 @@ public class RoomGenerationData
             _roomSizeRange.Max = _roomSizeRange.Min;
     }
 
-    public RuntimeRoomData GenerateRoom()
+    public GeneratedRoomData GenerateRoom()
     {
-        RuntimeRoomData roomData = new RuntimeRoomData();
-        roomData.Type = Type;
-        roomData.Size = _roomSizeRange.RandomValueWithBounds();
-        roomData.AppliancePrefabsToSpawn.AddRange(RequiredAppliances);
-        
-        roomData.WindowCount = WindowCountRange.RandomValueWithBounds();
-        roomData.WindowPrefabs.AddRange(WindowPrefabs);
-        return roomData;
+        return RoomPlacementPlanner.GenerateRoomPlan(this);
     }
 }

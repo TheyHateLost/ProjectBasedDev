@@ -38,8 +38,12 @@ public class ObjectSelector : MonoBehaviour
         {
             DeselectCurrent();
             CurrentlySelectedObject = hitSelectableObject;
-            if (CurrentlySelectedObject != null)
+            
+            // if valid
+            if (CurrentlySelectedObject != null && CurrentlySelectedObject.enabled)
+            {
                 CurrentlySelectedObject.ChangeMaterials(_selectedMaterial);
+            }
         }
     }
 
