@@ -123,6 +123,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::SwitchController
   _lightPanelObj: {fileID: 3631464201645822848}
+  <CurrentState>k__BackingField: 1
 --- !u!1 &6566493148022399355
 GameObject:
   m_ObjectHideFlags: 0

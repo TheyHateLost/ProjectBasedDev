@@ -14,6 +14,8 @@ public enum LightSwithState
 
 public class SwitchController : MonoBehaviour
 {
+    private LightSwitchMinigameController _minigameController;
+    
     #region GameObjects
     [SerializeField] GameObject _lightPanelObj;
     #endregion
@@ -28,54 +30,46 @@ public class SwitchController : MonoBehaviour
     [field: SerializeField] public LightSwithState CurrentState { get; private set; } = LightSwithState.Off;
     #endregion
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    public void Init(LightSwitchMinigameController minigameController)
+    {
+        _minigameController = minigameController;
+    }
+    
     void Start()
     {
         _lightPanel_Image = _lightPanelObj.GetComponent<Image>();
         _lightPanel_Image.color = CurrentState == LightSwithState.On ? ON_COLOR : OFF_COLOR;
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-
-    }
-
     public void FlipSwitch()
     {
-        switch (CurrentState)
-        {
-            case LightSwithState.On:
-                TurnOff();
-                break;
-            case LightSwithState.Off:
-                TurnOn();
-                break;
-        }
-
+        //Debug.Log($"Flipped switch index {_minigameController.Switches.FindIndex(controller => controller == this)}. Previous state: {CurrentState}");
+        
+        OppositeFlip(this);
         TurnOffNearbySwitch();
+        _minigameController.CheckIfAllSwitchesAreOn();
     }
 
     void TurnOffNearbySwitch()
     {
-        int selectedIndex = LightSwitchMinigameController.SwitchesDict[this.gameObject];
+        int selectedIndex = _minigameController.Switches.FindIndex(controller => controller == this);
 
         if (selectedIndex == 0)
         {
-            SwitchController belowMostTop = LightSwitchMinigameController.ListOfSwitches[1].GetComponent<SwitchController>();
+            SwitchController belowMostTop = _minigameController.Switches[1];
             OppositeFlip(belowMostTop);
             return;
         }
 
-        if (selectedIndex == LightSwitchMinigameController.ListOfSwitches.Count - 1)
+        if (selectedIndex == _minigameController.Switches.Count - 1)
         {
-            SwitchController aboveMostBottom = LightSwitchMinigameController.ListOfSwitches[LightSwitchMinigameController.ListOfSwitches.Count - 2].GetComponent<SwitchController>();
+            SwitchController aboveMostBottom = _minigameController.Switches[_minigameController.Switches.Count - 2];
             OppositeFlip(aboveMostBottom);
             return;
         }
 
-        SwitchController topSwitch = LightSwitchMinigameController.ListOfSwitches[selectedIndex - 1].GetComponent<SwitchController>() ?? null;
-        SwitchController bottomSwitch = LightSwitchMinigameController.ListOfSwitches[selectedIndex + 1].GetComponent<SwitchController>() ?? null;
+        SwitchController topSwitch = _minigameController.Switches[selectedIndex - 1];
+        SwitchController bottomSwitch =_minigameController.Switches[selectedIndex + 1];
 
         OppositeFlip(topSwitch);
         OppositeFlip(bottomSwitch);
@@ -86,6 +80,7 @@ public class SwitchController : MonoBehaviour
         CurrentState = LightSwithState.On;
         _lightPanel_Image.color = ON_COLOR;
     }
+    
     public void TurnOff()
     {
         CurrentState = LightSwithState.Off;
@@ -94,12 +89,14 @@ public class SwitchController : MonoBehaviour
 
     public void OppositeFlip(SwitchController obj)
     {
-        if (CurrentState == LightSwithState.On)
+        if (obj.CurrentState == LightSwithState.On)
         {
+            //Debug.Log($"Turned off switch index {_minigameController.Switches.FindIndex(controller => controller == obj)}. Previous state: {obj.CurrentState}");
             obj.TurnOff();
         }
         else
         {
+            //Debug.Log($"Turned on switch index {_minigameController.Switches.FindIndex(controller => controller == obj)}. Previous state: {obj.CurrentState}");
             obj.TurnOn();
         }
     }
