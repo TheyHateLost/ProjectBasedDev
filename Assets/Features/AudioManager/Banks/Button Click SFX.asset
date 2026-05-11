@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: e36ba0b9963a42e2b2af8d7650767913, type: 3}
-  m_Name: MusicBank
+  m_Name: Button Click SFX
   m_EditorClassIdentifier: Assembly-CSharp::AudioBankSO
   _bank:
     _serializedList:
-    - Key: {fileID: 11400000, guid: 14baa7ac54c1c9945bb47db2157c334e, type: 2}
-      Value: {fileID: 8300000, guid: e37faaacef03c8d49bd6a9f3f2074fc6, type: 3}
+    - Key: {fileID: 11400000, guid: 64872490b15925046ad33e7d3f64d6ba, type: 2}
+      Value: {fileID: 8300000, guid: f64e4f5b9172ce94f884d35a14c65b3c, type: 3}
