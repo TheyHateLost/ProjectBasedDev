@@ -21,5 +21,32 @@ public class ToolManager : Singleton<ToolManager>
     }
 
     public Tools GetTool() => _currentTool;
-    public void SetTool(Tools newTool) => _currentTool = newTool;
+    public void SetTool(Tools newTool)
+    {
+      _currentTool = newTool;  
+      PlayToolSound();
+    }  
+        
+
+    void PlayToolSound()
+    {
+        switch(_currentTool)
+        {
+            case Tools.RegularMouse:
+            // Add Audio Code
+                break;
+            case Tools.Screwdriver:
+            // Add Audio Code
+                break;
+            case Tools.MagnifyingGlass:
+            // Add Audio Code
+                break;
+            case Tools.InsulationCan:
+            // Add Audio Code
+                break;
+            case Tools.Blowdoor:
+            // Add Audio Code
+                break;
+        }
+    }
 }
