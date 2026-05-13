@@ -1,12 +1,19 @@
 using Sirenix.OdinInspector;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 //using UnityEngine.UIElements;
 
 public class GameplayUIActions : MonoBehaviour
 {
-    [Header("Notes Section")]
-    [SerializeField, Required] private GameObject _notesPanel;
-    [SerializeField, Required] private GameObject _notesToggleButton;
+    [Header("Personal Notes Section")]
+    [SerializeField, Required] private GameObject _personalNotesPanel;
+    [SerializeField, Required] private GameObject _personalNotesToggleButton;
+
+    [Header("Prerequisite Notes Section")]
+    [SerializeField, Required] private GameObject _prerequisiteNotesPanel;
+    [SerializeField, Required] private TMP_InputField _prerequisiteNotesText;
+
 
     [Header("Tools Section")]
     [SerializeField, Required] private GameObject _toolBarObj;
@@ -32,7 +39,7 @@ public class GameplayUIActions : MonoBehaviour
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        _notesPanel.SetActive(_isNotesActive);
+        _personalNotesPanel.SetActive(_isNotesActive);
         _toolBarObj.SetActive(_isToolbarActive);
 
         // Raising the z-index
@@ -50,8 +57,8 @@ public class GameplayUIActions : MonoBehaviour
         ToolManager.Instance.SetTool(icon.GetTool());
     }
 
-    public void TurnOnNotes() => _notesPanel.SetActive(true);
-    public void TurnOffNotes() => _notesPanel.SetActive(false);
+    public void TurnOnNotes() => _personalNotesPanel.SetActive(true);
+    public void TurnOffNotes() => _personalNotesPanel.SetActive(false);
 
     /// <summary>
     /// Toggles the notes and notes button.
@@ -60,12 +67,12 @@ public class GameplayUIActions : MonoBehaviour
     {
         if (isEnabled)
         {
-            _notesToggleButton.SetActive(true);
+            _personalNotesToggleButton.SetActive(true);
             TurnOnNotes();
         }
         else
         {
-            _notesToggleButton.SetActive(false);
+            _personalNotesToggleButton.SetActive(false);
             TurnOffNotes();
         }
     }

@@ -1,6 +1,9 @@
+using System.Collections;
 using AYellowpaper.SerializedCollections;
 using NUnit.Framework;
 using System.Collections.Generic;
+using System.Linq;
+using Sirenix.OdinInspector;
 using UnityEngine;
 
 public class LightSwitchMinigameController : MonoBehaviour
@@ -13,27 +16,17 @@ public class LightSwitchMinigameController : MonoBehaviour
     #endregion
     [SerializeField] float _closeMinigameTimer = 3f;
 
-    int _numOfSwitches;
-    public static List<GameObject> ListOfSwitches { get; private set; }
-    public static SerializedDictionary<GameObject, int> SwitchesDict { get; private set; }
-
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
+    [SerializeField] private Transform _switchContainerTransform;
+    [field: SerializeField, ReadOnly] public List<SwitchController> Switches { get; private set; } = new();
+    
     void Start()
     {
         _startBtn.SetActive(true);
         _actualGame.SetActive(false);
 
-        _numOfSwitches = _backgroundPanelObj.transform.childCount;
-        ListOfSwitches = new List<GameObject>();
-        SwitchesDict = new();
-
-        ListSetup();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        Switches = _switchContainerTransform.GetComponentsInChildren<SwitchController>().ToList();
+        foreach(SwitchController controller in Switches)
+            controller.Init(this);
     }
 
     public void TurnOnMinigame()
@@ -45,14 +38,24 @@ public class LightSwitchMinigameController : MonoBehaviour
         }
     }
 
-    void ListSetup()
+    public void CheckIfAllSwitchesAreOn()
     {
-        for (int i = 0; i < _numOfSwitches; i++)
+        if (Switches.Count > 0 && Switches.All(controller => controller.CurrentState == LightSwithState.On))
         {
-            GameObject currChild = _backgroundPanelObj.transform.GetChild(i).gameObject;
-
-            ListOfSwitches.Add(currChild);
-            SwitchesDict.Add(currChild, i);
+            StartCoroutine(OnAllSwitchesAreOn());
         }
+    }
+
+    private IEnumerator OnAllSwitchesAreOn()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+
+        yield return new WaitForSeconds(_closeMinigameTimer);
+
+        _actualGame.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        gameObject.SetActive(false);
+        
+        MinigameManager.Instance.FinishCurrentMinigame();
     }
 }
