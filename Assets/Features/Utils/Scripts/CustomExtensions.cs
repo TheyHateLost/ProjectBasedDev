@@ -1,5 +1,8 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public static class CustomExtensions
 {
@@ -59,6 +62,28 @@ public static class CustomExtensions
         for (int i = 0; i < transforms.Length; i++)
         {
             transforms[i].gameObject.layer = layer;
+        }
+    }
+    
+    /// <summary>
+    /// Shuffles the sibling order of all children under the given transform.
+    /// </summary>
+    public static void ShuffleChildren(this Transform parent)
+    {
+        List<Transform> children = Enumerable.Range(0, parent.childCount)
+            .Select(i => parent.GetChild(i))
+            .ToList();
+
+        // Fisher-Yates shuffle
+        for (int i = children.Count - 1; i > 0; i--)
+        {
+            int j = Random.Range(0, i + 1);
+            (children[i], children[j]) = (children[j], children[i]);
+        }
+
+        for (int i = 0; i < children.Count; i++)
+        {
+            children[i].SetSiblingIndex(i);
         }
     }
 }
