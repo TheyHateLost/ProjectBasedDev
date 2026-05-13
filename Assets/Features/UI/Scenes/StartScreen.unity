@@ -254,9 +254,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 418518570510506534, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 130.6667
+      objectReference: {fileID: 0}
+    - target: {fileID: 418518570510506534, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 46.8889
+      objectReference: {fileID: 0}
+    - target: {fileID: 418518570510506534, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 0.0000019073486
+      objectReference: {fileID: 0}
+    - target: {fileID: 418518570510506534, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -95.07466
+      objectReference: {fileID: 0}
     - target: {fileID: 1136897012706718687, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
       propertyPath: m_text
-      value: Befector
+      value: BEP LAB
       objectReference: {fileID: 0}
     - target: {fileID: 1136897012706718687, guid: ac93f247b2b7346478b1a7a0fdc0f36e, type: 3}
       propertyPath: m_fontSize
