@@ -16,7 +16,7 @@ public class Appliance : MonoBehaviour
     [SerializeField, Required, ShowIf("IsUsingMinigame")] private GameObject _miniGame;
     [field: SerializeField, ReadOnly, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
 
-    [field: SerializeField] TMP_InputField _prerequisiteNotes;
+    TMP_InputField _prerequisiteNotes;
 
     private void Awake()
     {
