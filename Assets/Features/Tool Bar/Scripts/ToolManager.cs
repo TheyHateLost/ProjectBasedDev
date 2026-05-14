@@ -4,12 +4,12 @@ public class ToolManager : Singleton<ToolManager>
 {
     Tools _currentTool;
     [Header("Tools Audio")]
-    [SerializedField] private AudioSource _audioSource;
-    [SerializedField] private AudioClip regularMouseSound;
-    [SerializedField] private AudioClip ScrewdriverSound;
-    [SerializedField] private AudioClip MagnifyingGlassSound;
-    [SerializedField] private AudioClip InsulationCanSound; 
-    [SerailzedField] private AudioClip BlowdoorSound; 
+    [SerializeField] private AudioSource _audioSource;
+    [SerializeField] private AudioClip regularMouseSound;
+    [SerializeField] private AudioClip ScrewdriverSound;
+    [SerializeField] private AudioClip MagnifyingGlassSound;
+    [SerializeField] private AudioClip InsulationCanSound; 
+    [SerializeField] private AudioClip BlowdoorSound; 
 
  
     
@@ -40,25 +40,26 @@ public class ToolManager : Singleton<ToolManager>
 
     void PlayToolSound()
     {
+        AudioClip clip = null;
         switch(_currentTool)
         {
             case Tools.RegularMouse:
             clip = regularMouseSound;
                 break;
             case Tools.Screwdriver:
-            clip = ScrewdriverSound 
+            clip = ScrewdriverSound;
                 break;
             case Tools.MagnifyingGlass:
-            clip = MagnifyingGlassSound
+            clip = MagnifyingGlassSound;
                 break;
             case Tools.InsulationCan:
-            clip = InsulationCanSound
+            clip = InsulationCanSound;
                 break;
             case Tools.Blowdoor:
-            clip = BlowdoorSound
+            clip = BlowdoorSound;
                 break;
-            if (clip != null && _audioSource != null)
-            _audioSource.PlayOneShot(clip);
         }
+         if (clip != null && _audioSource != null)
+            _audioSource.PlayOneShot(clip);
     }
 }
