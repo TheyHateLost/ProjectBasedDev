@@ -142,6 +142,7 @@ MonoBehaviour:
   <IsUsingMinigame>k__BackingField: 1
   _miniGame: {fileID: 6290352245838795385, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
   <IsMinigameFinished>k__BackingField: 0
+  _prerequisiteNotes: {fileID: 0}
 --- !u!1001 &3570872543796344216
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -268,6 +269,18 @@ MonoBehaviour:
   <OnClicked>k__BackingField:
     m_PersistentCalls:
       m_Calls:
+      - m_Target: {fileID: 6238330328630704509}
+        m_TargetAssemblyTypeName: Appliance, Assembly-CSharp
+        m_MethodName: AddDiscoveryText
+        m_Mode: 2
+        m_Arguments:
+          m_ObjectArgument: {fileID: 11400000, guid: fd81a25e88b921d4cb39fd332ea482f5, type: 2}
+          m_ObjectArgumentAssemblyTypeName: DiscoveryTextSO, Assembly-CSharp
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
       - m_Target: {fileID: 6238330328630704509}
         m_TargetAssemblyTypeName: Appliance, Assembly-CSharp
         m_MethodName: StartMinigame

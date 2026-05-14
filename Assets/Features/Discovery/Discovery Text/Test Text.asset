@@ -10,7 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 932d76ec03b1969458f0148d520eeab7, type: 3}
-  m_Name: New Discovery Text
+  m_Name: Test Text
   m_EditorClassIdentifier: Assembly-CSharp::DiscoveryTextSO
   text: 'Hello World
 
