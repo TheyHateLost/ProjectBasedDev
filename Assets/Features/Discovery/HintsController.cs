@@ -20,6 +20,6 @@ public class HintsController : MonoBehaviour
 
     public void AddingHint(DiscoveryTextSO discoverText)
     {
-        _prerequisiteNotesText.text += (discoverText.text);
+        _prerequisiteNotesText.text += (discoverText.text + "\n" + "\n");
     }
 }

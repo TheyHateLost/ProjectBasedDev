@@ -1,5 +1,7 @@
-﻿using System;
-using Sirenix.OdinInspector;
+﻿using Sirenix.OdinInspector;
+using System;
+using TMPro;
+using Unity.Properties;
 using UnityEngine;
 
 public class Appliance : MonoBehaviour
@@ -14,9 +16,12 @@ public class Appliance : MonoBehaviour
     [SerializeField, Required, ShowIf("IsUsingMinigame")] private GameObject _miniGame;
     [field: SerializeField, ReadOnly, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
 
+    [field: SerializeField] TMP_InputField _prerequisiteNotes;
+
     private void Awake()
     {
         _selectableObject = GetComponentInChildren<SelectableObject>();
+        _prerequisiteNotes = GameObject.Find("PrerequisiteNotesInputField").GetComponent<TMP_InputField>();
     }
 
     private void Start()
@@ -43,6 +48,12 @@ public class Appliance : MonoBehaviour
         // Start the minigame only after the appliance has passed its basic checks.
         MinigameManager.Instance.StartMinigame(this, _miniGame);
     }
+
+    public void AddDiscoveryText(DiscoveryTextSO discoverText)
+    {
+        _prerequisiteNotes.text += (discoverText.text + "\n" + "\n");
+    }
+
 
     [Button("Cheat: Finish Minigame", ButtonSizes.Large), ShowIf("IsUsingMinigame")]
     public void CheatFinishMinigame()
