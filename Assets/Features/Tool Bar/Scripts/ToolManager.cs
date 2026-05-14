@@ -3,6 +3,16 @@ using UnityEngine;
 public class ToolManager : Singleton<ToolManager>
 {
     Tools _currentTool;
+    [Header("Tools Audio")]
+    [SerializedField] private AudioSource _audioSource;
+    [SerializedField] private AudioClip regularMouseSound;
+    [SerializedField] private AudioClip ScrewdriverSound;
+    [SerializedField] private AudioClip MagnifyingGlassSound;
+    [SerializedField] private AudioClip InsulationCanSound; 
+    [SerailzedField] private AudioClip BlowdoorSound; 
+
+ 
+    
 
     private void Awake()
     {
@@ -33,20 +43,22 @@ public class ToolManager : Singleton<ToolManager>
         switch(_currentTool)
         {
             case Tools.RegularMouse:
-            // Add Audio Code
+            clip = regularMouseSound;
                 break;
             case Tools.Screwdriver:
-            // Add Audio Code
+            clip = ScrewdriverSound 
                 break;
             case Tools.MagnifyingGlass:
-            // Add Audio Code
+            clip = MagnifyingGlassSound
                 break;
             case Tools.InsulationCan:
-            // Add Audio Code
+            clip = InsulationCanSound
                 break;
             case Tools.Blowdoor:
-            // Add Audio Code
+            clip = BlowdoorSound
                 break;
+            if (clip != null && _audioSource != null)
+            _audioSource.PlayOneShot(clip);
         }
     }
 }
