@@ -5,6 +5,9 @@ using UnityEngine.UI;
 
 public class HoleController : MonoBehaviour, IPointerClickHandler
 {
+    public Sprite CrackedSprite;
+    public Sprite FilledSprite;
+
     public static event Action OnHoleComplete = delegate { };
     bool _isClicked = false;
 
@@ -23,9 +26,14 @@ public class HoleController : MonoBehaviour, IPointerClickHandler
     {
         if (ToolManager.Instance.GetTool() == Tools.InsulationCan && !_isClicked)
         {
-            eventData.pointerClick.GetComponent<Image>().color = Color.black;
+            eventData.pointerClick.GetComponent<Image>().color = Color.red;
             OnHoleComplete.Invoke();
             _isClicked = true;
         }
+    }
+
+    public void ImgChange()
+    { 
+        CrackedSprite = FilledSprite;
     }
 }
