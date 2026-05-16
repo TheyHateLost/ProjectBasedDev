@@ -87,4 +87,9 @@ public class GameplayUIActions : MonoBehaviour
         else
             TurnOffNotes();
     }
+
+    public void ClearPrerequisiteNotes()
+    {
+        _prerequisiteNotesText.text = "";
+    }
 }

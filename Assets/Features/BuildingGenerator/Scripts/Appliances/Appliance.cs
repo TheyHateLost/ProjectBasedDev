@@ -74,7 +74,7 @@ public class Appliance : MonoBehaviour
         CustomUtils.SetMaterialRecursive(gameObject, MinigameManager.Instance.ApplianceFinishedMaterial);
         _selectableObject.RebindOriginalMaterials();
     }
-    
+
 #if UNITY_EDITOR
     // Draw the appliance footprint in the editor as green boxes on the XZ plane.
     private void OnDrawGizmos()
