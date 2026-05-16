@@ -51,7 +51,10 @@ public class Appliance : MonoBehaviour
 
     public void AddDiscoveryText(DiscoveryTextSO discoverText)
     {
-        _prerequisiteNotes.text += (discoverText.text + "\n" + "\n");
+        if  (!IsMinigameFinished)
+        {
+            _prerequisiteNotes.text += (discoverText.text + "\n" + "\n");
+        }
     }
 
 
