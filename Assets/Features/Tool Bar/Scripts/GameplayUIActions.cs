@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using System;
 //using UnityEngine.UIElements;
 
 public class GameplayUIActions : MonoBehaviour
@@ -20,6 +21,8 @@ public class GameplayUIActions : MonoBehaviour
 
     private bool _isToolbarActive = false;
     private bool _isNotesActive = false;
+
+    public static Action OnVoltageTesterChange = delegate { };
     
     private void OnEnable()
     {
@@ -55,6 +58,8 @@ public class GameplayUIActions : MonoBehaviour
         Vector2 cursorHotspot = icon.cursorTexture != null ? new Vector2(icon.cursorTexture.width /2, icon.cursorTexture.height / 2) : Vector2.zero;
         Cursor.SetCursor(icon.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
         ToolManager.Instance.SetTool(icon.GetTool());
+
+        OnVoltageTesterChange?.Invoke();
     }
 
     public void TurnOnNotes() => _personalNotesPanel.SetActive(true);

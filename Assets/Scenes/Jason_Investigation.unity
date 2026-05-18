@@ -1961,6 +1961,10 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1082882604}
     - target: {fileID: 3612480234632974001, guid: db4181e6d3fbff343908c71816298820, type: 3}
+      propertyPath: <OnMinigameFinished>k__BackingField.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 1082882604}
+    - target: {fileID: 3612480234632974001, guid: db4181e6d3fbff343908c71816298820, type: 3}
       propertyPath: <OnBuildingRepairFinished>k__BackingField.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1154552210}
