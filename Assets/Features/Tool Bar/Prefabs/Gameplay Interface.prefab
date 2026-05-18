@@ -7646,10 +7646,10 @@ PrefabInstance:
     - target: {fileID: 3046501454097150435, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgument
       value: 
-      objectReference: {fileID: 11400000, guid: 7874035de82c92641a0a5743e3d7d64d, type: 2}
+      objectReference: {fileID: 11400000, guid: ff758fa8a938063428def87eb9446cea, type: 2}
     - target: {fileID: 3316303782690077459, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
       propertyPath: m_Name
-      value: Blowdoor Button
+      value: Voltage Tester Button
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 2502464779869159410, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
@@ -7665,6 +7665,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3316303782690077459, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3862016732497622960}
+    - targetCorrespondingSourceObject: {fileID: 3316303782690077459, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5581636879491675789}
   m_SourcePrefab: {fileID: 100100000, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}
 --- !u!1 &843804543155436488 stripped
 GameObject:
@@ -7698,6 +7701,21 @@ MonoBehaviour:
     y: 0
     width: 1
     height: 1
+--- !u!114 &5581636879491675789
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 843804543155436488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 44739f763c0779f449573cec8d4c8a77, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VoltageTesterController
+  _noFeedback: {fileID: 11400000, guid: ff758fa8a938063428def87eb9446cea, type: 2}
+  _goodFeedback: {fileID: 11400000, guid: 6502bb5c3528a6c499d2111f7a40a481, type: 2}
+  _badFeedback: {fileID: 11400000, guid: 820c026743cf942488e010a1d97a0454, type: 2}
 --- !u!224 &3478619006526710927 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 1582631491963659348, guid: 5d2faf506c31bde4db95fb4d0c89223e, type: 3}

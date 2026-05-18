@@ -5,5 +5,6 @@ public enum Tools
     MagnifyingGlass,
     Wrench,
     InsulationCan,
-    Blowdoor
+    Blowdoor,
+    VoltageTester
 }
