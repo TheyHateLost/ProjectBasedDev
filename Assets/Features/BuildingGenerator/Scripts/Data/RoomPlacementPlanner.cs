@@ -28,28 +28,7 @@ public static class RoomPlacementPlanner
         List<Appliance> remainingAppliances = new List<Appliance>(source.RequiredAppliances);
         HashSet<Vector2Int> occupiedTiles = new HashSet<Vector2Int>();
 
-        List<Vector2Int> edgeWallTiles = GetEdgeWallTiles(room.Size);
-        Shuffle(edgeWallTiles);
-
-        // Use all wall slots for window placement. Corners contribute two slots (one per wall).
-        List<WallSlot> allWallSlots = GetAllWallSlots(room.Size);
-        Shuffle(allWallSlots);
-        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), allWallSlots.Count);
-        for (int i = 0; i < windowsToPlace && availableWindowPrefabs.Count > 0; i++)
-        {
-            WallSlot selectedSlot = allWallSlots[i];
-            Transform windowPrefab = availableWindowPrefabs[Random.Range(0, availableWindowPrefabs.Count)];
-
-            room.WindowPlacements.Add(new WindowPlacementData
-            {
-                WindowPrefab = windowPrefab,
-                LocalPosition = selectedSlot.Position,
-                Orientation = selectedSlot.Orientation,
-                Rotation = GetWallRotation(selectedSlot.Orientation)
-            });
-        }
-
-        // Place appliances after windows so the room layout can respect both sets of constraints.
+        // Place appliances first so their footprints reserve wall tiles before windows are chosen.
         List<Vector2Int> wallTiles = GetAllWallTiles(room.Size);
         Shuffle(wallTiles);
 
@@ -59,6 +38,26 @@ public static class RoomPlacementPlanner
                 break;
 
             TryPlaceAppliance(room, localPos, room.Size, remainingAppliances, occupiedTiles);
+        }
+
+        // Place windows after appliances so occupied wall tiles are no longer eligible.
+        List<WallSlot> availableWallSlots = GetAllWallSlots(room.Size);
+        availableWallSlots.RemoveAll(slot => occupiedTiles.Contains(slot.Position));
+        Shuffle(availableWallSlots);
+
+        int windowsToPlace = Mathf.Min(source.WindowCountRange.RandomValueWithBounds(), availableWallSlots.Count);
+        for (int i = 0; i < windowsToPlace && availableWindowPrefabs.Count > 0; i++)
+        {
+            WallSlot selectedSlot = availableWallSlots[i];
+            Transform windowPrefab = availableWindowPrefabs[Random.Range(0, availableWindowPrefabs.Count)];
+
+            room.WindowPlacements.Add(new WindowPlacementData
+            {
+                WindowPrefab = windowPrefab,
+                LocalPosition = selectedSlot.Position,
+                Orientation = selectedSlot.Orientation,
+                Rotation = GetWallRotation(selectedSlot.Orientation)
+            });
         }
 
         return room;
@@ -148,24 +147,6 @@ public static class RoomPlacementPlanner
         }
 
         return false;
-    }
-
-    private static List<Vector2Int> GetEdgeWallTiles(int roomSize)
-    {
-        List<Vector2Int> edgeWallTiles = new List<Vector2Int>();
-        for (int r = 0; r < roomSize; r++)
-        {
-            for (int c = 0; c < roomSize; c++)
-            {
-                bool isEdge = r == 0 || r == roomSize - 1 || c == 0 || c == roomSize - 1;
-                bool isCorner = (r == 0 || r == roomSize - 1) && (c == 0 || c == roomSize - 1);
-
-                if (isEdge && !isCorner)
-                    edgeWallTiles.Add(new Vector2Int(r, c));
-            }
-        }
-
-        return edgeWallTiles;
     }
 
     private static List<Vector2Int> GetAllWallTiles(int roomSize)
