@@ -29,6 +29,8 @@ MonoBehaviour:
   - <Type>k__BackingField: 0
     <RequiredAppliances>k__BackingField:
     - {fileID: 6238330328630704509, guid: c2338f0df669eb546b69796b14cc4df6, type: 3}
+    - {fileID: 6387991586606443661, guid: 81c85cedfc40fe04d821c0d27c861a20, type: 3}
+    - {fileID: 6387991586606443661, guid: 0e15b3203cc8785409ca7426fdceb5f3, type: 3}
     <WindowPrefabs>k__BackingField:
     - {fileID: 3266235026126560760, guid: 9b1eeacd3c19f084fa53b59693fbaf8e, type: 3}
     <WindowCountRange>k__BackingField:

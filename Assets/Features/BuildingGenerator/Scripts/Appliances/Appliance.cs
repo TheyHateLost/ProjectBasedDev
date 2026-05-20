@@ -106,6 +106,40 @@ public class Appliance : MonoBehaviour
                 Gizmos.DrawWireCube(center + (Vector3.up * scale.y / 2f), boxSize);
             }
         }
+
+        // Draw allowed orientation arrows above the footprint
+        var centerOffset = new Vector3(((float)Size.x - 1f) * scale.x * 0.5f, 0f, ((float)Size.y - 1f) * scale.z * 0.5f);
+        Vector3 arrowBase = basePos + centerOffset + Vector3.up * (scale.y + 0.05f);
+
+        float arrowSize = Mathf.Max(scale.x, scale.z) * 0.5f;
+        var oldColor = UnityEditor.Handles.color;
+        UnityEditor.Handles.color = Color.cyan;
+
+        if ((AllowedOrientations & ApplianceOrientation.Front) != 0)
+        {
+            Vector3 dir = transform.forward;
+            UnityEditor.Handles.ArrowHandleCap(0, arrowBase + dir * (arrowSize * 0.5f), Quaternion.LookRotation(dir), arrowSize, EventType.Repaint);
+        }
+
+        if ((AllowedOrientations & ApplianceOrientation.Back) != 0)
+        {
+            Vector3 dir = -transform.forward;
+            UnityEditor.Handles.ArrowHandleCap(0, arrowBase + dir * (arrowSize * 0.5f), Quaternion.LookRotation(dir), arrowSize, EventType.Repaint);
+        }
+
+        if ((AllowedOrientations & ApplianceOrientation.Right) != 0)
+        {
+            Vector3 dir = transform.right;
+            UnityEditor.Handles.ArrowHandleCap(0, arrowBase + dir * (arrowSize * 0.5f), Quaternion.LookRotation(dir), arrowSize, EventType.Repaint);
+        }
+
+        if ((AllowedOrientations & ApplianceOrientation.Left) != 0)
+        {
+            Vector3 dir = -transform.right;
+            UnityEditor.Handles.ArrowHandleCap(0, arrowBase + dir * (arrowSize * 0.5f), Quaternion.LookRotation(dir), arrowSize, EventType.Repaint);
+        }
+
+        UnityEditor.Handles.color = oldColor;
     }
 #endif
 }
