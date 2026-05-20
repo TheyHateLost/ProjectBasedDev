@@ -48,7 +48,7 @@ MonoBehaviour:
   _selectableObject: {fileID: 0}
   <AllowedOrientations>k__BackingField: 15
   <Size>k__BackingField: {x: 1, y: 2}
-  <IsUsingMinigame>k__BackingField: 1
+  <IsUsingMinigame>k__BackingField: 0
   _miniGame: {fileID: 6290352245838795385, guid: 9d9cf85c43b6de94ba86a5f95a7bfd9b, type: 3}
   <IsMinigameFinished>k__BackingField: 0
 --- !u!1001 &7469766897016543371

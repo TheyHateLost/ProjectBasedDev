@@ -19,6 +19,7 @@ public class ThermostatMinigameController : MonoBehaviour
     }
     [field: SerializeField, ReadOnly] public State CurrentState { get; private set; }
     [SerializeField] private float _closeAfterFinishDuration = 1f;
+    [SerializeField, Required] private GameObject _winObject;
     
     [Header("Powered On")]
     [SerializeField, Required] private TMP_Text _powerSwitchStatusText;
@@ -187,6 +188,7 @@ public class ThermostatMinigameController : MonoBehaviour
     
     private IEnumerator OnFinishMinigame()
     {
+        _winObject.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
 
         yield return new WaitForSeconds(_closeAfterFinishDuration);

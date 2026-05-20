@@ -15,6 +15,7 @@ public class LightSwitchMinigameController : MonoBehaviour
     [SerializeField] GameObject _backgroundPanelObj;
     #endregion
     [SerializeField] float _closeMinigameTimer = 3f;
+    [SerializeField, Required] GameObject _winObject;
 
     [SerializeField] private Transform _switchContainerTransform;
     [field: SerializeField, ReadOnly] public List<SwitchController> Switches { get; private set; } = new();
@@ -48,6 +49,7 @@ public class LightSwitchMinigameController : MonoBehaviour
 
     private IEnumerator OnAllSwitchesAreOn()
     {
+        _winObject.SetActive(true);
         Cursor.lockState = CursorLockMode.Locked;
 
         yield return new WaitForSeconds(_closeMinigameTimer);

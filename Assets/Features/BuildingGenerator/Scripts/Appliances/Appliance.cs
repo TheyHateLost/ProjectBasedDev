@@ -32,6 +32,9 @@ public class Appliance : MonoBehaviour
     {
         _selectableObject = GetComponentInChildren<SelectableObject>();
         _prerequisiteNotes = GameObject.Find("PrerequisiteNotesInputField").GetComponent<TMP_InputField>();
+
+        if (!IsUsingMinigame)
+            _selectableObject.enabled = false;
     }
 
     public void StartMinigame()
