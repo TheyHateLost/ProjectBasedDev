@@ -28,6 +28,7 @@ public class BuildingGenerator : MonoBehaviour
     [Header("Current Buildings")]
     public List<GameObject> SpawnedBuildings { get; private set; } = new();
     public event Action OnBuildingGenerated = delegate { };
+    public event Action<GeneratedRoomData> OnRoomChanged = delegate { };
 
     [field: Header("Current Rooms")]
     [field: SerializeField, ReadOnly] public List<GeneratedRoomData> CurrentRooms { get; private set; } = new();
@@ -40,14 +41,13 @@ public class BuildingGenerator : MonoBehaviour
 
     private void Awake()
     {
+        MinigameManager.Instance.AssignBuildingGenerator(this);
+        
         _floorWidth = _floorPrefab.localScale.x;
         _floorHeight = _floorPrefab.localScale.y;
         _wallHeight = _rightEdgeWallPrefab.GetChild(0).localScale.y;
         RealWallHeight = _wallHeight / 2f;
-    }
-
-    private void Start()
-    {
+        
         if (_willGenerateOnStart)
             GenerateNewBuilding();
     }
@@ -139,7 +139,7 @@ public class BuildingGenerator : MonoBehaviour
                 {
                     if (wall.GridPosition == windowPlacement.LocalPosition && wall.Orientation == windowPlacement.Orientation)
                     {
-                        ReplaceWallWithWindow(wall.WallTransform, windowPlacement);
+                        ReplaceWallWithWindow(wall.WallTransform, windowPlacement, roomIndex);
                         break;
                     }
                 }
@@ -149,7 +149,7 @@ public class BuildingGenerator : MonoBehaviour
             foreach (AppliancePlacementData appliancePlacement in room.AppliancePlacements)
             {
                 Transform tile = tiles[appliancePlacement.LocalPosition.x, appliancePlacement.LocalPosition.y];
-                SpawnAppliance(appliancePlacement, tile);
+                SpawnAppliance(appliancePlacement, tile, roomIndex);
             }
 
             SpawnedBuildings.Add(buildingParent);
@@ -171,6 +171,8 @@ public class BuildingGenerator : MonoBehaviour
         CurrentRoomIndex = wrappedIndex;
         RefreshGhostTiles();
         RefreshRoomVisibility();
+        
+        OnRoomChanged.Invoke(CurrentRooms[CurrentRoomIndex]);
     }
 
     private void RefreshGhostTiles()
@@ -208,7 +210,7 @@ public class BuildingGenerator : MonoBehaviour
     /// <summary>
     /// Replaces a tile wall with a random window and matching rotation.
     /// </summary>
-    private void ReplaceWallWithWindow(Transform tile, WindowPlacementData windowPlacement)
+    private void ReplaceWallWithWindow(Transform tile, WindowPlacementData windowPlacement, int roomIndex)
     {
         // Remove the existing wall child.
         Quaternion wallRotation = tile.rotation;
@@ -221,13 +223,15 @@ public class BuildingGenerator : MonoBehaviour
 
         // Use the wall's rotation for the window so it matches the replaced wall
         Transform window = Instantiate(windowPlacement.WindowPrefab, tile.position, wallRotation);
+        window.GetComponentInChildren<Appliance>().Init(roomIndex);
         window.SetParent(tile, true);
     }
 
-    private void SpawnAppliance(AppliancePlacementData appliancePlacement, Transform tile)
+    private void SpawnAppliance(AppliancePlacementData appliancePlacement, Transform tile, int roomIndex)
     {
         Vector3 spawnPos = tile.position + Vector3.up * (_floorHeight / 2f);
         Appliance spawned = Instantiate(appliancePlacement.Prefab, spawnPos, appliancePlacement.Rotation);
+        spawned.Init(roomIndex);
         spawned.transform.SetParent(tile, true);
     }
 

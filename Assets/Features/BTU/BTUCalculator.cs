@@ -5,62 +5,71 @@ using Sirenix.OdinInspector;
 public class BTUCalculator : MonoBehaviour
 {
     [Header("References")]
-    public BuildingGenerator generator;
+    [Required] public BuildingGenerator Generator;
 
     [Header("Results")]
-    [ReadOnly] public RoomType roomType;
-    [ReadOnly] public float roomLength;
-    [ReadOnly] public float roomWidth;
-    [ReadOnly] public float roomHeight;
-    [ReadOnly] public float roomGlaze;
-    [ReadOnly] public float firstRoomBTU;
-    [ReadOnly] public float totalBuildingBTU;
+    [ReadOnly] public RoomType RoomType;
+    [ReadOnly] public float RoomLength;
+    [ReadOnly] public float RoomWidth;
+    [ReadOnly] public float RoomHeight;
+    [ReadOnly] public float RoomGlaze;
+    [ReadOnly] public float CurrentRoomBTU;
+    [ReadOnly] public float TotalBuildingBTU;
 
     private void OnEnable()
     {
-        generator.OnBuildingGenerated += OnBuildingGenerated;
+        Generator.OnBuildingGenerated += OnBuildingGenerated;
+        Generator.OnRoomChanged += OnRoomChanged;
     }
 
     private void OnDisable()
     {
-        generator.OnBuildingGenerated -= OnBuildingGenerated;
+        Generator.OnBuildingGenerated -= OnBuildingGenerated;
+        Generator.OnRoomChanged -= OnRoomChanged;
     }
 
     private void OnBuildingGenerated()
     {
-        CalculateFirstRoomThermalData();
+        CalculateCurrentRoomThermalData();
         ProcessBuildingThermalData();
     }
     
-    private void CalculateFirstRoomThermalData()
+    private void OnRoomChanged(GeneratedRoomData newRoomData)
     {
-        if (generator.CurrentRooms.Count == 0)
+        CalculateCurrentRoomThermalData();
+    }
+    
+    private void CalculateCurrentRoomThermalData()
+    {
+        if (Generator.CurrentRooms.Count == 0)
             return;
 
-        roomType = generator.CurrentRooms[0].Type;
-        roomLength = generator.CurrentRooms[0].Size;
-        roomWidth = generator.CurrentRooms[0].Size;
-        roomHeight = generator.RealWallHeight;
-        roomGlaze = generator.FloorPlan.GetGlaze(generator.CurrentRooms[0].Type);
-        firstRoomBTU = CustomUtils.CalculateBTU(roomWidth,  roomLength, roomHeight, roomGlaze);
+        GeneratedRoomData currRoom = Generator.CurrentRooms[Generator.CurrentRoomIndex];
+        
+        RoomType = currRoom.Type;
+        RoomLength = currRoom.Size;
+        RoomWidth = currRoom.Size;
+        RoomHeight = Generator.RealWallHeight;
+        RoomGlaze = Generator.FloorPlan.GetGlaze(currRoom.Type);
+        CurrentRoomBTU = CustomUtils.CalculateBTU(RoomWidth,  RoomLength, RoomHeight, RoomGlaze);
     }
     
     private void ProcessBuildingThermalData()
     {
-        totalBuildingBTU = 0;
+        TotalBuildingBTU = 0;
         
-        foreach (var room in generator.CurrentRooms)
+        foreach (var room in Generator.CurrentRooms)
         {
-            float roomW = room.Size * generator.transform.localScale.x; 
-            float roomL = room.Size * generator.transform.localScale.z;
-            float roomH = generator.RealWallHeight;
+            float roomW = room.Size * Generator.transform.localScale.x; 
+            float roomL = room.Size * Generator.transform.localScale.z;
+            float roomH = Generator.RealWallHeight;
             
-            float roomBTU = CustomUtils.CalculateBTU(roomW, roomL, roomH, generator.FloorPlan.GetGlaze(room.Type));
-            totalBuildingBTU += roomBTU;
+            float roomBTU = CustomUtils.CalculateBTU(roomW, roomL, roomH, Generator.FloorPlan.GetGlaze(room.Type));
+            TotalBuildingBTU += roomBTU;
 
             Debug.Log($"Calculated {room.Type}: {roomBTU} BTUs");
         }
 
-        Debug.Log($"<b>Total Building BTU:</b> {totalBuildingBTU}");
+        Debug.Log($"<b>Total Building BTU:</b> {TotalBuildingBTU}");
     }
 }

@@ -117,4 +117,26 @@ public static class CustomUtils
         int ss = Mathf.FloorToInt(seconds % 60f);
         return $"{mm:00}:{ss:00}";
     }
+    
+    public static string SplitPascalCase(string input)
+    {
+        if (string.IsNullOrEmpty(input))
+            return input;
+
+        var sb = new System.Text.StringBuilder();
+        sb.Append(input[0]);
+
+        for (int i = 1; i < input.Length; i++)
+        {
+            char prev = input[i - 1];
+            char curr = input[i];
+
+            if (char.IsUpper(curr) && !char.IsUpper(prev) && prev != ' ')
+                sb.Append(' ');
+
+            sb.Append(curr);
+        }
+
+        return sb.ToString();
+    }
 }

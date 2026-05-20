@@ -6,6 +6,8 @@ using UnityEngine;
 
 public class Appliance : MonoBehaviour
 {
+    private int _buildingRoomOwnerIndex;
+    
     [SerializeField, ReadOnly] private SelectableObject _selectableObject;
 
     [field: SerializeField] public ApplianceOrientation AllowedOrientations { get; private set; } = ApplianceOrientation.Any;
@@ -18,17 +20,18 @@ public class Appliance : MonoBehaviour
 
     TMP_InputField _prerequisiteNotes;
 
+    public void Init(int roomOwnerIndex)
+    {
+        _buildingRoomOwnerIndex = roomOwnerIndex;
+        // Register only when this appliance participates in the minigame loop.
+        if(IsUsingMinigame)
+            MinigameManager.Instance.RegisterAppliance(_buildingRoomOwnerIndex);
+    }
+    
     private void Awake()
     {
         _selectableObject = GetComponentInChildren<SelectableObject>();
         _prerequisiteNotes = GameObject.Find("PrerequisiteNotesInputField").GetComponent<TMP_InputField>();
-    }
-
-    private void Start()
-    {
-        // Register only when this appliance participates in the minigame loop.
-        if(IsUsingMinigame)
-            MinigameManager.Instance.RegisterAppliance();
     }
 
     public void StartMinigame()

@@ -12,6 +12,6 @@ public class MinigameTimeText : MonoBehaviour
         if (MinigameManager.Instance == null)
             return;
         
-        _text.text = $"Time Spent: {CustomUtils.FormatTimeMMSS(MinigameManager.Instance.TotalMinigameTimer)}";
+        _text.text = $"Time Spent: {CustomUtils.FormatTimeMMSS(MinigameManager.Instance.GetCurrentRoomMinigameTimer())}";
     }
 }

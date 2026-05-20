@@ -2,6 +2,7 @@
 using Sirenix.OdinInspector;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class BTUResultsUI : MonoBehaviour
 {
@@ -23,22 +24,24 @@ public class BTUResultsUI : MonoBehaviour
     [SerializeField, Required] private TMP_Text _percentErrorText;
     [SerializeField, Required] private TMP_Text _userBtuText;
     [SerializeField, Required] private TMP_Text _correctBtuText;
+    [SerializeField] private int _returnSceneIndex = 0;
 
     private float _userInputBTU;
     
     public void Reveal()
     {
-        _titleText.text = $"{_calculator.roomType} BTU";
+        _titleText.text = $"{_calculator.RoomType} BTU";
         
         // show user input
         _userInputPanel.SetActive(true);
+        _userInputField.text = "";
         _errorText.text = "";
         _resultsPanel.SetActive(false);
 
-        _lengthText.text = $"Length: {_calculator.roomLength}";
-        _widthText.text = $"Width: {_calculator.roomWidth}";
-        _heightText.text = $"Height: {_calculator.roomHeight}";
-        _glazeText.text = $"Glaze: {_calculator.roomGlaze}";
+        _lengthText.text = $"Length: {_calculator.RoomLength}";
+        _widthText.text = $"Width: {_calculator.RoomWidth}";
+        _heightText.text = $"Height: {_calculator.RoomHeight}";
+        _glazeText.text = $"Glaze: {_calculator.RoomGlaze}";
         
         // reveal panel
         gameObject.SetActive(true);
@@ -62,14 +65,27 @@ public class BTUResultsUI : MonoBehaviour
         _resultsPanel.SetActive(true);
 
         _userBtuText.text = $"Your BTU: {_userInputBTU:F2}";
-        _correctBtuText.text = $"Correct BTU: {_calculator.firstRoomBTU:F2}";
+        _correctBtuText.text = $"Correct BTU: {_calculator.CurrentRoomBTU:F2}";
         
-        float percentError = ((_userInputBTU - _calculator.firstRoomBTU) / _calculator.firstRoomBTU) * 100f;
+        float percentError = ((_userInputBTU - _calculator.CurrentRoomBTU) / _calculator.CurrentRoomBTU) * 100f;
         string percentErrorColorTag = "green";
         if(percentError != 0)
             percentErrorColorTag = "red";
         _percentErrorText.text = $"Percent Error: <color={percentErrorColorTag}>{percentError:+0.00;-0.00}%</color>";
         
-        _minigameTimeText.text = $"Minigame Time: {CustomUtils.FormatTimeMMSS(MinigameManager.Instance.TotalMinigameTimer)}";
+        _minigameTimeText.text = $"Minigame Time: {CustomUtils.FormatTimeMMSS(MinigameManager.Instance.GetCurrentRoomMinigameTimer())}";
+    }
+
+    public void OnReturnButtonClicked()
+    {
+        if (MinigameManager.Instance.AreAllRoomMinigamesFinished())
+        {
+            SceneManager.LoadScene(_returnSceneIndex);
+        }
+        else
+        {
+            gameObject.SetActive(false);
+            MinigameManager.Instance.ResumeBuildingRepair();
+        }
     }
 }
