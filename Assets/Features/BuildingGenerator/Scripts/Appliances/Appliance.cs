@@ -19,6 +19,7 @@ public class Appliance : MonoBehaviour
     [field: SerializeField, ReadOnly, ShowIf("IsUsingMinigame")] public bool IsMinigameFinished { get; private set; }
 
     TMP_InputField _prerequisiteNotes;
+    bool _isPrerequisiteNotesUsed;
 
     public void Init(int roomOwnerIndex)
     {
@@ -32,6 +33,7 @@ public class Appliance : MonoBehaviour
     {
         _selectableObject = GetComponentInChildren<SelectableObject>();
         _prerequisiteNotes = GameObject.Find("PrerequisiteNotesInputField").GetComponent<TMP_InputField>();
+        _isPrerequisiteNotesUsed = false;
 
         if (!IsUsingMinigame)
             _selectableObject.enabled = false;
@@ -57,11 +59,14 @@ public class Appliance : MonoBehaviour
 
     public void AddDiscoveryText(DiscoveryTextSO discoverText)
     {
-        if  (!IsMinigameFinished)
+        if  (IsMinigameActive() && !_isPrerequisiteNotesUsed)
         {
-            _prerequisiteNotes.text += (discoverText.text + "\n" + "\n");
+            _prerequisiteNotes.text = discoverText.text;
+            _isPrerequisiteNotesUsed = true;
         }
     }
+
+    bool IsMinigameActive() => MinigameManager.Instance.ActiveMinigameObject != null;
 
 
     [Button("Cheat: Finish Minigame", ButtonSizes.Large), ShowIf("IsUsingMinigame")]

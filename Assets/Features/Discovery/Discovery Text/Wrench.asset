@@ -10,12 +10,10 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 932d76ec03b1969458f0148d520eeab7, type: 3}
-  m_Name: Sink Test 2
+  m_Name: Wrench
   m_EditorClassIdentifier: Assembly-CSharp::DiscoveryTextSO
-  text: 'adfafdsaafsdfds
-
-    sadfsdafsdafds
-
-    asfdasfdfasdfafs
-
-    asdfsdafdsafdadsf'
+  text: "\u2022 Remove the damaged or rusty pipe first.\r\n\u2022 Place the new pipe
+    in the correct position before tightening.\r\n\u2022 Use the wrench with a turn
+    motion to secure the pipe.\r\n\u2022 Make sure the pipe is fitted properly before
+    finishing.\r\n\u2022 Tightening the wrong part or skipping a step can cause the
+    repair to fail.\r\n"

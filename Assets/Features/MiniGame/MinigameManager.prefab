@@ -44,6 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffe4cb9fa30759e478d88e2af91d73f0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::MinigameManager
+  <BuildingGenerator>k__BackingField: {fileID: 0}
   <ActiveMinigameObject>k__BackingField: {fileID: 0}
   <ActiveMinigameAppliance>k__BackingField: {fileID: 0}
   <ApplianceFinishedMaterial>k__BackingField: {fileID: 2100000, guid: b564b50fdff21cc4ab4be0e5a0f27efb, type: 2}
@@ -164,5 +165,34 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <MinigamesRemaining>k__BackingField: 0
-  <TotalMinigameTimer>k__BackingField: 0
+  <OnBuildingRepairResumed>k__BackingField:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: CameraController, Assembly-CSharp
+        m_MethodName: set_enabled
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
+        m_MethodName: SetActive
+        m_Mode: 6
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 1
+        m_CallState: 2
+  <RoomMinigamesRemaining>k__BackingField:
+    _serializedList: []
+  <RoomMinigameTimers>k__BackingField:
+    _serializedList: []

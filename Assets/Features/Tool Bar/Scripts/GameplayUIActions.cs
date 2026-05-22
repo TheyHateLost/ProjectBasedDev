@@ -23,6 +23,7 @@ public class GameplayUIActions : MonoBehaviour
     private bool _isNotesActive = false;
 
     public static Action OnVoltageTesterChange = delegate { };
+    NotesHandler _notesHandler;
     
     private void OnEnable()
     {
@@ -51,6 +52,9 @@ public class GameplayUIActions : MonoBehaviour
         
         // Enable toolbar + notes by default
         TurningOnAndOffToolbar();
+
+        // Unclean, rewrite later
+        _notesHandler = GameObject.Find("Notes Handler").GetComponent<NotesHandler>();
     }
 
     public void ChangeCursorIcon(ToolSO icon)
@@ -95,6 +99,7 @@ public class GameplayUIActions : MonoBehaviour
 
     public void ClearPrerequisiteNotes()
     {
-        _prerequisiteNotesText.text = "";
+        // Unclean, change later
+        _prerequisiteNotesText.text = _notesHandler.GetAlwaysOnScreenHint();
     }
 }

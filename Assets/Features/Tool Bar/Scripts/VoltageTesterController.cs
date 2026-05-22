@@ -40,7 +40,10 @@ public class VoltageTesterController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (Input.GetMouseButtonDown(0) && ToolManager.Instance.GetTool() == Tools.VoltageTester)
+        {
+            BadFeedback();
+        }
     }
 
     void SetStateOnSwitch()
@@ -50,21 +53,21 @@ public class VoltageTesterController : MonoBehaviour
     }
 
     [Button("Bad Feedback")]
-    void DebugBadFeedback()
+    void BadFeedback()
     {
         Vector2 cursorHotspot = _badFeedback.cursorTexture != null ? new Vector2(_badFeedback.cursorTexture.width / 2, _badFeedback.cursorTexture.height / 2) : Vector2.zero;
         Cursor.SetCursor(_badFeedback.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
     }
 
     [Button("Good Feedback")]
-    void DebugGoodFeedback()
+    void GoodFeedback()
     {
         Vector2 cursorHotspot = _goodFeedback.cursorTexture != null ? new Vector2(_goodFeedback.cursorTexture.width / 2, _goodFeedback.cursorTexture.height / 2) : Vector2.zero;
         Cursor.SetCursor(_goodFeedback.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
     }
 
     [Button("No Feedback")]
-    void DebugNoFeedback()
+    void NoFeedback()
     {
         Vector2 cursorHotspot = _noFeedback.cursorTexture != null ? new Vector2(_noFeedback.cursorTexture.width / 2, _noFeedback.cursorTexture.height / 2) : Vector2.zero;
         Cursor.SetCursor(_noFeedback.cursorTexture ?? null, cursorHotspot, CursorMode.Auto);
