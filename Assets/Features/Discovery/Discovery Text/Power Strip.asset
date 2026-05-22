@@ -10,10 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 932d76ec03b1969458f0148d520eeab7, type: 3}
-  m_Name: Test Test Text
+  m_Name: Power Strip
   m_EditorClassIdentifier: Assembly-CSharp::DiscoveryTextSO
-  text: 'Hello World
-
-    This is Jason
-
-    Testing to see if it works'
+  text: "\u2022 Turn all 5 lights OFF.\r\n\u2022 Pressing a switch toggles that light
+    and its left/right neighbors.\r\n\u2022 ON turns OFF. OFF turns ON.\r\n\u2022
+    Think about the pattern before clicking again.\r\n"

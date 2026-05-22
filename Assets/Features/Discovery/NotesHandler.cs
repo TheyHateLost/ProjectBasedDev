@@ -1,6 +1,8 @@
 using Sirenix.OdinInspector;
-using UnityEngine;
 using System;
+using TMPro;
+using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class NotesHandler : MonoBehaviour
 {
@@ -8,13 +10,16 @@ public class NotesHandler : MonoBehaviour
     [SerializeField, Required] GameObject _prerequisiteNotesObj;
     [SerializeField, Required] GameObject _personalNotesObj;
 
-    public static event Action OnDiscoveryUpdate = delegate { };
+    [SerializeField] DiscoveryTextSO _alwaysOnScreenHint;
+    TMP_InputField _prerequisiteNotes;
 
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         TurnPreresquiteNotesOn();
+        _prerequisiteNotes = GameObject.Find("PrerequisiteNotesInputField").GetComponent<TMP_InputField>();
+        _prerequisiteNotes.text = _alwaysOnScreenHint.text;
     }
 
     // Update is called once per frame
@@ -34,4 +39,6 @@ public class NotesHandler : MonoBehaviour
         _personalNotesObj.SetActive(false);
         _prerequisiteNotesObj.SetActive(true);
     }
+
+    public string GetAlwaysOnScreenHint() => _alwaysOnScreenHint.text;
 }

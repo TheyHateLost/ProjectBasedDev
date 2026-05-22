@@ -10,6 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 932d76ec03b1969458f0148d520eeab7, type: 3}
-  m_Name: Sink Text
+  m_Name: Window
   m_EditorClassIdentifier: Assembly-CSharp::DiscoveryTextSO
-  text: This is sink text
+  text: "\u2022 Move the insulation carefully around the exposed gaps.\r\n\u2022
+    Cover every gap fully before finishing.\r\n\u2022 Missing even a small opening
+    can mean the problem is not fully fixed.\r\n\u2022 Slow, accurate movement works
+    better than rushing.\r\n"
